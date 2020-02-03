@@ -1,6 +1,29 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<br> <h1>LIFE GOES ON</h1>
-    <h2>we can make it smoother</h2>
-    {% endblock content %}
+{% load static %}
+{% block tittle %}{% endblock %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>GetALife</title>
+        <link rel="stylesheet" href="{% static 'index.css' %}">
+    </head>
+    <body id="bg" style="background-image: url('{% static "LBG.jpg"%}')";>
+        {% block content %}
+        <div class="topnav" id="myTopnav">
+            <a href="#SIGNIN">SIGN IN</a>
+            <a href="#ABOUT">ABOUT</a>
+            <a href="#FAQ">FAQ</a>
+            </a>
+          </div>
+        <div class="mainH">
+            <h1>LIFE GOES ON</h1>
+        </div>
+        <div class="underH">
+            <h2>we can make it smoother</h2>
+        </div>
+        <div>
+            <a href="#NEXT" class="trybtn">Try It Now</a>
+        </div>
+        {% endblock content%}
+    </body>
+</html>
