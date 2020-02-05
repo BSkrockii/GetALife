@@ -25,10 +25,12 @@
 }
 
 .btn {
+    display: block;
+    text-align: center;
     color: #fff;
     text-shadow: 1px 1.5px rgb(170, 170, 170);
     margin-top: 2%;
-    margin-left: 30%;
+    margin-left: 25%;
     opacity: 80%;
     width: 50%;
 }
@@ -60,7 +62,7 @@ body {
     font-weight: lighter;
     font-size: 3em;
     margin-top: -0.5em;
-    margin-left: 2.2em;
+    margin-left: auto;
     text-shadow: 1px 2px rgb(170, 170, 170);
     resize: both;
 }
