@@ -2,12 +2,8 @@
     grid-column: 2/5;
     grid-row: 2;
 }
-
-.topnav {
-    overflow: hidden;
-}
   
-.topnav a {
+.nav a {
     float: right;
     display: block;
     color: #fff;
@@ -20,40 +16,26 @@
     text-shadow: 0.5px 1px rgb(187, 187, 187);
 }
   
-.topnav a:hover {
-    color: #7c7070;
+.nav a:hover {
+    color: #494848;
 }
   
-.topnav .icon {
+.nav .icon {
     display: none;
 }
 
-.trybtn {
-    box-shadow:inset 0px 1px 0px 0px #d3c7c7;
-    background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-    background-color:#9ABCB6;
-    border-radius:3px;
-    display:inline-block;
-    cursor:pointer;
-    color:white;
-    font-family:Helvetica;
-    font-size:25px;
-    font-weight:lighter;
-    padding:12px 120px;
-    text-decoration:none;
-    text-shadow:0px 0.5px 0.5px #454B54;
-    margin-left: 37%;
+.btn {
+    color: #fff;
+    text-shadow: 1px 1.5px rgb(170, 170, 170);
+    margin-top: 2%;
+    margin-left: 30%;
     opacity: 80%;
-}
-.trybtn:hover {
-    background:linear-gradient(to bottom, #c9c4c4 5%, #948181 100%);
-    background-color:#7c7070;
-}
-.trybtn:active {
-    position:relative;
-    top:1px;
+    width: 50%;
 }
 
+.bth:hover {
+    color: #949494;
+}
 
 body {
     background-color: #D2D6DD;
@@ -61,35 +43,37 @@ body {
     color: #fff;
 } 
 
+.mainH {
+    display: block;
+    align-self: center;
+    font-weight: normal;
+    font-size: 8.5em;
+    margin-top: 10%;
+    margin-left: 8%;
+    text-shadow: 1.5px 3px rgb(170, 170, 170);
+    resize: both;
+}
+
+.underH {
+    display: block;
+    align-self: center;
+    font-weight: lighter;
+    font-size: 3em;
+    margin-top: -0.5em;
+    margin-left: 2.2em;
+    text-shadow: 1px 2px rgb(170, 170, 170);
+    resize: both;
+}
+
 #bg{
     background-size: 1920px 1125px;
     background-repeat: no-repeat;
     background-position-y: -175px;
 }
-h1, h2{
+.container {
     font-family: Helvetica;
+    text-shadow: 1.5px 2px rgb(151, 151, 151);
 }
-
-h1 {
-    display: block;
-    align-self: center;
-    font-weight: normal;
-    font-size: 8.5em;
-    margin-top: 15%;
-    margin-left: 15%;
-    text-shadow: 1.5px 3px #454B54;
-    resize: both;
-}
-
-h2 {
-    display: block;
-    position: relative;
-    font-weight: lighter;
-    font-size: 2.5em;
-    margin-left: 12em;
-    margin-top: -2.5em;
-    text-shadow: 1px 2px #454B54;
-    resize: both;
 
 @media (max-width: 812.98px) {
     .index {
