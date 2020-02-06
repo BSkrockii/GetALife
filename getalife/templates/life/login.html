@@ -1,4 +1,4 @@
-
+{% extends 'base.html' %}
 {% load static %}
 <html lang="en">
     <head>
@@ -9,32 +9,29 @@
     </head>
     {% block content %}
     <body>
+        <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+        </nav> 
         <div class="container">
-            <div class="mainH text-center">
-                <h1 class="display-4">Register Your Account</h1>
+            <div class="text-center text-nowrap">
+                <a class="mainH"><h1>Welcome Back</h1></a>
             </div>
         </div>
         <div class="container">
-            <p>Please fill in this form to create an account.</p>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="topuser text-nowrap">
+                    <a class="username"><input type="text" name="username" placeholder="username"><br></a>
+                </div>
+                <div class="toppassword">
+                    <input type="password" name="password" placeholder="password"><br>
+                </div>
+                <div class="btn-submit text-center">
+                    <input type="submit">
+                </div>
+            </form>
         </div>
-        <div class="container">
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
-        </div>
-        <div class="container">
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-        </div>    
-        <div class="container">
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-        </div>
-        <div class="container">
-            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-        </div> 
-        <div class="container">
-            <button type="submit" class="btn btn-light btn-lg btn-block">Register</button>
-        </div>
+        
     </body>
     {% endblock content %}
 </html>
