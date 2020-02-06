@@ -22,3 +22,19 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'life/login.html')
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+        
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Invalid Credentials')
+            return redirect('register')
+    else:
+        return render(request, 'life/register.html')
