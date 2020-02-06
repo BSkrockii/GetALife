@@ -9,18 +9,49 @@
 }
 
 .mainH {
+    margin-top: 1%;
     align-self: center;
     color: rgb(255, 255, 255);
-    text-shadow: 0.7px 1px rgb(170, 170, 170);
+    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
 }
 
-.btn {
+.email {
+    display: block;
+    align-self: center;
     color: rgb(255, 255, 255);
-    text-shadow: 0.7px 1px rgb(170, 170, 170);
-    width: 50%
+    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
+    margin-top: 5%;
 }
 
-.bth:hover {
+.topuser {
+    display: block;
+    align-self: center;
+    margin-top: 5%;
+    margin-left: 42%;
+}
+
+.password {
+    display: block;
+    align-self: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
+    margin-top: 2%;
+    margin-left: auto;  
+}
+
+.toppassword {
+    display: inline-block;
+    align-self: center;
+    margin-top: 5%;
+    margin-left: 42%;
+}
+
+.btn-submit {
+    display: block;
+    margin-top: 2%;
+}
+
+.bth-submit:hover {
     color: #949494;
 }
 
@@ -32,8 +63,7 @@
 }
 
 body {
-    background-image: url('{% static "img/loginbgjpg" %}') no-repeat;
-    background-color: rgb(237, 235, 255);
+    background-color: #D2D6DD;
 
 }
 
