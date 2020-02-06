@@ -1,19 +1,17 @@
+{% extends 'base.html' %}
 {% load static %}
-{% block tittle %}{% endblock %}
-<!DOCTYPE html>
+{% block title %}GetALife{% endblock %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>GetALife</title>
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'css/index.css' %}">
     </head>
-    <body id="bg" style="background-image: url('{% static "img/LBG.jpg" %}')">
+    <body>
         {% block content %}
         <nav class="nav justify-content-end">
-            <a class="nav-link active text-light" href="{% url 'login' %}">SIGN IN</a>
-            <a class="nav-link text-light" href="#ABOUT">ABOUT</a>
+            <a class="nav-link text-light" href="{% url 'login' %}">SIGN IN</a>
+            <a class="nav-link text-light" href="{% url 'register' %}">SIGN UP</a>
             <a class="nav-link text-light" href="#FAQ">FAQ</a>
         </nav>  
         <div class="container">
@@ -28,9 +26,9 @@
         </div>
         <div class="container">
             <div class="text-center">
-                <a style="text-decoration:none" href="{% url 'login' %}"><button type="button" class="btn btn-light btn-lg btn-block text-white">Try Now</button></a>
+                <a style="text-decoration:none" href="{% url 'register' %}"><button type="button" class="btn btn-light btn-lg btn-block text-white">Try Now</button></a>
             </div>
         </div>
         {% endblock content%}
     </body>
-</html>
+</html> 
