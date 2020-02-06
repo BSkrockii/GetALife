@@ -1,0 +1,52 @@
+
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    </head>
+    {% block content %}
+    <body>
+        <div class="container">
+            <div class="mainH text-center">
+                <h1 class="display-4">Register Your Account</h1>
+            </div>
+        </div>
+        <div class="container">
+            <p style="text-align: center">Please fill in this form to create an account.</p>
+        </div>
+        <div class="container">
+            <div class="emailHeader" style="text-align: center">
+                <label for="email"><b>Email</b></label>
+            </div>
+            <div class="emailBlock" style="text-align: center;">
+                <input type="text" placeholder="Enter Email" name="email" required>
+            </div>
+        </div>
+        <div class="container">
+            <div style="text-align: center">
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+            </div>
+        </div>    
+        <div class="container">
+            <div style="text-align: center">
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+            </div>
+        </div>
+        <div class="container">
+            <div style="text-align: center">
+                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+            </div>
+        </div> 
+        <div class="container">
+            <div style="text-align: center">
+                <button type="submit" class="btn btn-light btn-lg btn-block">Register</button>
+            </div>       
+        </div>
+    </body>
+    {% endblock content %}
+</html>
