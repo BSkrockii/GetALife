@@ -4,30 +4,38 @@
     <head>
         <meta charset="utf-8">
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'css/login.css' %}">
     </head>
     {% block content %}
     <body>
+        <!-- top navigation bar, link pages -->
         <nav class="nav justify-content-end">
-            <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+            <a class="nav-link text-light" href="{% url 'index' %}">HOME</a>
         </nav> 
+        
+        <!-- container for main form body -->
         <div class="container">
-            <div class="text-center text-nowrap">
-                <a class="mainH"><h1>Welcome Back</h1></a>
+            <div class="mainH text-center text-nowrap">
+                <h1 class="display-2">Welcome Back</h1>
             </div>
-        </div>
-        <div class="container">
             <form method="POST">
                 {% csrf_token %}
+                
                 <div class="topuser text-nowrap">
-                    <a class="username"><input type="text" name="username" placeholder="username"><br></a>
+                    <div class="userH" style="text-align: left">
+                        <label for="user"><b>Username</b></label>
+                    </div>
+                    <input type="text" name="username" placeholder="username"><br>
                 </div>
                 <div class="toppassword">
+                    <div class="passwordH" style="text-align: left">
+                        <label for="password"><b>Password</b></label>
+                    </div>
                     <input type="password" name="password" placeholder="password"><br>
                 </div>
+
+                <!-- auth button for form, send credential -->
                 <div class="btn-submit text-center">
-                    <input type="submit">
+                    <input class="btn btn-light btn-lg btn-block text-white" type="submit">
                 </div>
             </form>
         </div>
