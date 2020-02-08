@@ -7,28 +7,29 @@
         <title>GetALife</title>
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
     </head>
+    {% block content %}
     <body>
-        {% block content %}
+        
         <nav class="nav justify-content-end">
             <a class="nav-link text-light" href="{% url 'login' %}">SIGN IN</a>
             <a class="nav-link text-light" href="{% url 'register' %}">SIGN UP</a>
             <a class="nav-link text-light" href="#FAQ">FAQ</a>
-        </nav>  
+        </nav>
+
         <div class="container">
+
             <div class="text-light text-nowrap text-center">
                 <a class="mainH">LIFE GOES ON</a>
             </div> 
-        </div>
-        <div class="container">
             <div class="text-light text-nowrap text-center">
                     <p class="underH">we can make it smoother</p>
             </div>
-        </div>
-        <div class="container">
             <div class="text-center">
                 <a style="text-decoration:none" href="{% url 'register' %}"><button type="button" class="btn btn-light btn-lg btn-block text-white">Try Now</button></a>
             </div>
+            
         </div>
-        {% endblock content%}
+        
     </body>
+    {% endblock content%}
 </html> 
