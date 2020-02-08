@@ -41,7 +41,7 @@
 }
 
 body { 
-    background-image: url("{% static 'img/LBG.jpg' %}") no-repeat;
+    background-image: url("{% static 'img/LBG.jpg' %}");
     background-color: #D2D6DD;
     color: #fff;
 } 
