@@ -1,51 +1,62 @@
-
+{% extends 'base.html' %}
 {% load static %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <!-- asset/img path -->
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'css/login.css' %}">
     </head>
     {% block content %}
     <body>
+        <!-- top navigation bar, link pages -->
+        <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'index' %}">HOME</a>
+        </nav> 
+
+        <!-- container for main form body -->
         <div class="container">
+
             <div class="mainH text-center">
                 <h1 class="display-4">Register Your Account</h1>
             </div>
-        </div>
-        <div class="container">
-            <p style="text-align: center">Please fill in this form to create an account.</p>
-        </div>
-        <div class="container">
-            <div class="emailHeader" style="text-align: center">
-                <label for="email"><b>Email</b></label>
+            <div class="desc text-center">
+                <h2 class="filler">Please fill in this form to create an account</h2>
             </div>
-            <div class="emailBlock" style="text-align: center;">
-                <input type="text" placeholder="Enter Email" name="email" required>
-            </div>
-        </div>
-        <div class="container">
-            <div style="text-align: center">
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-            </div>
-        </div>    
-        <div class="container">
-            <div style="text-align: center">
-                <label for="psw-repeat"><b>Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-            </div>
-        </div>
-        <div class="container">
-            <div style="text-align: center">
-                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-            </div>
-        </div> 
-        <div class="container">
-            <div style="text-align: center">
-                <button type="submit" class="btn btn-light btn-lg btn-block">Register</button>
-            </div>       
+
+            <form method="POST">
+                {% csrf_token %}
+
+                    <!-- email block for user to fill in -->
+                <div class="topuser text-nowrap"> 
+                    <div class="userH" style="text-align: left">
+                        <label for="user"><b>Email</b></label>
+                    </div>
+                    <a class="email"><input type="text" name="email" placeholder="email"><br></a>
+                </div>
+
+                    <!-- password block for user to fill in -->
+                <div class="toppassword">
+                    <div class="passwordH" style="text-align: left">
+                        <label for="password"><b>Password</b></label>
+                    </div>
+                    <input type="password" name="password" placeholder="password"><br>
+                </div>
+
+                    <!-- repeating password input for auth -->
+                <div class="passrepeat">
+                    <div class="repeatH" style="text-align: left">
+                        <label for="passrepeat"><b>Re-Enter Password</b></label>
+                    </div>
+                    <input type="password" name="password" placeholder="password"><br>
+                </div>
+
+                    <!-- auth button for form, send credential -->
+                <div class="btn-submit text-center">
+                    <input class="btn btn-light btn-lg btn-block text-white" type="submit">
+                </div>
+
+            </form>
+                 
         </div>
     </body>
     {% endblock content %}
