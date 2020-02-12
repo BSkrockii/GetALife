@@ -21,10 +21,10 @@
 }
 
 .userH {   
+    display: block;
     font-size: 1.5em;
     font-weight: lighter;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
-    display: block;
     align-self: center;
     margin-top: auto;
     margin-left: auto;
@@ -84,6 +84,11 @@ input[type="submit"]{
     margin-top: 5%;
     margin-left: 30%;
     width: 30%;
+}
+
+.elementblock {
+    padding: 2%;
+    border: 1px solid lightcoral;
 }
 
 @media (max-width: 812.98px) {

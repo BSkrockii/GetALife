@@ -23,40 +23,42 @@
                 <h2 class="filler">Please fill in this form to create an account</h2>
             </div>
 
-            <form method="POST">
-                {% csrf_token %}
+            <div class="elementblock">
+                <form method="POST">
+                    {% csrf_token %}
 
-                    <!-- email block for user to fill in -->
-                <div class="topuser text-nowrap"> 
-                    <div class="userH" style="text-align: left">
-                        <label for="user"><b>Email</b></label>
+                        <!-- email block for user to fill in -->
+                    <div class="topuser text-nowrap"> 
+                        <div class="userH" style="text-align: left">
+                            <label for="user"><b>Email</b></label>
+                        </div>
+                        <a class="email"><input type="text" name="email" placeholder="email"><br></a>
                     </div>
-                    <a class="email"><input type="text" name="email" placeholder="email"><br></a>
-                </div>
 
-                    <!-- password block for user to fill in -->
-                <div class="toppassword">
-                    <div class="passwordH" style="text-align: left">
-                        <label for="password"><b>Password</b></label>
+                        <!-- password block for user to fill in -->
+                    <div class="toppassword">
+                        <div class="passwordH" style="text-align: left">
+                            <label for="password"><b>Password</b></label>
+                        </div>
+                        <input type="password" name="password" placeholder="password"><br>
                     </div>
-                    <input type="password" name="password" placeholder="password"><br>
-                </div>
 
-                    <!-- repeating password input for auth -->
-                <div class="passrepeat">
-                    <div class="repeatH" style="text-align: left">
-                        <label for="passrepeat"><b>Re-Enter Password</b></label>
+                        <!-- repeating password input for auth -->
+                    <div class="passrepeat">
+                        <div class="repeatH" style="text-align: left">
+                            <label for="passrepeat"><b>Re-Enter Password</b></label>
+                        </div>
+                        <input type="password" name="password" placeholder="password"><br>
                     </div>
-                    <input type="password" name="password" placeholder="password"><br>
-                </div>
 
-                    <!-- auth button for form, send credential -->
-                <div class="btn-submit text-center">
-                    <input class="btn btn-light btn-lg btn-block text-white" type="submit">
-                </div>
+                        <!-- auth button for form, send credential -->
+                    <div class="btn-submit text-center">
+                        <input class="btn btn-light btn-lg btn-block text-white" type="submit">
+                    </div>
 
-            </form>
-                 
+                </form>
+            </div>  
+
         </div>
     </body>
     {% endblock content %}

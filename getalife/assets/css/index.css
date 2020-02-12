@@ -69,8 +69,8 @@ body {
     font-weight: normal;
     font-size: 8.5em;
     margin-top: 10%;
-    margin-left: 8%;
-    text-shadow: 1.5px 3px rgb(170, 170, 170);
+    margin-left: auto;
+    text-shadow: 3px 6px rgb(14, 13, 13);
     resize: both;
 }
 
@@ -81,13 +81,12 @@ body {
     font-size: 3em;
     margin-top: -0.5em;
     margin-left: auto;
-    text-shadow: 1px 2px rgb(170, 170, 170);
+    text-shadow: 1.5px 1.5px rgb(170, 170, 170);
     resize: both;
 }
 
 .container {
-    font-family: Helvetica;
-    text-shadow: 1.5px 2px rgb(151, 151, 151);    
+    font-family: Helvetica;    
 }
 
 @media (max-width: 812.98px) {
