@@ -8,6 +8,15 @@
     display: block;
 }
 
+/*
+.elementblock {
+    background-color: lightcoral;
+    border: none;
+    background-clip: content-box;
+    opacity: 0.8;
+}
+*/
+
 .mainH {
     margin-top: 1%;
     align-self: center;
@@ -69,13 +78,6 @@
 
 .bth-submit:hover {
     color: #949494;
-}
-
-#bg{
-    background-size: 1920px 1000px;
-    background-repeat: no-repeat;
-    background-position-y: -175px;
-    resize: both;
 }
 
 body {

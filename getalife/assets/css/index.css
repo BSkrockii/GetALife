@@ -36,7 +36,7 @@
     width: 50%;
 }
 
-.bth:hover {
+.btn a:hover {
     color: #949494;
 }
 /*
@@ -57,7 +57,8 @@
 body { 
     background-image: url("../img/LBG.jpg");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 1900px 1000px;
+    background-position-y: -180px;
     background-color: #D2D6DD;
     color: #fff;
 } 
@@ -84,11 +85,6 @@ body {
     resize: both;
 }
 
-#bg{
-    background-size: 1920px 1125px;
-    background-repeat: no-repeat;
-    background-position-y: -175px;
-}
 .container {
     font-family: Helvetica;
     text-shadow: 1.5px 2px rgb(151, 151, 151);    
