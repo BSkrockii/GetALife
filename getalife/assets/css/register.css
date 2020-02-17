@@ -87,7 +87,7 @@ input[type="submit"]{
 }
 
 .elementblock {
-    padding: 2%;
+    padding: 10px 10px 10px 10px;
     border: 1px solid lightcoral;
 }
 
