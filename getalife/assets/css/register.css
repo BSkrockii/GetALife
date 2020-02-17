@@ -14,6 +14,10 @@
     margin-left: 5%;
 }
 
+.desc {
+    margin-left: 10%;
+}
+
 .filler {
     font-size: 20px;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
@@ -50,7 +54,7 @@
 .toppassword {
     display: inline-block;
     margin-top: 2%;
-    margin-left: 42%;
+    margin-left: 40%;
 }
 
 .passrepeat {
@@ -58,7 +62,7 @@
     color: rgb(255, 255, 255);
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     margin-top: 2%;
-    margin-left: 42%;;  
+    margin-left: 40%;;  
 }
 
 .repeatH {
@@ -79,16 +83,15 @@ input[type="submit"]{
     outline:none;
 }
 
-.btn-submit {
+.btn-submit2 {
     align-self: center;
     margin-top: 5%;
     margin-left: 30%;
-    width: 30%;
+    width: 50%;
 }
 
-.elementblock {
-    padding: 10px 10px 10px 10px;
-    border: 1px solid lightcoral;
+.btn2 {
+    align-self: center;
 }
 
 @media (max-width: 812.98px) {
