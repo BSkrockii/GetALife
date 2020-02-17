@@ -15,15 +15,15 @@
 
         <!-- container for main form body -->
         <div class="container">
+            <div class="elementblock">
 
             <div class="mainH text-center">
-                <h1 class="display-4">Register Your Account</h1>
+                <h1 class="display-4 text-nowrap">Register Your Account</h1>
             </div>
             <div class="desc text-center">
                 <h2 class="filler">Please fill in this form to create an account</h2>
             </div>
 
-            <div class="elementblock">
                 <form method="POST">
                     {% csrf_token %}
 
@@ -52,8 +52,8 @@
                     </div>
 
                         <!-- auth button for form, send credential -->
-                    <div class="btn-submit text-center">
-                        <input class="btn btn-light btn-lg btn-block text-white" type="submit">
+                    <div class="btn-submit2 text-center">
+                        <input class="btn2 btn-light btn-lg btn-block text-white" type="submit">
                     </div>
 
                 </form>

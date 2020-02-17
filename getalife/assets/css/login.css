@@ -8,15 +8,6 @@
     display: block;
 }
 
-/*
-.elementblock {
-    background-color: lightcoral;
-    border: none;
-    background-clip: content-box;
-    opacity: 0.8;
-}
-*/
-
 .mainH {
     margin-top: 1%;
     align-self: center;
@@ -43,7 +34,7 @@
     display: block;
     align-self: center;
     margin-top: 5%;
-    margin-left: 42%;
+    margin-left: 40%;
 }
 
 .password {
@@ -62,21 +53,25 @@
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
 }
 
-.toppassword {
-    display: inline-block;
+.toppassword1 {
+    display: block;
     align-self: center;
     margin-top: 3%;
-    margin-left: 42%;
+    margin-left: 40%;
 }
 
-.btn-submit {
+.btn-submit1 {
     align-self: center;
     display: block;
-    margin-top: 2%;
-    margin-left: 42%;
+    margin-top: 5%;
+    margin-left: 10%;
 }
 
-.bth-submit:hover {
+.btn1 {
+    margin-left: auto;
+}
+
+.bth-submit1:hover {
     color: #949494;
 }
 
@@ -84,6 +79,14 @@ body {
     background-color: #D2D6DD;
 
 }
+
+.elementblock {
+    position: absolute;
+    padding: 40px 60px 40px 5px;
+    margin-left: 18%;
+    background-color: lightcoral;
+}
+
 
 @media (max-width: 812.98px) {
     .index {
