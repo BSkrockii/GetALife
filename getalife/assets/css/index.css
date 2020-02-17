@@ -25,7 +25,7 @@
     display: none;
 }
 
-.btn {
+.btn0 {
     display: block;
     text-align: center;
     color: #fff;
@@ -36,8 +36,8 @@
     width: 50%;
 }
 
-.btn a:hover {
-    color: #949494;
+.nextpage a:hover {
+    color: #575757;
 }
 /*
 #background {
@@ -57,7 +57,7 @@
 body { 
     background-image: url("../img/LBG.jpg");
     background-repeat: no-repeat;
-    background-size: 1900px 1000px;
+    background-size: 1880px 1000px;
     background-position-y: -180px;
     background-color: #D2D6DD;
     color: #fff;
