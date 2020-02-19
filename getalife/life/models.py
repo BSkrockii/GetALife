@@ -29,32 +29,47 @@ class Budget_account(models.Model):
 # financial_management_budget_expense_type
 class Expense_type(models.Model):
     name = models.CharField(max_length=50, null=False)
+    description = models.CharField(max_length=50)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
 # financial_management_budget_income
 class Income_type(models.Model):
     name = models.CharField(max_length=50, null=False)
+    description = models.CharField(max_length=50)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
 # financial_management_budget_expense
 class Budget_expense(models.Model):
-    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
-    expenseType = models.ForeignKey(Expense_type, on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50, null=False)
-    month = models.IntegerField(choices=Month.choices, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
+    expenseType = models.ForeignKey(Expense_type, on_delete=models.CASCADE, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
+    expense = models.DecimalField(max_digits=12, decimal_places=2, null=False)
+
+# financial_management_budget_expense
+class Budget_Income(models.Model):
+    name = models.CharField(max_length=50, null=False)
+    description = models.CharField(max_length=50, null=False)
+    created_utc = models.DateField(auto_now_add=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
+    IncomeType = models.ForeignKey(Expense_type, on_delete=models.CASCADE, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
+    income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
 
 # financial_management_budget_config
 class Budget_config(models.Model):
     name = models.CharField(max_length=50, null=False)
-    value = models.DecimalField(max_digits=6, decimal_places=2, null=False)
-    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
-    month = models.IntegerField(choices=Month.choices, null=False)
+    description = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
+    value = models.DecimalField(max_digits=12, decimal_places=2, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
 
