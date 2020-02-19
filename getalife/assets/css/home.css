@@ -1,3 +1,10 @@
+html {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    }
+
 .navbar {
     font-family: Helvetica;
     font-weight: lighter;
@@ -22,7 +29,7 @@
     color: rgb(131, 131, 131);
 }
 
-body {
+.home-bg {
     background-image: url("../img/home.JPG");
     background-repeat: no-repeat;
     background-position-x: 20%;
@@ -36,6 +43,7 @@ body {
     position: relative;
     font-size: 70px;
     top: -50px;
+    text-shadow: 0px 1px 3px rgb(100, 100, 100);
 }
 
 table {
