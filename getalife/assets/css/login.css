@@ -68,7 +68,7 @@
 }
 
 .btn1 {
-    margin-left: auto;
+    align-self: center;
 }
 
 .bth-submit1:hover {
@@ -81,16 +81,19 @@ body {
 }
 
 .elementblock {
+    display: block;
     position: absolute;
     padding: 40px 60px 40px 5px;
-    margin-left: 18%;
-    background-color: lightcoral;
+    margin-left: 14%;
+    margin-right: auto;
+
+    background-color: #1eb4e9;
 }
 
 
 @media (max-width: 812.98px) {
     .index {
-        grid-column: 2 / 3;
+        grid-column: 2 / 5;
         padding: 0;
       }
 }
