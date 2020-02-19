@@ -37,7 +37,7 @@
 }
 
 .nextpage a:hover {
-    color: #575757;
+    color: #8b8a8a;
 }
 /*
 #background {
@@ -54,11 +54,12 @@
     filter:alpha(opacity=80);
 }
 */
+
 body { 
     background-image: url("../img/LBG.jpg");
     background-repeat: no-repeat;
-    background-size: 1880px 1000px;
-    background-position-y: -180px;
+    background-size: cover;
+    background-position-y: -300px;
     background-color: #D2D6DD;
     color: #fff;
 } 
