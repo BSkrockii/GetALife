@@ -8,27 +8,32 @@
     display: block;
 }
 
-.mainH {
+.main-login {
     margin-top: 1%;
     align-self: center;
-    color: rgb(255, 255, 255);
-    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
+    margin-left: 5%;
+    color: #CEB1B1;
+    text-shadow: 0px 0.5px 1px rgb(100, 100, 100);
 }
 
-.userH {
+.user-login {
     align-self: center;
     font-size: 1.5em;
     font-weight: lighter;
-    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
-}
-
-.email {
-    display: block;
-    align-self: center;
-    color: rgb(255, 255, 255);
+    color: #707070;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     margin-top: 5%;
 }
+
+/*
+    .email {
+        display: block;
+        align-self: center;
+        color: rgb(158, 158, 158);
+        text-shadow: 0.5px 0.8px rgb(170, 170, 170);
+        margin-top: 5%;
+    }
+*/
 
 .topuser {
     display: block;
@@ -40,16 +45,15 @@
 .password {
     display: block;
     align-self: center;
-    color: rgb(255, 255, 255);
-    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     margin-top: 2%;
     margin-left: auto;  
 }
 
-.passwordH {
+.password-login {
     align-self: center;
     font-size: 1.5em;
     font-weight: lighter;
+    color: #707070;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
 }
 
@@ -60,19 +64,26 @@
     margin-left: 40%;
 }
 
-.btn-submit1 {
+.error-login {
+    color: #ff0000;
+    text-shadow: 0.5px 0.8px rgb(170, 170, 170);
+}
+
+.btn-submit-login {
     align-self: center;
     display: block;
     margin-top: 5%;
-    margin-left: 10%;
+    margin-left: 30%;
+    width: 50%;
 }
 
-.btn1 {
+.btn-login {
     align-self: center;
 }
 
-.bth-submit1:hover {
-    color: #949494;
+input[type="submit"]:hover {
+    background-color: rgb(173, 173, 173);
+    text-shadow: 0px 3px 6px rgb(100, 100, 100);
 }
 
 body {
@@ -80,16 +91,16 @@ body {
 
 }
 
-.elementblock {
+.block-login {
     display: block;
     position: absolute;
+    border-radius: 20px;
     padding: 40px 60px 40px 5px;
-    margin-left: 14%;
-    margin-right: auto;
-
-    background-color: #1eb4e9;
+    margin-top: auto;
+    margin-left: 15%;
+    background-color: #ffffffdc;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
 }
-
 
 @media (max-width: 812.98px) {
     .index {
