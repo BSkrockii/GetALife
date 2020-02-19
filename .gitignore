@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # ignore migraions
-.getalife/life/migrations/
+getalife/life/migrations/*
+
