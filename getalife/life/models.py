@@ -33,7 +33,7 @@ class Expense_type(models.Model):
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
-# financial_management_budget_income
+# financial_management_budget_income_type
 class Income_type(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50)
@@ -46,22 +46,21 @@ class Budget_expense(models.Model):
     description = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
-    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
-    expenseType = models.ForeignKey(Expense_type, on_delete=models.CASCADE, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, null=False)
+    expenseType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, null=False)
     month = models.IntegerField(choices=Month.choices, null=False)
     expense = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
-# financial_management_budget_expense
+# financial_management_budget_income
 class Budget_Income(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
-    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
-    IncomeType = models.ForeignKey(Expense_type, on_delete=models.CASCADE, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, null=False)
+    IncomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, null=False)
     month = models.IntegerField(choices=Month.choices, null=False)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
-
 
 # financial_management_budget_config
 class Budget_config(models.Model):
@@ -70,6 +69,5 @@ class Budget_config(models.Model):
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
     value = models.DecimalField(max_digits=12, decimal_places=2, null=False)
-    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE, null=False)
+    budget = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, null=False)
     month = models.IntegerField(choices=Month.choices, null=False)
-
