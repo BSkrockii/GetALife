@@ -24,19 +24,19 @@ class Budget_account(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=150, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
-    modefied_utc = models.DateField(auto_now=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
 
 # financial_management_budget_expense_type
 class Expense_type(models.Model):
     name = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
-    modefied_utc = models.DateField(auto_now=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
 
 # financial_management_budget_income
 class Income_type(models.Model):
     name = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
-    modefied_utc = models.DateField(auto_now=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
 
 # financial_management_budget_expense
 class Budget_expense(models.Model):
@@ -46,7 +46,7 @@ class Budget_expense(models.Model):
     description = models.CharField(max_length=50, null=False)
     month = models.IntegerField(choices=Month.choices)
     created_utc = models.DateField(auto_now_add=True, null=False)
-    modefied_utc = models.DateField(auto_now=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
 
 
 # financial_management_budget_config
@@ -54,4 +54,5 @@ class Budget_config(models.Model):
     budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE)
     month = models.IntegerField(choices=Month.choices)
     created_utc = models.DateField(auto_now_add=True, null=False)
-    modefied_utc = models.DateField(auto_now=True, null=False)
+    modified_utc = models.DateField(auto_now=True, null=False)
+
