@@ -17,7 +17,7 @@ class Month(models.IntegerChoices):
     November = 10
     December = 11
 
-# financial_management_budget
+# budget
 class Budget_account(models.Model):
     # Many-Many relationship to user model
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
@@ -26,21 +26,21 @@ class Budget_account(models.Model):
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
-# financial_management_budget_expense_type
+# budget_expense_type
 class Expense_type(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
-# financial_management_budget_income_type
+# budget_income_type
 class Income_type(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
-# financial_management_budget_expense
+# budget_expense
 class Budget_expense(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50, null=False)
@@ -51,7 +51,7 @@ class Budget_expense(models.Model):
     month = models.IntegerField(choices=Month.choices, null=False)
     expense = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
-# financial_management_budget_income
+# budget_income
 class Budget_income(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50, null=False)
@@ -62,12 +62,12 @@ class Budget_income(models.Model):
     month = models.IntegerField(choices=Month.choices, null=False)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
-# financial_management_budget_config
+# budget_config
 class Budget_config(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=50, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
-    value = models.DecimalField(max_digits=12, decimal_places=2, null=False)
+    budget_limit = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
     month = models.IntegerField(choices=Month.choices, null=False)
