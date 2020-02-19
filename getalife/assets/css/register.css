@@ -10,12 +10,16 @@
     align-self: center;
 }
 
-.mainH {
+.main-register {
     margin-left: 5%;
+    color: #CEB1B1;
+    text-shadow: 0px 0.5px 1px rgb(100, 100, 100);
 }
 
-.desc {
+.desc-register {
     margin-left: 10%;
+    color: #CEB1B1;
+    text-shadow: 0px 0.5px 1px rgb(100, 100, 100);
 }
 
 .filler {
@@ -24,10 +28,11 @@
     margin-top: 2%;
 }
 
-.userH {   
+.user-register {   
     display: block;
     font-size: 1.5em;
     font-weight: lighter;
+    color: #707070;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     align-self: center;
     margin-top: auto;
@@ -36,14 +41,14 @@
 
 .email {
     display: block;
-    color: rgb(255, 255, 255);
+    color: #CEB1B1;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     margin-top: auto;
 }
 
-.passwordH {
+.password-register {
     display: block;
-    color: rgb(255, 255, 255);
+    color: #707070;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
     margin-top: 2%;
     margin-left: auto;  
@@ -65,9 +70,10 @@
     margin-left: 40%;;  
 }
 
-.repeatH {
+.repeat-register {
     font-size: 1.5em;
     font-weight: lighter;
+    color: #707070;
     text-shadow: 0.5px 0.8px rgb(170, 170, 170);
 }
 
@@ -92,6 +98,17 @@ input[type="submit"]{
 
 .btn2 {
     align-self: center;
+}
+
+.block-register {
+    display: block;
+    position: absolute;
+    border-radius: 20px;
+    padding: 40px 60px 40px 5px;
+    margin-top: auto;
+    margin-left: 15%;
+    background-color: #ffffffdc;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 812.98px) {
