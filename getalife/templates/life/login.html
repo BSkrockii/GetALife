@@ -14,30 +14,36 @@
         
         <!-- container for main form body -->
         <div class="container">
-            <div class="elementblock">
-                <div class="mainH text-center text-nowrap">
+            <div class="block-login">
+                <div class="main-login text-center text-nowrap">
                     <h1 class="display-2">Welcome Back</h1>
                 </div>
                 <form method="POST">
                     {% csrf_token %}
                 
                     <div class="topuser text-nowrap">
-                        <div class="userH" style="text-align: left">
+                        <div class="user-login" style="text-align: left">
                             <label for="user"><b>Username</b></label>
                         </div>
                         <input type="text" name="username" placeholder="username"><br>
                     </div>
 
                     <div class="toppassword1 text-nowrap">
-                        <div class="passwordH" style="text-align: left">
+                        <div class="password-login" style="text-align: left">
                             <label for="password"><b>Password</b></label>
                         </div>
                         <input type="password" name="password" placeholder="password"><br>
                     </div>
 
+                    <div class="error-login">
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
+                    </div>
+                    
                     <!-- auth button for form, send credential -->
-                    <div class="btn-submit1 text-center">
-                        <input class="btn1 btn-light btn-lg btn-block text-white" type="submit">
+                    <div class="btn-submit-login text-center">
+                        <input class="btn-login btn-light btn-lg btn-block text-white" type="submit">
                     </div>
                 </form>
             </div>
