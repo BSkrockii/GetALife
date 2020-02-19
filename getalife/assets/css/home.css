@@ -1,0 +1,120 @@
+.navbar {
+    font-family: Helvetica;
+    font-weight: lighter;
+    background-color: #333;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar a:hover {
+    color: rgb(131, 131, 131);
+}
+
+body {
+    background-image: url("../img/home.JPG");
+    background-repeat: no-repeat;
+    background-position-x: 20%;
+    background-position-y: -200px;
+    background-color: #D2D6DD;
+    color: #fff;
+}
+
+.curmonth {
+    display: block;
+    position: relative;
+    font-size: 70px;
+    top: -50px;
+}
+
+table {
+    width: 75%;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+    font-family: Helvetica;
+    /*border-collapse: collapse;*/
+    margin-top: -6.5%;
+    border-spacing: 0;
+    background-color: #ffffff;
+    opacity: .95;
+}
+
+th,
+td {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+th {
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: lighter;
+    padding: 10px 5px;
+    color: rgb(255, 255, 255);
+    background-color: #E0E0E0;
+    letter-spacing: 1px;
+}
+
+td {
+    width: 14.285%;
+    transition: all 0.3s;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 400;
+    font-size: 14px;
+    padding: 1.5% 1.5% 5%;
+    vertical-align: initial;
+    padding: 1.5% 0;
+    height: 75px;
+}
+
+.day:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.today {
+    color: #FFF;
+    background-color: #E0E0E0 !important;
+}
+
+span.number {
+    margin-left: 10%
+}
+
+span.event {
+    height: 4px;
+    background-color: rgba(0, 0, 0, .3);
+    display: block;
+    margin: 5px 5%;
+    border-radius: 2px;
+    background-color: #91c33b;
+}
+
+span.event-multiday {
+    margin: 5px 2px;
+    border-radius: 0;
+}
+
+span.event-multiday-start {
+    margin-right: 0px;
+}
+
+span.event-multiday-finish {
+    margin-left: 0px;
+}
+
+span.event-ghost {
+    background-color: transparent;
+}
