@@ -6,20 +6,22 @@ from django.db import models
 
 
 # financial_management_budget
-class budgetAccount(models.Model):
+class Budget_account(models.Model):
     # Many-Many relationship to user model
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=150)
-    created = models.DateField(auto_now=False, auto_now_add=True)
-    modefied = models.DateField(auto_now=True, auto_now_add=False)
+    created_utc = models.DateField(auto_now=False, auto_now_add=True, USE_TZ=False)
+    modefied_utc = models.DateField(auto_now=True, auto_now_add=False, USE_TZ=False)
 
 
 # financial_management_budget_expense
-# id UUID
-# budget_id UUID
-# name nvarchar(50)
-# expense_type: int
+class Budget_expense(models.Model):
+    budget = models.ForeignKey(Budget_account, on_delete=models.CASCADE)
+    # expense_type = models.ForeignKey(expense_type, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=50)
+    month = models.DateField(auto_now=False, auto_now_add=False)
 # description: nvarchar(150)
 # month int (or 4 bits)
 # created (datetime(6))
