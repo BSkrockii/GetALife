@@ -9,35 +9,44 @@
     <body>
         <!-- top navigation bar, link pages -->
         <nav class="nav justify-content-end">
-            <a class="nav-link text-light" href="{% url 'index' %}">HOME</a>
+            <a class="nav-link text-light" href="{% url 'index' %}">BACK</a>
         </nav> 
         
         <!-- container for main form body -->
         <div class="container">
-            <div class="mainH text-center text-nowrap">
-                <h1 class="display-2">Welcome Back</h1>
-            </div>
-            <form method="POST">
-                {% csrf_token %}
+            <div class="block-login">
+                <div class="main-login text-center text-nowrap">
+                    <h1 class="display-2">Welcome Back</h1>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
                 
-                <div class="topuser text-nowrap">
-                    <div class="userH" style="text-align: left">
-                        <label for="user"><b>Username</b></label>
+                    <div class="topuser text-nowrap">
+                        <div class="user-login" style="text-align: left">
+                            <label for="user"><b>Username</b></label>
+                        </div>
+                        <input type="text" name="username" placeholder="username"><br>
                     </div>
-                    <input type="text" name="username" placeholder="username"><br>
-                </div>
-                <div class="toppassword">
-                    <div class="passwordH" style="text-align: left">
-                        <label for="password"><b>Password</b></label>
-                    </div>
-                    <input type="password" name="password" placeholder="password"><br>
-                </div>
 
-                <!-- auth button for form, send credential -->
-                <div class="btn-submit text-center">
-                    <input class="btn btn-light btn-lg btn-block text-white" type="submit">
-                </div>
-            </form>
+                    <div class="toppassword1 text-nowrap">
+                        <div class="password-login" style="text-align: left">
+                            <label for="password"><b>Password</b></label>
+                        </div>
+                        <input type="password" name="password" placeholder="password"><br>
+                    </div>
+
+                    <div class="error-login">
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- auth button for form, send credential -->
+                    <div class="btn-submit-login text-center">
+                        <input class="btn-login btn-light btn-lg btn-block text-white" type="submit">
+                    </div>
+                </form>
+            </div>
         </div>
         
     </body>

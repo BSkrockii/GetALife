@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'life'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
+
+# User authentication and redirected url
+# https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-LOGIN_REDIRECT_URL
+
+#LOGIN_REDIRECT_URL = 'home/'
