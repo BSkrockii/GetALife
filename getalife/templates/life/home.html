@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+{% block content %}
+
+<body class="home-bg">
+    <nav class="nav justify-content-end">
+        <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+    </nav>
+
+    <nav class="navbar justify-content-start">
+        <a href="{% url 'home' %}" class="active">HOME</a>
+        <a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
+    </nav>
+
+    <div class="container">
+        <p id="getmonth" class="curmonth">
+            <script>
+                var month = new Array();
+                month[0] = "January";
+                month[1] = "February";
+                month[2] = "March";
+                month[3] = "April";
+                month[4] = "May";
+                month[5] = "June";
+                month[6] = "July";
+                month[7] = "August";
+                month[8] = "September";
+                month[9] = "October";
+                month[10] = "November";
+                month[11] = "December";
+
+                var d = new Date();
+                var n = month[d.getMonth()];
+                document.getElementById("getmonth").innerHTML = n;
+            </script>
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="calendar">
+            <table>
+                <tr>
+                    <th class="day-name">Sun</th>
+                    <th class="day-name">Mon</th>
+                    <th class="day-name">Tue</th>
+                    <th class="day-name">Wed</th>
+                    <th class="day-name">Thu</th>
+                    <th class="day-name">Fri</th>
+                    <th class="day-name">Sat</th>
+                </tr>
+                <tr>
+                    <td class="day"><span class="number">26</span></td>
+                    <td class="day"><span class="number">27</span><span class="event"></span><span class="event"></span></td>
+                    <td class="day"><span class="number">28</span></td>
+                    <td class="day"><span class="number">29</span><span class="event event-multiday-start"></span></td>
+                    <td class="day"><span class="number">30</span><span class="event event-multiday"></span><span class="event event-multiday-start eventclass" style="background-color:#5a9ab2;"></span><span class="event"></td>
+                <td class="day"><span class="number">31</span><span class="event event-multiday-finish"></span><span class="event event-multiday eventclass" style="background-color:#5a9ab2;"></span></td>
+                    <td class="day"><span class="number">1</span><span class="event event-ghost"></span><span class="event event-multiday-finish eventclass" style="background-color:#5a9ab2;"></span></td>
+                </tr>
+                <tr>
+                    <td class="day"><span class="number">2</span></td>
+                    <td class="day"><span class="number">3</span><span class="event"></span></td>
+                    <td class="day"><span class="number">4</span></td>
+                    <td class="day"><span class="number">5</span></td>
+                    <td class="day"><span class="number">6</span></td>
+                    <td class="day"><span class="number">7</span></td>
+                    <td class="day"><span class="number">8</span></td>
+                </tr>
+                <tr>
+                    <td class="day"><span class="number">9</span></td>
+                    <td class="day"><span class="number">10</span></td>
+                    <td class="day"><span class="number">11</span><span class="event"></span></td>
+                    <td class="day"><span class="number">12</span><span class="event"></span></td>
+                    <td class="day"><span class="number">13</span></td>
+                    <td class="day"><span class="number">14</span></td>
+                    <td class="day"><span class="number">15</span></td>
+                </tr>
+                <tr>
+                    <td class="day"><span class="number">16</span></td>
+                    <td class="day"><span class="number">17</span></td>
+                    <td class="day"><span class="number">18</span></td>
+                    <td class="day"><span class="number">19</span></td>
+                    <td class="day"><span class="number">20</span></td>
+                    <td class="day"><span class="number">21</span></td>
+                    <td class="day"><span class="number">22</span><span class="event event-multiday-start" style="background-color:#da5f5f;"></td>
+            </tr>
+            <tr>
+                <td class="day"><span class="number">23</span><span class="event event-multiday" style="background-color:#da5f5f;"></td>
+                    <td class="day today"><span class="number">24</span></td>
+                    <td class="day"><span class="number">25</span></td>
+                    <td class="day"><span class="number">26</span></td>
+                    <td class="day"><span class="number">27</span></td>
+                    <td class="day"><span class="number">28</span></td>
+                    <td class="day"><span class="number">29</span></td>
+                </tr>
+                <tr>
+                    <td class="day"><span class="number">1</span></td>
+                    <td class="day"><span class="number">2</span><span class="event"></span></td>
+                    <td class="day"><span class="number">3</span></td>
+                    <td class="day"><span class="number">4</span></td>
+                    <td class="day"><span class="number">5</span></td>
+                    <td class="day"><span class="number">6</span></td>
+                    <td class="day"><span class="number">7</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+{% endblock content %}
+
+</html>
