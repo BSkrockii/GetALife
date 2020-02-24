@@ -38,3 +38,9 @@ def register(request):
             return redirect('register')
     else:
         return render(request, 'life/register.html')
+
+def faq(request):
+    context = None
+    return render(request, 'life/faq.html', context)
+
+    

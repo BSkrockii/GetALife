@@ -1,0 +1,54 @@
+{% load static %}
+<html lang=en>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="bootstrap-accordions-faqs.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>FAQ</title>
+        <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    </head>
+    
+    {% block content %}
+    <body>
+        <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'login' %}">SIGN IN</a>
+            <a class="nav-link text-light" href="{% url 'register' %}">SIGN UP</a>
+            <a class="nav-link text-light" href="{% url 'faq' %}">FAQ</a>
+            <a class="nav-link text-light" href="{% url 'faq' %}">ABOUT</a>
+        </nav>
+
+        <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+            
+            <div class="container">
+                <div class="text-light text-nowrap text-center">
+                    <a class="mainH">Frequently Asked Questions</a>
+                </div> 
+                
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                                    What is GetALife?
+                                  </a>
+                            </h3>
+                        </div>
+
+                        <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                            <div class="panel-body px-3 mb-4">
+                              <p>GetALife is a do it all life planning website to help organize spending, deadlines, events and major payments all in one place.</p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+    {% endblock content%}
+</html>
