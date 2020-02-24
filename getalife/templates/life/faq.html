@@ -1,8 +1,7 @@
 {% load static %}
 <html lang=en>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="bootstrap-accordions-faqs.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -17,6 +16,7 @@
     {% block content %}
     <body>
         <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'index' %}">HOME</a>
             <a class="nav-link text-light" href="{% url 'login' %}">SIGN IN</a>
             <a class="nav-link text-light" href="{% url 'register' %}">SIGN UP</a>
             <a class="nav-link text-light" href="{% url 'faq' %}">FAQ</a>
@@ -36,15 +36,99 @@
                             <h3 class="panel-title">
                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
                                     What is GetALife?
-                                  </a>
+                                </a>
                             </h3>
                         </div>
-
                         <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
-                            <div class="panel-body px-3 mb-4">
+                            <div class="panel-body px-3 mb-3 pt-3">
                               <p>GetALife is a do it all life planning website to help organize spending, deadlines, events and major payments all in one place.</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading1">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                    How much does it cost to join?
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                            <div class="panel-body px-3 mb-3 pt-3">
+                              <p>GetALife is completely free!</p>
+                            </div>
                           </div>
+                    </div>
+                </div>
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading2">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                    How does GetALife give accurate predictions based on money spending habits?
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                            <div class="panel-body px-3 mb-3 pt-2">
+                              <p>PLACEHOLDER TEXT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading3">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                    Is GetALife secure with handling my personal information?
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+                            <div class="panel-body px-3 mb-3 pt-3">
+                              <p>PLACEHOLDER TEXT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading4">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                    Will I get richer by using GetALife?
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+                            <div class="panel-body px-3 mb-3 pt-3">
+                              <p>PLACEHOLDER TEXT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading p-3 mb-3" role="tab" id="heading5">
+                            <h3 class="panel-title">
+                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                    Why GetALife and not *insert-other-life-planning-app-here*?
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+                            <div class="panel-body px-3 mb-3 pt-3">
+                              <p>PLACEHOLDER TEXT</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
