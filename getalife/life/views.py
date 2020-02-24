@@ -7,6 +7,13 @@ def index(request):
     context = None
     return render(request, 'life/index.html', context)
 
+def home(request):
+    #return HttpResponseRedirect(
+    #    reverse(NAME_OF_PROFILE_VIEW, args=[request.user.username])
+    #)
+    context = None
+    return render(request, 'life/home.html', context)
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -16,7 +23,7 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            return redirect('/home')
         else:
             messages.info(request, 'Invalid Credentials')
             return redirect('login')
@@ -39,8 +46,7 @@ def register(request):
     else:
         return render(request, 'life/register.html')
 
+
 def faq(request):
     context = None
     return render(request, 'life/faq.html', context)
-
-    
