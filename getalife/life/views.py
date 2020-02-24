@@ -50,3 +50,7 @@ def register(request):
 def faq(request):
     context = None
     return render(request, 'life/faq.html', context)
+
+def about(request):
+    context = None
+    return render(request, 'life/about.html', context)
