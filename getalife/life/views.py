@@ -37,17 +37,29 @@ def register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        passrepeat = request.POST['passrepeat']
+        email = request.POST['email']
 
-        user = auth.authenticate(username=username, password=password)
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already taken')
+            return redirect('/register')
+
+        if email == '':
+            messages.error(request, 'Email is required')
+            return redirect('/register')
         
-        if user is not None:
-            auth.login(request, user)
-            return redirect('/')
-        else:
-            messages.info(request, 'Invalid Credentials')
-            return redirect('register')
-    else:
-        return render(request, 'life/register.html')
+        if len(password) <= 6:
+            messages.error(request, 'Password must be 7 or more characters')
+            return redirect('/register')
+
+        if password != passrepeat:
+            messages.error(request, 'Passwords do not match')
+            return redirect('/register')
+
+        user = User.objects.create_user(username=username, password=password,email=email)
+        user.save()
+        return redirect('/login')
+    return render(request, 'life/register.html')
 
 
 def faq(request):
