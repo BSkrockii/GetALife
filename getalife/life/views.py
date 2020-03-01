@@ -49,17 +49,21 @@ def register(request):
             messages.error(request, 'Username already taken')
             return render(request, 'life/register.html', context)
 
+        if len(username) < 3:
+            messages.error(request, 'Username must be at least 3 characters')
+            return render(request, 'life/register.html', context)
+
         if email == '':
             messages.error(request, 'Email is required')
-            return redirect('/register')
+            return render(request, 'life/register.html', context)
         
         if len(password) <= 6:
             messages.error(request, 'Password must be 7 or more characters')
-            return redirect('/register')
+            return render(request,'life/register.html', context)
 
         if password != passrepeat:
             messages.error(request, 'Passwords do not match')
-            return redirect('/register')
+            return render(request,'life/register.html', context)
 
         user = User.objects.create_user(username=username, password=password,email=email)
         user.save()
