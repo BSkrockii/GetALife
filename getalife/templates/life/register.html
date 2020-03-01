@@ -10,6 +10,8 @@
 {% block content %}
 
 <body>
+    <script type="text/javascript" src="{% static 'life/register.js' %}"></script>
+
     <!-- top navigation bar, link pages -->
     <nav class="nav justify-content-end">
         <a class="nav-link text-light" href="{% url 'index' %}">BACK</a>
@@ -43,21 +45,23 @@
                     </div>
                     <a class="email"><input type="text" name="email" {% if email %} value={{ email }} {% else %} placeholder="email" {% endif %}><br></a>
                 </div>
-
+                
                 <!-- password block for user to fill in -->
                 <div class="toppassword">
                     <div class="password-register" style="text-align: left">
                         <label for="password"><b>Password</b></label>
                     </div>
-                    <input type="password" name="password" placeholder="password"><br>
+                    <input id="password" type="password" name="password" placeholder="password">
+                    <img style="width: 24px; height: 24px; cursor: pointer;" src="{% static 'life/view.png' %}" onmousedown="mouseoverDown();" onmouseup="mouseoutUp();"/><br>
                 </div>
 
-                <!-- repeating password input for auth -->
+                <!-- repeating password input for auth -->0
                 <div class="passrepeat">
                     <div class="repeat-register" style="text-align: left">
                         <label for="passrepeat"><b>Re-Enter Password</b></label>
                     </div>
-                    <input type="password" name="passrepeat" placeholder="password"><br>
+                    <input id="passrepeat" type="password" name="passrepeat" placeholder="password">
+                    <img style="width: 24px; height: 24px; cursor: pointer;" src="{% static 'life/view.png' %}" onmousedown="mouseoverDownPassRepear();" onmouseup="mouseoutUpPassRepeat();" /><br>
                 </div>
 
                 {% if messages %}
