@@ -31,17 +31,17 @@
                 <!-- username block for user to fill in -->
                 <div class="topuser text-nowrap">
                     <div class="user-register" style="text-align: left">
-                        <label for="user"><b>Username</b></label>
+                        <label for="user"><b>Username*</b></label>
                     </div>
-                    <a class="email"><input type="text" name="username" placeholder="username"><br></a>
+                    <a class="email"><input type="text" name="username" {% if username %} value={{ username }} {% else %} placeholder="username" {% endif %}><br></a>
                 </div>       
 
                 <!-- email block for user to fill in -->
                 <div class="topuser text-nowrap">
                     <div class="user-register" style="text-align: left">
-                        <label for="user"><b>Email</b></label>
+                        <label for="user"><b>Email*</b></label>
                     </div>
-                    <a class="email"><input type="text" name="email" placeholder="email"><br></a>
+                    <a class="email"><input type="text" name="email" {% if email %} value={{ email }} {% else %} placeholder="email" {% endif %}><br></a>
                 </div>
 
                 <!-- password block for user to fill in -->

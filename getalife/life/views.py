@@ -40,9 +40,14 @@ def register(request):
         passrepeat = request.POST['passrepeat']
         email = request.POST['email']
 
+        context = {
+            "username": username,
+            "email" : email
+        }
+
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already taken')
-            return redirect('/register')
+            return render(request, 'life/register.html', context)
 
         if email == '':
             messages.error(request, 'Email is required')
