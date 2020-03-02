@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User, auth
+from django.http import JsonResponse
+import os
 
 # Create your views here.
 def index(request):
@@ -32,6 +34,13 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'life/login.html')
+
+def checkUsername(request):
+    username = request.GET['username']
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({'username':True})
+    return JsonResponse({'username':False})
+
 
 def register(request):
     if request.method == 'POST':
