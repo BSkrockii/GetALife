@@ -72,7 +72,7 @@ class BudgetAccount(View):
     def get(self, request):
         account = Budget_account.objects.filter(id=request.GET['id'])
         ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
+        return JsonResponse(ser, status = 200)
 
     # create and update
     def put(self, request):
@@ -80,7 +80,7 @@ class BudgetAccount(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
@@ -90,7 +90,7 @@ class BudgetAccount(View):
 class BudgetConfig(View):
     def get(self, request):
         account = Budget_config.objects.get(id=request.GET['id'])
-        return JsonResponse(account, status = 200, safe = False)
+        return JsonResponse(account, status = 200)
 
     # create and update
     def put(self, request):
@@ -98,7 +98,7 @@ class BudgetConfig(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
@@ -109,7 +109,7 @@ class BudgetIncome(View):
     def get(self, request):
         account = Budget_Income.objects.get(id=request.GET['id'])
         ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
+        return JsonResponse(ser, status = 200)
 
     # create and update
     def put(self, request):
@@ -117,7 +117,7 @@ class BudgetIncome(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
@@ -128,7 +128,7 @@ class BudgetExpense(View):
     def get(self, request):
         account = Budget_Expense.objects.get(id=request.GET['id'])
         ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
+        return JsonResponse(ser, status = 200)
 
     # create and update
     def put(self, request):
@@ -136,7 +136,7 @@ class BudgetExpense(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
@@ -148,7 +148,7 @@ class TypeIncome(View):
     def get(self, request):
         account = Income_Type.objects.get(id=request.GET['id'])
         ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
+        return JsonResponse(ser, status = 200)
 
     # create and update
     def put(self, request):
@@ -156,7 +156,7 @@ class TypeIncome(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
@@ -167,7 +167,7 @@ class TypeExpense(View):
     def get(self, request):
         account = Expense_Type.objects.get(id=request.GET['id'])
         ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
+        return JsonResponse(ser, status = 200)
 
     # create and update
     def put(self, request):
@@ -175,7 +175,7 @@ class TypeExpense(View):
         form = modelform(request.PUT)
         if form.is_Valid():
             form.save()
-            return JsonResponse({}, status = 200, safe = False)
+            return JsonResponse({}, status = 200)
         return JsonResponse({form})
         
     def delete(self, request):
