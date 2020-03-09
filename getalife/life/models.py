@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-from datetime import date
+from datetime import date, datetime
+from django.urls import reverse
 
 # models:
 class Month(models.IntegerChoices):
@@ -71,3 +72,17 @@ class Budget_config(models.Model):
     budget_limit = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
     month = models.IntegerField(choices=Month.choices, null=False)
+
+# calendar_event
+from django.urls import reverse
+
+class Event(models.Model):
+    title = models.CharField(max_length=200, default='SOME STRING')
+    description = models.TextField(null=True)
+    start_time = models.DateTimeField(default=datetime.now, blank=True)
+    end_time = models.DateTimeField(default=datetime.now, blank=True)
+
+    @property
+    def get_html_url(self):
+        url = reverse('life:event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.title} </a>'
