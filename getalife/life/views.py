@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User, auth
+from django.http import JsonResponse
+import os
 from django.views.generic import TemplateView, View
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
@@ -44,21 +46,50 @@ def login(request):
     else:
         return render(request, 'life/login.html')
 
+def checkUsername(request):
+    username = request.GET['username']
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({'username':True})
+    return JsonResponse({'username':False})
+
+
 def register(request):
+    print(request.POST)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        passrepeat = request.POST['passrepeat']
+        email = request.POST['email']
 
-        user = auth.authenticate(username=username, password=password)
+        context = {
+            "username": username,
+            "email" : email
+        }
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already taken')
+            return render(request, 'life/register.html', context)
+
+        if len(username) < 3:
+            messages.error(request, 'Username must be at least 3 characters')
+            return render(request, 'life/register.html', context)
+
+        if email == '':
+            messages.error(request, 'Email is required')
+            return render(request, 'life/register.html', context)
         
-        if user is not None:
-            auth.login(request, user)
-            return redirect('/')
-        else:
-            messages.info(request, 'Invalid Credentials')
-            return redirect('register')
-    else:
-        return render(request, 'life/register.html')
+        if len(password) <= 6:
+            messages.error(request, 'Password must be 7 or more characters')
+            return render(request,'life/register.html', context)
+
+        if password != passrepeat:
+            messages.error(request, 'Passwords do not match')
+            return render(request,'life/register.html', context)
+
+        user = User.objects.create_user(username=username, password=password,email=email)
+        user.save()
+        return redirect('/login')
+    return render(request, 'life/register.html')
 
 
 def faq(request):
