@@ -43,6 +43,7 @@ def checkUsername(request):
 
 
 def register(request):
+    print(request.POST)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
