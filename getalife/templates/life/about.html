@@ -1,0 +1,28 @@
+{% load static %}
+<html lang=en>
+    <head>
+        <meta charset="UTF-8">
+        <title>ABOUT</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/about.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    </head>
+
+    <body>
+        <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'index' %}">HOME</a>
+            <a class="nav-link text-light" href="{% url 'login' %}">SIGN IN</a>
+            <a class="nav-link text-light" href="{% url 'register' %}">SIGN UP</a>
+            <a class="nav-link text-light" href="{% url 'faq' %}">FAQ</a>
+            <a class="nav-link text-light" href="{% url 'about' %}">ABOUT</a>
+        </nav>
+
+        <h1 class="text-nowrap">About</h1>
+
+        <div class="container">
+            <div class="block-about"> 
+                <p>GetALife is a student led senior project based out of Metropolitan State University</p>
+            </div>
+        </div>
+    </body>
+</html>

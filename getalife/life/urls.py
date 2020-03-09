@@ -13,7 +13,11 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('about/', views.about, name='about'),
     path('signOut/', views.signOut, name='signOut'),
-
+    path('calendarFt/', views.CalendarView.as_view(), name='calendarFt'),
+    path('event/', views.event, name='event'),
+    path('event/edit/', views.event, name='event_edit'),
+  
+  
     # Model Access stuff
     path('api/budget/Account/', BudgetAccount.as_view()),
     path('api/budget/Config/', BudgetConfig.as_view()),
