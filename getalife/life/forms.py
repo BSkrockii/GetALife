@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-
+from django.forms import ModelForm, DateInput
 
 # put forms here
 
@@ -22,20 +22,18 @@ class IncomeTypeForm(forms.ModelForm):
 class BudgetExpenseForm(forms.ModelForm):
     class Meta:
         model = Budget_expense
-        fields = ('name', 'description', 'account', 'expenseTypeId', 'month', 'expense')
+        fields = ('name', 'description', 'account', 'expenseType', 'month', 'expense')
 
 class BudgetIncomeForm(forms.ModelForm):
     class Meta:
         model = Budget_income
-        fields = ('name', 'description', 'account', 'incomeTypeId', 'month', 'income')
+        fields = ('name', 'description', 'account', 'incomeType', 'month', 'income')
 
 class BudgetConfigForm(forms.ModelForm):
     class Meta:
         model = Budget_config
-        fields = ('name', 'descirption', 'budget_limit', 'accountId', 'month')
-=======
-from django.forms import ModelForm, DateInput
-from life.models import Event
+        fields = ('name', 'description', 'budget_limit', 'account', 'month')
+        
 
 class EventForm(ModelForm):
   class Meta:

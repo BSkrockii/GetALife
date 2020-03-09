@@ -59,7 +59,7 @@ class Budget_income(models.Model):
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
-    IncomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
+    incomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
     month = models.IntegerField(choices=Month.choices, null=False)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 

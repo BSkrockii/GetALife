@@ -217,7 +217,8 @@ class TypeExpense(View):
     def delete(self, request):
         Expense_Type.objects.get(id = request.DELETE('id')).delete()
         return JsonResponse({}, status=200) 
-=======
+
+        
 def calendarFt(request):
     context = None
     return render(request, 'life/calendarFt.html', context)
