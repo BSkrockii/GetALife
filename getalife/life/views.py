@@ -63,22 +63,22 @@ def signOut(request):
     auth.logout(request)
     return redirect('/login')
 
-def error_404(request):
+def error_404(request, exception):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'/template/error_404.html', context)
+    return render(request,'life/error_404.html', context)
 
 def error_404_demo(request):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'/template/error_404.html', context)
+    return render(request,'life/error_404.html', context)
 
 def error_500(request):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'/template/error_500.html', context)
+    return render(request,'life/error_500.html', context)
 
 def error_500_demo(request):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'/template/error_500.html', context)
+    return render(request,'life/error_500.html', context)

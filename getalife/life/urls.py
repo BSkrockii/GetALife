@@ -12,6 +12,8 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('about/', views.about, name='about'),
     path('signOut/', views.signOut, name='signOut'),
+    path('error_404_demo/', views.error_404_demo, name='404_Error'),
+    path('error_500_demo/', views.error_500_demo, name='500_Error'),
 ]
 
 #urlpatterns += staticfiles_urlpatterns()

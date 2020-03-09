@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+urlpatterns += staticfiles_urlpatterns()
+
 handler404 = life_views.error_404
 handler500 = life_views.error_500
-
-urlpatterns += staticfiles_urlpatterns()
