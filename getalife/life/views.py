@@ -1,8 +1,9 @@
+import os
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User, auth
+from django.conf import settings
 from django.http import JsonResponse
-import os
 from django.views.generic import TemplateView, View
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
@@ -104,6 +105,28 @@ def signOut(request):
     auth.logout(request)
     return redirect('/login')
 
+# Http Error Handling
+def error_404(request, exception):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request,'life/error_404.html', context)
+
+def error_404_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request,'life/error_404.html', context)
+
+def error_500(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request,'life/error_500.html', context)
+
+def error_500_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request,'life/error_500.html', context)
+
+# Restful api
 class BudgetAccount(View):
     def get(self, request):
         account = Budget_account.objects.filter(id=request.GET['id'])
