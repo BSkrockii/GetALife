@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load static %}
+<html>
+    <body>
+    {% block content %}
+
+        <div class="nextprev">
+	        <a class="btn btn-info left" href="{% url 'calendarFt' %}?{{ prev_month }}"> Previous Month </a>
+            <a class="btn btn-info right" href="{% url 'calendarFt' %}?{{ next_month }}"> Next Month </a>
+            <a class="btn btn-info right" href="{% url 'event' %}"> New Event </a>
+        </div>
+
+        <table border="0" cellpadding="0" cellspacing="0" class="calendar top top-buffer">
+            {{calendar}}
+        </table>
+
+    {% endblock content %}
+    </body>
+</html>
