@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+	
+</head>
+
+{% block content %}
+
+<body class="cost-bg">
+	
+    <nav class="nav justify-content-end">
+        <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+	</nav>
+
+	<nav class="container">
+		<a href="{% url 'finance' %}" class="statdis">Stats</a>
+		<br><br>
+		<a href="#" class="quickuse">Def1</a>
+		<a href="#" class="quickuse">Def2</a>
+		<a href="#" class="quickuse">Def3</a>
+		<a href="#" class="quickuse">Def4</a>
+		<br><br>
+		<input type="text" name="source" placeholder="source">
+		<br><br>
+		<input type="number" name="amount" placeholder="amount">
+		<br><br>
+		<a href="{% url 'finance' %}" class="addcost">Add Cost</a>
+	</nav>
+	
+    <nav class="navbar justify-content-start">
+        <a href="{% url 'home' %}" class="active">HOME</a>
+		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
+    </nav>
+
+
+</body>
+{% endblock content %}
+
+</html>

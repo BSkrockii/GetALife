@@ -7,6 +7,18 @@ def index(request):
     context = None
     return render(request, 'life/index.html', context)
 
+def finance(request):
+    context = None
+    return render(request, 'life/finance.html', context)
+
+def cost(request):
+    context = None
+    return render(request, 'life/cost.html', context)
+
+def pay(request):
+    context = None
+    return render(request, 'life/pay.html', context)
+
 def home(request):
     #return HttpResponseRedirect(
     #    reverse(NAME_OF_PROFILE_VIEW, args=[request.user.username])
