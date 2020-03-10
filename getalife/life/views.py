@@ -25,7 +25,7 @@ def index(request):
 def home(request):
     if request.user.is_authenticated:
         context = None
-        return render(request, 'life/home.html', context)
+        return render(request, 'life/dashboard.html', context)
     return redirect('/login')
     
 
