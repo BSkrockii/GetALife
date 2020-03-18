@@ -5,49 +5,52 @@ html {
     background-size: cover;
     }
 
-.statbox {
-    text-align: center;
-    border-radius: 25px;
-    background: #DBDBDB;
-    padding: 10px 10px;
-    font-size: 30px;
-    color: white;
-    border: 4px solid grey;
-    width: 340px;
+.container {
+    font-family: Helvetica;    
 }
 
-.addcost {
+.finance-stats {
+    position: absolute;
+    display: block;
+    margin-top: 2%;
+    margin-left: 60%;
+    width: 250px;
     text-align: center;
-    border-radius: 25px;
-    background: #DBDBDB;
-    padding: 10px 10px;
-    font-size: 30px;
-    color: white;
-    border: 4px solid grey;
-    width: 340px;
+    text-shadow: 0px 1px 3px rgb(100, 100, 100);
+    opacity: 85%;
 }
 
-.addpay {
+.finance-mystats {
+    position: absolute;
+    display: block;
+    margin-top: 2%;
+    margin-left: -10%;
+    width: 250px;
     text-align: center;
-    border-radius: 25px;
-    background: #DBDBDB;
-    padding: 10px 10px;
-    font-size: 30px;
-    color: white;
-    border: 4px solid grey;
-    width: 340px;
+    text-shadow: 0px 1px 3px rgb(100, 100, 100);
+    opacity: 85%;
 }
 
-.statdis {
-    float: right;
+.finance-pay {
+    position: absolute;
+    display: block;
+    margin-top: 9%;
+    margin-left: -10%;
+    width: 250px;
     text-align: center;
-    border-radius: 25px;
-    background: #DBDBDB;
-    padding: 10px 10px;
-    font-size: 30px;
-    color: white;
-    border: 4px solid grey;
-    width: 340px;
+    text-shadow: 0px 1px 3px rgb(100, 100, 100);
+    opacity: 85%;
+}
+
+.finance-cost {
+    position: absolute;
+    display: block;
+    margin-top: 16%;
+    margin-left: -10%;
+    width: 250px;
+    text-align: center;
+    text-shadow: 0px 1px 3px rgb(100, 100, 100);
+    opacity: 85%;
 }
 	
 .navbar {
@@ -71,18 +74,14 @@ html {
 }
 
 .navbar a:hover {
-    color: rgb(131, 131, 131);
+    color: rgb(51, 51, 51);
 }
 
-.home-bg {
+.finance-bg {
     background-image: url("../img/home.JPG");
     background-repeat: no-repeat;
     background-position-x: 20%;
     background-position-y: -200px;
     background-color: #D2D6DD;
     color: #fff;
-}
-
-.navbar a:hover {
-    color: rgb(131, 131, 131);
 }
