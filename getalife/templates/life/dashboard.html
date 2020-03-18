@@ -1,4 +1,26 @@
+{% extends 'base.html' %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <!--INSERT HTML FOR DASHBOARD HERE-->
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    {% block content %}
+    <body>
+        <nav class="nav justify-content-end">
+            <a class="nav-link text-light" href="{% url 'signOut' %}">SIGN OUT</a>
+        </nav>
+    
+        <nav class="navbar justify-content-start">
+            <a href="{% url 'home' %}" class="active">HOME</a>
+            <a href="{% url 'finance' %}" class="active">FINANCE</a>
+            <a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
+        </nav>
+
+        <h1 class="main-dashboard text-center display-1">///DASHBOARD PAGE///</h1>
+        <h2 class="submain-dashboard text-center">//do something//</do></h2>
+    </body>
+    {% endblock content %}
+
 </html>

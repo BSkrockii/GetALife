@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+	
+</head>
+
+{% block content %}
+
+<body class="pay-bg">
+	
+    <nav class="nav justify-content-end">
+        <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+	</nav>
+
+	<nav class="container">
+		<a href="{% url 'finance' %}" class="statdis">Stats</a>
+		<br><br>
+		<a href="#" class="quickuse">Def1</a>
+		<a href="#" class="quickuse">Def2</a>
+		<a href="#" class="quickuse">Def3</a>
+		<a href="#" class="quickuse">Def4</a>
+		<br><br>
+		<input type="text" name="source" placeholder="source">
+		<br><br>
+		<input type="number" name="money" value="10" required>
+		<br><br>
+		<a href="{% url 'finance' %}" class="addcost">Add Pay</a>
+		<th>Debug:</th>
+		<th id="money-test"></th>
+	</nav>
+	
+    <nav class="navbar justify-content-start">
+        <a href="{% url 'home' %}" class="active">HOME</a>
+		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
+    </nav>
+	
+	<script>
+		
+		document.source.oninput = adjustvis;
+		document.money.oninput = adjustvis;
+		
+		function adjustvis() {
+		
+			let test = document.getElementById('money').value;
+			document.getElementById('money-test').innerHTML = document.money.value;
+		}
+		
+		adjustvis();
+		
+	</script>
+
+
+</body>
+{% endblock content %}
+
+</html>
