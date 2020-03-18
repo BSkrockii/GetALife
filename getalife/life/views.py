@@ -19,7 +19,7 @@ from .models import *
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        redirect('/home')
+        redirect('/dashboard')
     return render(request, 'life/index.html')
 
 def finance(request):
@@ -35,6 +35,12 @@ def pay(request):
     return render(request, 'life/pay.html', context)
 
 def home(request):
+    if request.user.is_authenticated:
+        context = None
+        return render(request, 'life/home.html', context)
+    return redirect('/login')
+
+def dashboard(request):
     if request.user.is_authenticated:
         context = None
         return render(request, 'life/dashboard.html', context)
