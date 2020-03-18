@@ -3,34 +3,39 @@
 
 <head>
     <meta charset="utf-8">
-	
 </head>
 
 {% block content %}
-
 <body class="finance-bg">
 	
     <nav class="nav justify-content-end">
         <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
 	</nav>
-
-	<nav class="container">
-		<a href="#" class="statbox">My Stats</a>
-		<a href="#" class="statdis">Stats</a>
-		<br><br><br>
-		<a href="{% url 'pay' %}" class="addpay">Add Pay</a>
-		<br><br><br>
-		<a href="{% url 'cost' %}" class="addcost">Add Cost</a>
-		<br><br>
-	</nav>
 	
     <nav class="navbar justify-content-start">
         <a href="{% url 'home' %}" class="active">HOME</a>
 		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
-    </nav>
-
+	</nav>
+	
+	<div class="container">
+		<div class="finance-mystats">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-mystats btn-success btn-lg btn-block text-white">MY STATS</button></a>
+		</div>
+		
+		<div class="finance-stats">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-stats btn-warning btn-lg btn-block text-white">STATS</button></a>
+		</div>
+		
+		<div class="finance-pay">
+			<a href="{% url 'pay' %}" style="text-decoration:none"><button type="button" class="btn-pay btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+		</div>
+	
+		<div class="finance-cost">
+			<a href="{% url 'cost' %}" style="text-decoration:none"><button type="button" class="btn-cost btn-secondary btn-lg btn-block text-white">ADD COST</button></a>
+		</div>
+	</div>
 
 </body>
 {% endblock content %}
 
-</html>
+</html>	
