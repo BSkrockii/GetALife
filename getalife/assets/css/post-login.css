@@ -13,17 +13,29 @@ html {
 .navbar {
     font-family: Helvetica;
     font-weight: lighter;
-    background-color: #333;
+    color: black;
+    background-color: rgb(206, 206, 206);
     overflow: hidden;
     position: fixed;
-    bottom: 0;
     width: 100%;
+    padding: 18px 20px;
+}
+
+.nav-item{
+    padding-left: 25px;
+    padding-right: 30px;
+}
+
+.active{
+    margin-left: 75px;
+    background-color: rgb(91, 223, 157);
+    border-radius: 15px
 }
 
 .navbar a {
     float: left;
     display: block;
-    color: #f2f2f2;
+    color: #000000;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
