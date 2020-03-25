@@ -55,6 +55,7 @@
 }
 */
 
+/* make body background be in index-bg for consolidation */
 body { 
     background-image: url("../img/LBG.jpg");
     background-repeat: no-repeat;
