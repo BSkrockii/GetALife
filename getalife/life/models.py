@@ -74,15 +74,12 @@ class Budget_config(models.Model):
     month = models.IntegerField(choices=Month.choices, null=False)
 
 # calendar_event
-from django.urls import reverse
 
-class Event(models.Model):
-    title = models.CharField(max_length=200, default='SOME STRING')
-    description = models.TextField(null=True)
-    start_time = models.DateTimeField(default=datetime.now, blank=True)
-    end_time = models.DateTimeField(default=datetime.now, blank=True)
-
-    @property
-    def get_html_url(self):
-        url = reverse('life:event_edit', args=(self.id,))
-        return f'<a href="{url}"> {self.title} </a>'
+class Events(models.Model):
+    event_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event_name = models.CharField(max_length=255,null=True,blank=True)
+    start_date = models.DateField(null=True,blank=True)
+    end_date = models.DateField(null=True,blank=True)
+    event_type = models.CharField(max_length=10,null=True,blank=True)
+    amount = models.FloatField(blank=True, default=0)

@@ -7,14 +7,14 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView, View
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-from django.forms.models import modelform_factory
+from django.forms.models import modelform_factory, model_to_dict
 from datetime import datetime, timedelta, date
 from django.views import generic
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-from .utils import Calendar
-from .forms import EventForm
 from .models import *
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
@@ -247,52 +247,25 @@ def calendarFt(request):
     return render(request, 'life/calendarFt.html', context)
 
 def event(request):
-    context = None
-    return render(request, 'life/event.html', context)
+    all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+    return JsonResponse(all_events, safe=False)
 
-class CalendarView(generic.ListView):
-    model = Event
-    template_name = 'life/calendarFt.html'
+@csrf_exempt
+def saveEvent(request):
+    if request.user.is_authenticated:
+        formatedDate = datetime.strptime(request.POST['date'], '%m/%d/%Y')
+        event = Events(event_name=request.POST['event'],
+                start_date=formatedDate, 
+                end_date=formatedDate, 
+                event_type='expense',
+                amount=request.POST['amount'],
+                user_id=request.user)
+        event.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        d = get_date(self.request.GET.get('day', None))
-        calendar = Calendar(d.year, d.month)
-        html_cal = calendar.formatmonth(withyear=True)
-        context['calendar'] = mark_safe(html_cal)
-        d = get_date(self.request.GET.get('month', None))
-        context['prev_month'] = prev_month(d)
-        context['next_month'] = next_month(d)
-        return context
-
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
-    return datetime.today()
-
-def prev_month(d):
-    first = d.replace(day=1)
-    prev_month = first - timedelta(days=1)
-    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-    return month
-
-def next_month(d):
-    days_in_month = calendar.monthrange(d.year, d.month)[1]
-    last = d.replace(day=days_in_month)
-    next_month = last + timedelta(days=1)
-    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-    return month
-
-def event(request, event_id=None):
-    instance = Event()
-    if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
-    else:
-        instance = Event()
+    return JsonResponse({'id':event.pk}, status=200)
     
-    form = EventForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('calendarFt'))
-    return render(request, 'life/event.html', {'forms': form})
+@csrf_exempt
+def deleteEvent(request):
+    event = Events.objects.filter(user_id=request.user, event_id=request.POST['id'])
+    event.delete()
+    return JsonResponse({}, status=200)
