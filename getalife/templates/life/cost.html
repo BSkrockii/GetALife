@@ -14,26 +14,38 @@
         <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
 	</nav>
 
-	<nav class="container">
-		<a href="{% url 'finance' %}" class="statdis">Stats</a>
-		<br><br>
-		<a href="#" class="quickuse">Def1</a>
-		<a href="#" class="quickuse">Def2</a>
-		<a href="#" class="quickuse">Def3</a>
-		<a href="#" class="quickuse">Def4</a>
-		<br><br>
-		<input type="text" name="source" placeholder="source">
-		<br><br>
-		<input type="number" name="amount" placeholder="amount">
-		<br><br>
-		<a href="{% url 'finance' %}" class="addcost">Add Cost</a>
-	</nav>
-	
-    <nav class="navbar justify-content-start">
+	<nav class="navbar justify-content-start">
         <a href="{% url 'home' %}" class="active">HOME</a>
 		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
     </nav>
 
+	<nav class="container">
+		<div class="cost-stats">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-paystats btn-warning btn-lg btn-block text-white">STATS</button></a>
+		</div>
+
+		<div class="cost-quarter">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+		</div>
+
+		<div class="cost-source">
+			<input type="text" name="source" placeholder="source">
+		</div>
+	
+		<div class="cost-money">
+			<input type="number" name="money" value="10" required>
+		</div>
+		
+		<div class="cost-addcost">
+			<a href="{% url 'finance' %}" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD COST</button></a>
+		</div>
+	</nav>
+	
+
+    
 
 </body>
 {% endblock content %}
