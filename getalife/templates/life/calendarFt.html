@@ -1,18 +1,46 @@
-{% extends 'base.html' %} {% load static %}
-<html>
-    <body>
-    {% block content %}
+{% load static %}
 
-        <div class="nextprev">
-	        <a class="btn btn-info left" href="{% url 'calendarFt' %}?{{ prev_month }}"> Previous Month </a>
-            <a class="btn btn-info right" href="{% url 'calendarFt' %}?{{ next_month }}"> Next Month </a>
-            <a class="btn btn-info right" href="{% url 'event' %}"> New Event </a>
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/bootstrap/main.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/bootstrap/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/interaction/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/list/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/moment/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/rrule/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/luxon/main.min.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="{% static 'life/calendar.js' %}"></script>
+<link rel="stylesheet" href="{% static 'life/calendar.css' %}">
+
+<div class="wrapper">
+    <div class="left">
+        <div id='calendar'></div>
+    </div>
+
+    <div class="right">
+        <div class="date">
+            <span id="currentDate"></span><br>
         </div>
-
-        <table border="0" cellpadding="0" cellspacing="0" class="calendar top top-buffer">
-            {{calendar}}
-        </table>
-
-    {% endblock content %}
-    </body>
-</html>
+        <div class="eventTable">
+            <table id="events">
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        <button class="addEvent" id="addEvent" onclick="openForm()">+</button>
+    </div>
+</div>
+{% endblock content %}

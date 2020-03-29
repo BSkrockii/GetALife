@@ -14,9 +14,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('signOut/', views.signOut, name='signOut'),
     path('checkUsername/', views.checkUsername, name='checkUsername'),
-    path('calendarFt/', views.CalendarView.as_view(), name='calendarFt'),
-    path('event/', views.event, name='event'),
-    path('event/edit/', views.event, name='event_edit'),
+    path('calendarFt/', views.calendarFt, name='calendarFt'),
   
     # Model Access
     path('api/budget/Account/', BudgetAccount.as_view()),
@@ -29,6 +27,10 @@ urlpatterns = [
     #HTTP error Handling
     path('error_404_demo/', views.error_404_demo, name='404_Error'),
     path('error_500_demo/', views.error_500_demo, name='500_Error'),
+
+    path('event/', views.event, name='event'),
+    path('saveEvent/', views.saveEvent, name='saveEvent'),
+    path('deleteEvent/', views.deleteEvent, name='deleteEvent'),
 ]
 
 #urlpatterns += staticfiles_urlpatterns()

@@ -1,0 +1,121 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 1em;
+  }
+.left {
+    background-color: #eee;
+}
+/*
+.right {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: #ddd;
+    grid-auto-rows: 100px;
+    grid-gap: 1em;
+}
+.date {
+    grid-column: 1/4;
+    background-color: blue;
+}
+.eventTable {
+    background-color: brown;
+    grid-column: 1/4;
+}
+.row {
+    align-self: start;
+    background-color: cadetblue;
+}
+
+.eventTable {
+    display: grid;
+    border-collapse: initial;
+    grid-template-columns: 4fr 1fr
+    
+}
+
+.eventTable th {
+    position: sticky;
+    background-color: rgba(0, 0, 139, 0.507);
+    
+}*/
+.eventTable table {
+    display: grid;
+    border-collapse: collapse;
+    min-width: 100%;
+    /* These are just initial values which are overriden using JavaScript when a column is resized */
+    grid-template-columns: 1fr 1fr 1fr 1fr
+  }
+  
+  .eventTable thead,
+  .eventTable tbody,
+  .eventTable tr {
+    display: contents;
+  }
+  
+  .eventTable th,
+  .eventTable td {
+    padding: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .eventTable th {
+    position: sticky;
+    top: 0;
+    background: #6c7ae0;
+    text-align: left;
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: white;
+    position: relative;
+    grid-row: 1 / 4;
+  }
+  
+  .eventTable th:last-child {
+    border: 0;
+  }
+  
+.ellipsis {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1em;  
+    font-size: 1em
+}
+.deleteEvent {
+    background: transparent;
+    border: 1px solid #f00;
+    border-radius: 2em;
+    color: #f00;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    line-height: 2px;
+    margin: 0 0 8px;
+    padding: 0;
+    text-align: center;
+    width: 20px;
+}
+
+.addEvent {
+    color: #4CAF50; /* Green */
+    border: none;
+    background-color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: flex; 
+    justify-content: center;
+    font-size: 2em;
+    margin: auto;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
