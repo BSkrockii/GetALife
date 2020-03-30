@@ -13,29 +13,40 @@
     <nav class="nav justify-content-end">
         <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
 	</nav>
-
-	<nav class="container">
-		<a href="{% url 'finance' %}" class="statdis">Stats</a>
-		<br><br>
-		<a href="#" class="quickuse">Def1</a>
-		<a href="#" class="quickuse">Def2</a>
-		<a href="#" class="quickuse">Def3</a>
-		<a href="#" class="quickuse">Def4</a>
-		<br><br>
-		<input type="text" name="source" placeholder="source">
-		<br><br>
-		<input type="number" name="money" value="10" required>
-		<br><br>
-		<a href="{% url 'finance' %}" class="addcost">Add Pay</a>
-		<th>Debug:</th>
-		<th id="money-test"></th>
-	</nav>
-	<!--
-    <nav class="navbar justify-content-start">
+  
+	<nav class="navbar justify-content-start">
         <a href="{% url 'home' %}" class="active">HOME</a>
 		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
     </nav>
-	-->
+
+	<nav class="container">
+		<div class="pay-stats">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-paystats btn-warning btn-lg btn-block text-white">STATS</button></a>
+		</div>
+
+		<div class="pay-quarter">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+		</div>
+
+		<div class="pay-source">
+			<input type="text" name="source" placeholder="source">
+		</div>
+	
+		<div class="pay-money">
+			<input type="number" name="money" value="10" required>
+		</div>
+		
+		<div class="pay-addcost">
+			<a href="{% url 'finance' %}" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+		</div>
+
+		<th hidden>Debug:</th>
+		<th id="money-test"></th>
+	</nav>
+  
 	<script>
 		
 		document.source.oninput = adjustvis;
