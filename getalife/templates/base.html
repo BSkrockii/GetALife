@@ -12,7 +12,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
     <link rel="stylesheet" type="text/css" href="{'% static 'css/calendarFt.css' %}">
-    <link rel="stylesheet" href="{% static 'css/event.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/event.css' %}">
     <link rel="stylesheet" href="{% static 'css/pre-login.css' %}">
     <link rel="stylesheet" href="{% static 'css/post-login.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -22,9 +22,34 @@
     <link rel="stylesheet" href="{% static 'css/finance.css' %}">
     <link rel="stylesheet" href="{% static 'css/cost.css' %}">
     <link rel="stylesheet" href="{% static 'css/pay.css' %}">
+    -->
+    <link rel="stylesheet" href="{% static 'css/pre-login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post-login.css' %}">
     <!--Navbar-->
     {% if user.is_authenticated %}
-    Navbar for user logged in, hello there
+    <nav class="navbar navbar-expand-lg navbar-light primary-color">
+        <img src="{% static 'img/default-profile.png' %}" class="border border-secondary rounded-circle" alt="profile-image" width="60" height="60">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'finance' %}">Budget</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     {% else %}
     Navbar for anonymous user
     {% endif %}
