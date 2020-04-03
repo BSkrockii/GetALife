@@ -9,7 +9,7 @@ html {
 .container {
     font-family: Helvetica;    
 }
-
+/* Navbar CSS */
 .navbar {
     font-family: Helvetica;
     font-weight: lighter;
@@ -45,7 +45,7 @@ html {
 .navbar a:hover {
     color: rgb(131, 131, 131);
 }
-
+/* End Navbar CSS */
 .home-bg {
     background-image: url("../img/home.JPG");
     background-repeat: no-repeat;
