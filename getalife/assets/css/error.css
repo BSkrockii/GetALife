@@ -1,5 +1,19 @@
-body {
+.error-body-1 {
     background: linear-gradient(to bottom, #ffffff 0%, #223252 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.error-body-2 {
+    background: linear-gradient(to bottom, #ffffff 0%, #225228 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.error-body-3 {
+    background: linear-gradient(to bottom, #ffffff 0%, #924d2d 110%);
     width: 960px;
     margin: 0 auto;
     height: 960px;
