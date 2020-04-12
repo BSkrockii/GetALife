@@ -19,6 +19,13 @@
     height: 960px;
 }
 
+.error-body-4 {
+    background: linear-gradient(to bottom, #ffffff 0%, #b92222 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
 .gif {
     padding: 40px 0px 20px 130px;
     top: 60px;
@@ -26,6 +33,11 @@
 
 .gif-1 {
     padding: 40px 0px 20px 160px;
+    top: 60px;
+}
+
+.gif-2 {
+    padding: 40px 0px 20px 120px;
     top: 60px;
 }
 
