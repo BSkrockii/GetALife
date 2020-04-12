@@ -18,7 +18,7 @@ from django.urls import include, path
 from life import views as life_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
-from django.conf.urls import handler404, handler500
+from django.conf.urls import handler400, handler403, handler404, handler500
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -28,5 +28,7 @@ urlpatterns = [
 
 urlpatterns += staticfiles_urlpatterns()
 
+handler400 = life_views.error_400
+handler403 = life_views.error_403
 handler404 = life_views.error_404
 handler500 = life_views.error_500
