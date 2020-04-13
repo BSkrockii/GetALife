@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'life'
+    'life',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
 # https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-LOGIN_REDIRECT_URL
 
 #LOGIN_REDIRECT_URL = 'home/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}

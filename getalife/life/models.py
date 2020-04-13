@@ -74,7 +74,6 @@ class Budget_config(models.Model):
     month = models.IntegerField(choices=Month.choices, null=False)
 
 # calendar_event
-
 class Events(models.Model):
     event_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
