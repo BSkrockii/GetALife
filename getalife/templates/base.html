@@ -35,13 +35,12 @@
                     <a class="nav-link" href="{% url 'finance' %}">Budget</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
+                    <a class="nav-link" href="{% url 'signOut' %}">Sign Out</a>
                 </li>
             </ul>
         </div>
     </nav>
     {% else %}
-    Navbar for anonymous user
     {% endif %}
 </head>
 
