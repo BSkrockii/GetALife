@@ -106,6 +106,26 @@ def signOut(request):
     return redirect('/login')
 
 # Http Error Handling
+def error_400(request, exception):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_400.html', context)
+
+def error_400_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_400.html', context)
+
+def error_403(request, exception):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_403.html', context)
+
+def error_403_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_403.html', context)
+
 def error_404(request, exception):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
