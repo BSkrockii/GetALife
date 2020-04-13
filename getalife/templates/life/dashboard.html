@@ -8,20 +8,62 @@
 
     {% block content %}
     <body>
-        <!--
-        <nav class="nav justify-content-end">
-            <a class="nav-link text-light" href="{% url 'signOut' %}">SIGN OUT</a>
-        </nav>
-    
-        <nav class="navbar justify-content-start">
-            <a href="{% url 'home' %}" class="active">HOME</a>
-            <a href="{% url 'finance' %}" class="active">FINANCE</a>
-            <a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
-        </nav>
-    -->
-        <h1 class="main-dashboard text-center display-1">///DASHBOARD PAGE///</h1>
-        <h2 class="submain-dashboard text-center">//do something//</do></h2>
+
+     <!--Calendar Header-->
+    <div class="calendarHeader">
+        <span id="currentDate" class="currentDate">date</span>
+
+        <span id="year" class="year">year</span>
+
+    </div>
+
+     <div style="clear: both;"></div>
+
+
+     <script>
+          var today = new Date();
+          var year = today.getFullYear();
+          var month = today.getMonth();
+          var day = today.getDate();
+          var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+          var selectedMonth = monthsInText[month];
+          document.getElementById("year").innerHTML = year;
+          document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
+     </script>
+
+    <!--Events-->
+    <div>
+        <!--Need to update with calendarFt post pull-->
+        <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
+
+    </div>
+
+
+
+
+     <div class="upcomingEventsBox">
+            <p>Implement Calendar Here</p>
+     </div>
+
+
+
+
+    <!--Budgets-->
+    <div>
+        <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
+    </div>
+
+    <div class="budgetReportBox">
+            <p>Implement Budget Here</p>
+     </div>
+
+
     </body>
+
+
+
+
     {% endblock content %}
+
 
 </html>

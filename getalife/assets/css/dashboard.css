@@ -1,3 +1,63 @@
 /*
-* CREATE DASHBOARD CSS HERE
+DASHBOARD CSS
 */
+
+body{
+    background-image: url("../img/home.JPG");
+
+}
+
+.calendarHeader{
+      border-bottom: 2px solid black;
+
+}
+
+.currentDate{
+    text-align: left;
+
+
+}
+
+.year{
+    float: right;
+
+
+}
+
+.upcomingEventsButton{
+    background-color: #cdffe7;
+    border-radius: 8px;
+    border: none;
+}
+
+
+.upcomingEventsButton:hover{
+    background-color: #1bc47d;
+    border-radius: 8px;
+    border: none;
+}
+
+
+.upcomingEventsBox{
+    background-color: white;
+
+}
+
+
+.budgetReportButton{
+    background-color: #cdffe7;
+    border-radius: 8px;
+    border: none;
+}
+
+
+.budgetReportButton:hover{
+    background-color: #1bc47d;
+    border-radius: 8px;
+    border: none;
+}
+
+.budgetReportBox{
+    background-color: white;
+
+}

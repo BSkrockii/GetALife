@@ -1,4 +1,14 @@
-/* Dashboard CSS */
+
+
+/*Base.html CSS*/
+
+body {
+    margin-top: 150px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
 html {
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -6,19 +16,27 @@ html {
     background-size: cover;
 }
 
+
 .container {
-    font-family: Helvetica;    
+    font-family: Helvetica;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-right: 400px;
+    margin-left: 400px;
+
 }
+
 /* Navbar CSS */
 .navbar {
     font-family: Helvetica;
     font-weight: lighter;
     color: black;
-    background-color: rgb(231, 231, 231);
+    position: fixed;
+    top: 0px;
+    left: 0px;
     overflow: hidden;
-    position: relative;
-    width: 100%;
-    padding: 18px 20px;
+    width: 200%;
+    background-color: rgb(231, 231, 231);
 }
 
 .nav-item{
@@ -53,6 +71,14 @@ html {
     background-position-y: -200px;
     background-color: #D2D6DD;
     color: #fff;
+
+}
+
+.month{
+    margin-top: 50px;
+    margin-right: 400px;
+    margin-left: 410px;
+
 }
 
 .curmonth {
@@ -185,7 +211,7 @@ span.event-ghost {
     text-shadow: 0px 1px 3px rgb(100, 100, 100);
 }
 
-.pay-stats{ 
+.pay-stats{
     position: absolute;
     display: block;
     margin-top: 2%;
@@ -237,7 +263,7 @@ span.event-ghost {
     text-shadow: 0px 1px 3px rgb(100, 100, 100);
 }
 
-.cost-stats{ 
+.cost-stats{
     position: absolute;
     display: block;
     margin-top: 2%;
@@ -247,7 +273,7 @@ span.event-ghost {
     text-shadow: 0px 1px 3px rgb(100, 100, 100);
 }
 
-/* Finance CSS */
+/* CSS */
 
 .finance-stats {
     position: absolute;
