@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+	
+</head>
+
+{% block content %}
+
+<body class="pay-bg">
+	
+    <nav class="nav justify-content-end">
+        <a class="nav-link text-light" href="{% url 'index' %}">SIGN OUT</a>
+	</nav>
+  
+	<nav class="navbar justify-content-start">
+        <a href="{% url 'home' %}" class="active">HOME</a>
+		<a href="https://github.com/BSkrockii/GetALife/issues">CONTACT</a>
+    </nav>
+
+	<nav class="container">
+		<div class="pay-stats">
+			<a href="{% url 'finance' %}" style="text-decoration:none"><button type="button" class="btn-paystats btn-warning btn-lg btn-block text-white">STATS</button></a>
+		</div>
+
+		<div class="pay-quarter">
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+			<a href="#" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+		</div>
+
+		<div class="pay-source">
+			<input type="text" name="source" placeholder="source">
+		</div>
+	
+		<div class="pay-money">
+			<input type="number" name="money" value="10" required>
+		</div>
+		
+		<div class="pay-addcost">
+			<a href="{% url 'finance' %}" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+		</div>
+
+		<th hidden>Debug:</th>
+		<th id="money-test"></th>
+	</nav>
+  
+	<script>
+		
+		document.source.oninput = adjustvis;
+		document.money.oninput = adjustvis;
+		
+		function adjustvis() {
+		
+			let test = document.getElementById('money').value;
+			document.getElementById('money-test').innerHTML = document.money.value;
+		}
+		
+		adjustvis();
+		
+	</script>
+
+
+</body>
+{% endblock content %}
+
+</html>
