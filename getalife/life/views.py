@@ -1,4 +1,5 @@
 import os
+import json
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User, auth
@@ -7,14 +8,17 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView, View
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-from django.forms.models import modelform_factory
+from django.forms.models import modelform_factory, model_to_dict
 from datetime import datetime, timedelta, date
 from django.views import generic
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-from .utils import Calendar
-from .forms import EventForm
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from .serializers import *
 
 # Create your views here.
 def index(request):
@@ -124,6 +128,26 @@ def signOut(request):
     return redirect('/login')
 
 # Http Error Handling
+def error_400(request, exception):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_400.html', context)
+
+def error_400_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_400.html', context)
+
+def error_403(request, exception):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_403.html', context)
+
+def error_403_demo(request):
+    context = {}
+    context = {"project_name":settings.PROJECT_NAME}
+    return render(request, 'life/error_403.html', context)
+
 def error_404(request, exception):
     context = {}
     context = {"project_name":settings.PROJECT_NAME}
@@ -144,173 +168,172 @@ def error_500_demo(request):
     context = {"project_name":settings.PROJECT_NAME}
     return render(request,'life/error_500.html', context)
 
-# Restful api
-class BudgetAccount(View):
-    def get(self, request):
-        account = Budget_account.objects.filter(id=request.GET['id'])
-        ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Budget_account)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Budget_account.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200)
-
-class BudgetConfig(View):
-    def get(self, request):
-        account = Budget_config.objects.get(id=request.GET['id'])
-        return JsonResponse(account, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Budget_config)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Budget_config.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200)
-
-class BudgetIncome(View):
-    def get(self, request):
-        account = Budget_Income.objects.get(id=request.GET['id'])
-        ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Budget_Income)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Budget_Income.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200)
-
-class BudgetExpense(View):
-    def get(self, request):
-        account = Budget_Expense.objects.get(id=request.GET['id'])
-        ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Budget_Expense)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Budget_Expense.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200) 
-
-
-class TypeIncome(View):
-    def get(self, request):
-        account = Income_Type.objects.get(id=request.GET['id'])
-        ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Income_Type)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Income_Type.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200) 
-
-class TypeExpense(View):
-    def get(self, request):
-        account = Expense_Type.objects.get(id=request.GET['id'])
-        ser = serializers.serialize('json', account)
-        return JsonResponse(ser, status = 200, safe = False)
-
-    # create and update
-    def put(self, request):
-        modelForm = modelform_factory(Expense_Type)
-        form = modelform(request.PUT)
-        if form.is_Valid():
-            form.save()
-            return JsonResponse({}, status = 200, safe = False)
-        return JsonResponse({form})
-        
-    def delete(self, request):
-        Expense_Type.objects.get(id = request.DELETE('id')).delete()
-        return JsonResponse({}, status=200) 
-
-        
 def calendarFt(request):
     context = None
     return render(request, 'life/calendarFt.html', context)
 
 def event(request):
-    context = None
-    return render(request, 'life/event.html', context)
+    all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+    return JsonResponse(all_events, safe=False)
 
-class CalendarView(generic.ListView):
-    model = Event
-    template_name = 'life/calendarFt.html'
+@csrf_exempt
+def saveEvent(request):
+    if request.user.is_authenticated:
+        formatedDate = datetime.strptime(request.POST['date'], '%m/%d/%Y')
+        event = Events(event_name=request.POST['event'],
+                start_date=formatedDate, 
+                end_date=formatedDate, 
+                event_type='expense',
+                amount=request.POST['amount'],
+                user_id=request.user)
+        event.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        d = get_date(self.request.GET.get('day', None))
-        calendar = Calendar(d.year, d.month)
-        html_cal = calendar.formatmonth(withyear=True)
-        context['calendar'] = mark_safe(html_cal)
-        d = get_date(self.request.GET.get('month', None))
-        context['prev_month'] = prev_month(d)
-        context['next_month'] = next_month(d)
-        return context
-
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
-    return datetime.today()
-
-def prev_month(d):
-    first = d.replace(day=1)
-    prev_month = first - timedelta(days=1)
-    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-    return month
-
-def next_month(d):
-    days_in_month = calendar.monthrange(d.year, d.month)[1]
-    last = d.replace(day=days_in_month)
-    next_month = last + timedelta(days=1)
-    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-    return month
-
-def event(request, event_id=None):
-    instance = Event()
-    if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
-    else:
-        instance = Event()
+    return JsonResponse({'id':event.pk}, status=200)
     
-    form = EventForm(request.POST or None, instance=instance)
-    if request.POST and form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('calendarFt'))
-    return render(request, 'life/event.html', {'forms': form})
+@csrf_exempt
+def deleteEvent(request):
+    event = Events.objects.filter(user_id=request.user, event_id=request.POST['id'])
+    event.delete()
+    return JsonResponse({}, status=200)
+
+# Api
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+
+class Budget_accountViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit account
+    Only see user's associated accounts
+    """
+
+    serializer_class = Budget_AccountSerializer
+    queryset = Budget_account.objects.all()
+
+    def list(self, request):
+        if request.user.is_authenticated:
+            querySet = Budget_account.objects.filter(users = request.user)
+            serializer = Budget_AccountSerializer(querySet, many=True, allow_null=True)
+            
+            return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        if request.user.is_authenticated:
+            querySet = Budget_account.objects.filter(users = request.user, id = pk)
+            serializer = Budget_AccountSerializer(querySet, many=True, allow_null=True)
+
+            return Response(serializer.data)
+
+class ExpenseTypeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit expense type
+    Only Admins can access this!  If public has access to this, then anyone can edit these records.
+    """
+
+    queryset = Expense_type.objects.all()
+    serializer_class = Expense_typeSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+class IncomeTypeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit income type
+    Only Admins can access this!  If public has access to this, then anyone can edit these records.
+    """
+
+    queryset = Income_type.objects.all()
+    serializer_class = Income_typeSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+
+class BudgetExpenseViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit account
+    Only see user's associated accounts
+    """
+
+    serializer_class = Budget_expenseSerializer
+    queryset = Budget_expense.objects.all()
+
+    def list(self, request):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_expense.objects.select_related('account')
+
+            serializer = Budget_expenseSerializer(querySet, many=True, allow_null=True)
+            return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_expense.objects.select_related('account')
+            querySet.filter(id = pk)
+
+            serializer = Budget_expenseSerializer(querySet, many=True, allow_null=True)
+
+            return Response(serializer.data)
+
+
+class BudgetIncomeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit account
+    Only see user's associated accounts
+    """
+
+    serializer_class = Budget_incomeSerializer
+    queryset = Budget_income.objects.all()
+
+    def list(self, request):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_income.objects.select_related('account')
+
+            serializer = Budget_incomeSerializer(querySet, many=True, allow_null=True)
+            return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_income.objects.select_related('account')
+            querySet.filter(id = pk)
+
+            serializer = Budget_incomeSerializer(querySet, many=True, allow_null=True)
+
+            return Response(serializer.data)
+
+
+class BudgetConfigViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allow to view or edit account
+    Only see user's associated accounts
+    """
+
+    serializer_class = Budget_configSerializer
+    queryset = Budget_config.objects.all()
+
+    def list(self, request):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_config.objects.select_related('account')
+
+            serializer = Budget_configSerializer(querySet, many=True, allow_null=True)
+            return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        if request.user.is_authenticated:
+            accts = Budget_account.objects.filter(users = request.user)
+            querySet = Budget_config.objects.select_related('account')
+            querySet.filter(id = pk)
+
+            serializer = Budget_configSerializer(querySet, many=True, allow_null=True)
+
+            return Response(serializer.data)
+
+# # budget_config
+# class Budget_configSerializer(serializers.HyperlinkedModelSerializer):
+#     model = Budget_config
+#     fields = ['id', 'name', 'description', 'budget_limit', 'account', 'month']
