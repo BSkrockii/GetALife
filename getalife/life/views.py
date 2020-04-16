@@ -41,7 +41,7 @@ def pay(request):
 def home(request):
     if request.user.is_authenticated:
         context = None
-        return render(request, 'life/home.html', context)
+        return render(request, 'life/dashboard.html', context)
     return redirect('/login')
 
 def dashboard(request):
@@ -62,7 +62,7 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
-            return redirect('/home')
+            return redirect('/dashboard')
         else:
             messages.info(request, 'Invalid Credentials')
             return redirect('login')

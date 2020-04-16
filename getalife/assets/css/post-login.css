@@ -34,8 +34,9 @@ html {
     position: fixed;
     top: 0px;
     left: 0px;
+    padding: 18px 20px;
     overflow: hidden;
-    width: 200%;
+    width: 100%;
     background-color: rgb(231, 231, 231);
 }
 
