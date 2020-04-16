@@ -1,14 +1,4 @@
 
-
-/*Base.html CSS*/
-
-body {
-    margin-top: 150px;
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-
 html {
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -26,45 +16,6 @@ html {
 
 }
 
-/* Navbar CSS */
-.navbar {
-    font-family: Helvetica;
-    font-weight: lighter;
-    color: black;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    padding: 18px 20px;
-    overflow: hidden;
-    width: 100%;
-    background-color: rgb(231, 231, 231);
-}
-
-.nav-item{
-    padding-left: 25px;
-    padding-right: 30px;
-}
-
-.active{
-    margin-left: 75px;
-    background-color: rgb(91, 223, 157);
-    border-radius: 15px
-}
-
-.navbar a {
-    float: left;
-    display: block;
-    color: #000000;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-.navbar a:hover {
-    color: rgb(131, 131, 131);
-}
-/* End Navbar CSS */
 .home-bg {
     background-image: url("../img/home.JPG");
     background-repeat: no-repeat;
