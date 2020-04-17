@@ -1,5 +1,5 @@
-margins {
-    margin-top: 150px;
+.margins {
+    margin-top: 7.5%;
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -10,7 +10,7 @@ margins {
     font-family: Helvetica;
     font-weight: lighter;
     color: black;
-    position: relative;
+    position: fixed;
     top: 0px;
     left: 0px;
     padding: 18px 20px;
