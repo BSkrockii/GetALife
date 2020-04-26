@@ -7,55 +7,49 @@
     </head>
 
     {% block content %}
-    <body>
+    <body class="dashboard-bg">
 
      <!--Calendar Header-->
-    <div class="calendarHeader">
-        <span id="currentDate" class="currentDate">date</span>
+        <div class="calendarHeader">
+            <span id="currentDate" class="currentDate">date</span>
 
-        <span id="year" class="year">year</span>
+            <span id="year" class="year">year</span>
 
-    </div>
+        </div>
 
-     <div style="clear: both;"></div>
+        <div style="clear: both;"></div>
 
 
-     <script>
-          var today = new Date();
-          var year = today.getFullYear();
-          var month = today.getMonth();
-          var day = today.getDate();
-          var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-          var selectedMonth = monthsInText[month];
-          document.getElementById("year").innerHTML = year;
-          document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
-     </script>
+        <script>
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth();
+            var day = today.getDate();
+            var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            var selectedMonth = monthsInText[month];
+            document.getElementById("year").innerHTML = year;
+            document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
+        </script>
 
     <!--Events-->
-    <div>
-        <!--Need to update with calendarFt post pull-->
-        <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
+        <div>
+            <!--Need to update with calendarFt post pull-->
+            <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
 
-    </div>
+        </div>
 
-
-
-
-     <div class="upcomingEventsBox">
+        <div class="upcomingEventsBox">
             <p>Implement Calendar Here</p>
-     </div>
+        </div>
 
+        <!--Budgets-->
+        <div>
+            <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
+        </div>
 
-
-
-    <!--Budgets-->
-    <div>
-        <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
-    </div>
-
-    <div class="budgetReportBox">
+        <div class="budgetReportBox">
             <p>Implement Budget Here</p>
-     </div>
+        </div>
 
 
     </body>
