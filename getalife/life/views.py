@@ -133,11 +133,6 @@ def error_400(request, exception):
     context = {"project_name":settings.PROJECT_NAME}
     return render(request, 'life/error_400.html', context)
 
-def error_400_demo(request):
-    context = None
-    context = {"project_name":settings.PROJECT_NAME}
-    return render(request, 'life/error_400.html', context)
-
 def error_403(request, exception):
     context = None
     context = {"project_name":settings.PROJECT_NAME}

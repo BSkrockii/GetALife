@@ -38,10 +38,10 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     #HTTP error Handling
-    path('error_400_demo/', views.error_400_demo, name='400_Error'),
-    path('error_403_demo/', views.error_403_demo, name='403_Error'),
-    path('error_404_demo/', views.error_404_demo, name='404_Error'),
-    path('error_500_demo/', views.error_500_demo, name='500_Error'),
+    path('error_400', views.error_400, name='400_Error'),
+    path('error_403', views.error_403, name='403_Error'),
+    path('error_404', views.error_404, name='404_Error'),
+    path('error_500', views.error_500, name='500_Error'),
 
     path('event/', views.event, name='event'),
     path('saveEvent/', views.saveEvent, name='saveEvent'),
