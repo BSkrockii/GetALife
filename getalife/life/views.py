@@ -17,6 +17,7 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
 
@@ -214,6 +215,47 @@ class Budget_accountViewSet(viewsets.ModelViewSet):
             serializer = Budget_AccountSerializer(querySet, many=True, allow_null=True)
 
             return Response(serializer.data)
+
+    def create(self, request):
+        if request.user.is_authenticated:
+
+            datas = request.data
+            account = Budget_account.objects.create(name = request.data['name'], description = request.data['description'])
+            
+            account.users.add(request.user)
+            account.save()
+            
+            serializer = Budget_AccountSerializer(account, many=False, allow_null=True)
+
+            return Response(serializer.data, status=200)
+
+    @action(detail=True, methods=['get'], url_path='users')
+    def userList(self,request,pk):
+        if request.user.is_authenticated:
+            budget = Budget_account.objects.get(users = request.user, id = pk)
+            users = budget.users.all()
+            
+            serializer = UserSerializer(users, many=True, allow_null=True)
+            return Response(serializer.data)
+
+
+    @action(detail=True, methods=['post'], url_path='addUser/<int:userId>')
+    def addUser(self, request, pk, userId):
+        """
+        Adds a user to budgetAccount
+        """
+        if request.user.is_authenticated:
+            budget = Budget_account.objects.get(users = request.user, id = pk)
+
+            user = users.objects.get(id = userId)
+            if user is None:
+                return Response(status=404)
+            
+            budget.users.add(user)
+            budget.save()
+            return Response({}, status=200)
+
+
 
 class ExpenseTypeViewSet(viewsets.ModelViewSet):
     """
