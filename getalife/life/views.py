@@ -50,10 +50,9 @@ def dashboard(request):
         return render(request, 'life/dashboard.html', context)
     return redirect('/login')
     
-
 def login(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('/dashboard')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -111,9 +110,9 @@ def register(request):
 
         user = User.objects.create_user(username=username, password=password,email=email)
         user.save()
-        return redirect('/login')
+        request.user = user
+        return redirect('/dashboard')
     return render(request, 'life/register.html')
-
 
 def faq(request):
     context = None
@@ -149,12 +148,18 @@ def error_500(request):
     return render(request,'life/error_500.html', context)
 
 def calendarFt(request):
-    context = None
-    return render(request, 'life/calendarFt.html', context)
+    if request.user.is_authenticated:
+        context = None
+        return render(request, 'life/calendarFt.html', context)
+    else:
+        return redirect('login')
 
 def event(request):
-    all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
-    return JsonResponse(all_events, safe=False)
+    if request.user.is_authenticated:
+        all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+        return JsonResponse(all_events, safe=False)
+    else:
+        return JsonResponse({}, status=403)
 
 @csrf_exempt
 def saveEvent(request):
@@ -167,7 +172,8 @@ def saveEvent(request):
                 amount=request.POST['amount'],
                 user_id=request.user)
         event.save()
-
+    else:
+        return JsonResponse({}, status=403)
     return JsonResponse({'id':event.pk}, status=200)
     
 @csrf_exempt
