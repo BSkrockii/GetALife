@@ -239,22 +239,46 @@ class Budget_accountViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
 
 
-    @action(detail=True, methods=['post'], url_path='addUser/<int:userId>')
+    @action(detail=True, methods=['get', 'post', 'delete'], url_path='users/(?P<userId>[^/.]+)')
     def addUser(self, request, pk, userId):
         """
-        Adds a user to budgetAccount
+        Adds a user authZ to budgetAccount
         """
         if request.user.is_authenticated:
-            budget = Budget_account.objects.get(users = request.user, id = pk)
+            if request.method == 'GET':
+                budget = Budget_account.objects.get(users = request.user, id = pk)
+                user = budget.users.filter(id = userId)
+                serializer = UserSerializer(user, many=True, allow_null=True)
 
-            user = users.objects.get(id = userId)
-            if user is None:
-                return Response(status=404)
+                return Response(serializer.data)
+
+            if request.method == 'POST':
+                check = request.data
+                budget = Budget_account.objects.get(users = request.user, id = pk)
+
+                user = User.objects.filter(id = userId)
+
+                if len(user) == 0:
+                    return Response(['user not found'], status=404)
+                
+                budget.users.add(user[0])
+                budget.save()
+                return Response({}, status=200)
             
-            budget.users.add(user)
-            budget.save()
-            return Response({}, status=200)
+            if request.method == 'DELETE':
+                budget = Budget_account.objects.get(users = request.user, id = pk)
 
+                user = User.objects.filter(id = userId)
+                if len(user) == 0:
+                    return Response(['User not found'], status=404)
+
+                usr = user[0]
+                budget.users.remove(usr)
+                budget.users.save()
+                budget.save()
+                return Response({}, status=200)
+            
+        return Response(status=403)
 
 
 class ExpenseTypeViewSet(viewsets.ModelViewSet):
