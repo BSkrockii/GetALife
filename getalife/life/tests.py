@@ -19,6 +19,109 @@ class JenkinsTest(TestCase):
         self.assertEqual(1, 1)
         print("Test")
 
+class UnAuthenticatedCallTests(TestCase):
+    # setup client
+    # Create User 
+    def setup():
+    
+    # Check index/
+    def indexTest():
+
+    # Check finance/
+    def financeTest():
+
+    # Check cost/
+    def cost():
+
+    # Check pay/
+    def pay():
+
+    # Check dashboard/
+    def dashboard():
+    
+    # Check login
+    # get, then post and check if logged in.  
+    # Then, remove all cookies
+    def login():
+
+    # Check Failed login
+    # get, then post with wrong credentials
+    # If logged in, fail test and remove cookies
+    def failedLogin():
+
+    # check faq
+    def faq():
+
+    #check about
+    def about():
+
+    # Check singout
+    def signOut():
+
+    # Check if an error.
+    # Must create bad request
+    def error400():
+
+    # Try to access some authE only url
+    # # Home, dashboard
+    def error403():
+    
+    # Try a url that doesnt exist
+    def error404():
+
+    # Iternal error...
+    # just access error 500 url
+    def error500():
+
+    # Must go to login.
+    def calenderFt():
+
+    #needs to check authentication.
+    def event():
+    
+
+class AuthenticatedCallTest(TestCase):
+    # Create user
+    def setup():
+    
+    # Should get redirected to dashboard
+    def index():
+
+    def dashboard():
+
+    def login():
+
+    def alreadyLoggedIn():
+
+    def checkUserName():
+
+    def register():
+
+    def event():
+
+    def saveEvent():
+
+    # Needs to check events
+    def deleteEvent():
+
+    
+class restfulApi():
+    def setup():
+
+    def setBudgetAccount():
+
+    def getBudgetAccount():
+
+    def addUserToBudget():
+
+    def setBudgetIncome():
+
+    def getBudgetIncome():
+
+    def login():
+
+    def logOut():
+
 # every def, put variable Client() (ex: c = Client())
 
 # for csrf, c = Client(enforce_csrf_checks=True)
