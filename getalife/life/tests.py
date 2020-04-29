@@ -82,45 +82,72 @@ class UnAuthenticatedCallTests(TestCase):
 
 class AuthenticatedCallTest(TestCase):
     # Create user
+    # Create 2 events
     def setup():
     
     # Should get redirected to dashboard
     def index():
 
+    # Check if it is using dashboard.html
     def dashboard():
 
+    # Check when is unAuthE, and check body to be login.html
+    def unauthELogin():
+
+    # Check Login and check if its going to dashboard
     def login():
 
-    def alreadyLoggedIn():
+    # Login and login again to see if its redirected
+    def loginRedirection():
 
-    def checkUserName():
+    # Check GET and see if we get body
+    def registerGET():
 
-    def register():
+    # Check POST to see if we get a session token (logged in)
+    def registerPOST():
 
+    # Login and check if we grab events
     def event():
 
+    # Check it events get saved
     def saveEvent():
 
-    # Needs to check events
+    # Check if events gets deleted
     def deleteEvent():
 
     
 class restfulApi():
+    # Create 2 user
+    # Create 2 budget Account
+    # Link 1 user to BudgetAccount 1 & 2
+    # link 1 user to BudgetAccount 2 only
+    # create Budget Income and link to BA 1
     def setup():
 
+    # Check if can change a property in BudgetAccount
+    # User must be authenticated in order to do so.
     def setBudgetAccount():
 
-    def getBudgetAccount():
+    # login to 1 user with link BA 2
+    # Check if get gets 2 BA
+    def getOneBudgetAccount():
 
+    # login to 1 user with link BA 1
+    # Check if can get 1 BA
+    def getTwoBudgetAccount():
+
+    # create budgetAccount 3
+    # Add User to BA 3
+    # Login to user
+    # Check if can access BA 3
     def addUserToBudget():
 
+    # Check if it can change property
     def setBudgetIncome():
 
+    # Check if it can get BI
     def getBudgetIncome():
 
-    def login():
-
-    def logOut():
 
 # every def, put variable Client() (ex: c = Client())
 
