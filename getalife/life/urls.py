@@ -35,7 +35,6 @@ urlpatterns = [
   
     # Model Access
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     #HTTP error Handling
     path('error_400', views.error_400, name='400_Error'),
