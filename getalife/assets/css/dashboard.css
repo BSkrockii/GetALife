@@ -2,13 +2,18 @@
 DASHBOARD CSS
 */
 
-body{
+.dashboard-bg {
     background-image: url("../img/home.JPG");
-
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: 20%;
+    background-position-y: -200px;
+    background-color: #D2D6DD;
+    color: #fff;
 }
 
 .calendarHeader{
-      border-bottom: 2px solid black;
+      border-bottom: 2px solid white;
 
 }
 
@@ -28,8 +33,8 @@ body{
     background-color: #cdffe7;
     border-radius: 8px;
     border: none;
+    margin-top: 10px;
 }
-
 
 .upcomingEventsButton:hover{
     background-color: #1bc47d;
@@ -37,12 +42,12 @@ body{
     border: none;
 }
 
-
 .upcomingEventsBox{
     background-color: white;
+    color: black;
+    margin-top: 5px;
 
 }
-
 
 .budgetReportButton{
     background-color: #cdffe7;
@@ -59,5 +64,6 @@ body{
 
 .budgetReportBox{
     background-color: white;
-
+    color: black;
+    margin-top: 5px;
 }
