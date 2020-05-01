@@ -17,6 +17,7 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
 
@@ -50,10 +51,9 @@ def dashboard(request):
         return render(request, 'life/dashboard.html', context)
     return redirect('/login')
     
-
 def login(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('/dashboard')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -111,9 +111,9 @@ def register(request):
 
         user = User.objects.create_user(username=username, password=password,email=email)
         user.save()
-        return redirect('/login')
+        request.user = user
+        return redirect('/dashboard')
     return render(request, 'life/register.html')
-
 
 def faq(request):
     context = None
@@ -129,52 +129,38 @@ def signOut(request):
 
 # Http Error Handling
 def error_400(request, exception):
-    context = {}
-    context = {"project_name":settings.PROJECT_NAME}
-    return render(request, 'life/error_400.html', context)
-
-def error_400_demo(request):
-    context = {}
+    context = None
     context = {"project_name":settings.PROJECT_NAME}
     return render(request, 'life/error_400.html', context)
 
 def error_403(request, exception):
-    context = {}
-    context = {"project_name":settings.PROJECT_NAME}
-    return render(request, 'life/error_403.html', context)
-
-def error_403_demo(request):
-    context = {}
+    context = None
     context = {"project_name":settings.PROJECT_NAME}
     return render(request, 'life/error_403.html', context)
 
 def error_404(request, exception):
-    context = {}
-    context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'life/error_404.html', context)
-
-def error_404_demo(request):
-    context = {}
+    context = None
     context = {"project_name":settings.PROJECT_NAME}
     return render(request,'life/error_404.html', context)
 
 def error_500(request):
-    context = {}
-    context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'life/error_500.html', context)
-
-def error_500_demo(request):
-    context = {}
+    context = None
     context = {"project_name":settings.PROJECT_NAME}
     return render(request,'life/error_500.html', context)
 
 def calendarFt(request):
-    context = None
-    return render(request, 'life/calendarFt.html', context)
+    if request.user.is_authenticated:
+        context = None
+        return render(request, 'life/calendarFt.html', context)
+    else:
+        return redirect('login')
 
 def event(request):
-    all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
-    return JsonResponse(all_events, safe=False)
+    if request.user.is_authenticated:
+        all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+        return JsonResponse(all_events, safe=False)
+    else:
+        return JsonResponse({}, status=403)
 
 @csrf_exempt
 def saveEvent(request):
@@ -187,7 +173,8 @@ def saveEvent(request):
                 amount=request.POST['amount'],
                 user_id=request.user)
         event.save()
-
+    else:
+        return JsonResponse({}, status=403)
     return JsonResponse({'id':event.pk}, status=200)
     
 @csrf_exempt
@@ -228,6 +215,71 @@ class Budget_accountViewSet(viewsets.ModelViewSet):
             serializer = Budget_AccountSerializer(querySet, many=True, allow_null=True)
 
             return Response(serializer.data)
+
+    def create(self, request):
+        if request.user.is_authenticated:
+
+            datas = request.data
+            account = Budget_account.objects.create(name = request.data['name'], description = request.data['description'])
+            
+            account.users.add(request.user)
+            account.save()
+            
+            serializer = Budget_AccountSerializer(account, many=False, allow_null=True)
+
+            return Response(serializer.data, status=200)
+
+    @action(detail=True, methods=['get'], url_path='users')
+    def userList(self,request,pk):
+        if request.user.is_authenticated:
+            budget = Budget_account.objects.get(users = request.user, id = pk)
+            users = budget.users.all()
+            
+            serializer = UserSerializer(users, many=True, allow_null=True)
+            return Response(serializer.data)
+
+
+    @action(detail=True, methods=['get', 'post', 'delete'], url_path='users/(?P<userId>[^/.]+)')
+    def addUser(self, request, pk, userId):
+        """
+        Adds a user authZ to budgetAccount
+        """
+        if request.user.is_authenticated:
+            if request.method == 'GET':
+                budget = Budget_account.objects.get(users = request.user, id = pk)
+                user = budget.users.filter(id = userId)
+                serializer = UserSerializer(user, many=True, allow_null=True)
+
+                return Response(serializer.data)
+
+            if request.method == 'POST':
+                check = request.data
+                budget = Budget_account.objects.get(users = request.user, id = pk)
+
+                user = User.objects.filter(id = userId)
+
+                if len(user) == 0:
+                    return Response(['user not found'], status=404)
+                
+                budget.users.add(user[0])
+                budget.save()
+                return Response({}, status=200)
+            
+            if request.method == 'DELETE':
+                budget = Budget_account.objects.get(users = request.user, id = pk)
+
+                user = User.objects.filter(id = userId)
+                if len(user) == 0:
+                    return Response(['User not found'], status=404)
+
+                usr = user[0]
+                budget.users.remove(usr)
+                budget.users.save()
+                budget.save()
+                return Response({}, status=200)
+            
+        return Response(status=403)
+
 
 class ExpenseTypeViewSet(viewsets.ModelViewSet):
     """
