@@ -389,3 +389,6 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 # class Budget_configSerializer(serializers.HyperlinkedModelSerializer):
 #     model = Budget_config
 #     fields = ['id', 'name', 'description', 'budget_limit', 'account', 'month']
+
+def budget(request):
+    return render(request,'life/budget.html',)
