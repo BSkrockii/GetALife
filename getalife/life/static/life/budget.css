@@ -1,4 +1,8 @@
 .content-inactive{
     display: none;
+}
+.content-active{
+    display: blcok;
     background-color: aqua;
 }
+
