@@ -2,7 +2,17 @@
     display: none;
 }
 .content-active{
-    display: blcok;
-    background-color: aqua;
+    display: block;
 }
-
+#budget-content{
+    margin-left: 2em;
+}
+#budget-wrapper{
+    margin: 2em;
+    background-color: rgba(207, 204, 204, 0.3);
+    border: .1em solid rgba(207, 204, 204, 0.3);
+    border-radius: 5px;
+}
+.monthly-content{
+    margin-left: 2em;
+}
