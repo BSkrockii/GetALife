@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, auth
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.generic import TemplateView, View
-from django.core import serializers
+from django.core import serializers as ser
 from django.http import HttpResponse, JsonResponse
 from django.forms.models import modelform_factory, model_to_dict
 from datetime import datetime, timedelta, date
@@ -157,7 +157,7 @@ def calendarFt(request):
 
 def event(request):
     if request.user.is_authenticated:
-        all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+        all_events = ser.serialize('json', Events.objects.filter(user_id=request.user))
         return JsonResponse(all_events, safe=False)
     else:
         return JsonResponse({}, status=403)
@@ -169,7 +169,7 @@ def saveEvent(request):
         event = Events(event_name=request.POST['event'],
                 start_date=formatedDate, 
                 end_date=formatedDate, 
-                event_type='expense',
+                event_type=request.POST['expenseType'],
                 amount=request.POST['amount'],
                 user_id=request.user)
         event.save()
@@ -182,6 +182,14 @@ def deleteEvent(request):
     event = Events.objects.filter(user_id=request.user, event_id=request.POST['id'])
     event.delete()
     return JsonResponse({}, status=200)
+
+@csrf_exempt
+def getExpenseTypes(request):
+    date = datetime.strptime(request.GET['date'], '%m/%d/%Y')
+    print(date.month)
+    expenseType = list(Budget_expense.objects.values('name').distinct().filter(account__users=request.user, created_utc__month=str(date.month),created_utc__year=str(date.year)))
+    print(expenseType)
+    return JsonResponse(json.dumps(expenseType), safe=False, status=200)
 
 # Api
 class UserViewSet(viewsets.ModelViewSet):
