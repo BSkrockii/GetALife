@@ -115,11 +115,11 @@ function openForm(){
                 var form = "<tr><td><input type='text' placeholder='Event' id='newEvent' required></td></tr>";
                 form += "<tr><td>" + globalCalendar.state.currentDate.toLocaleDateString() + "</td></tr>";
                 form += "<tr><td>" + "<input type='text' placeholder='Amount' id='newAmount' required>" + "</td></tr>";
-                form += "<tr><td>" + "<input list='expenses' name='expenseType' id='newExpense' /><datalist id='expenses'>";
+                form += "<tr><td>" + "<select name='expenseType' id='newExpense'>";
                 for (i = 0; i < parsed.length; i++) {
-                    form += "<option value=" + parsed[i].name +">";
+                    form += "<option value=" + parsed[i].name +">" + parsed[i].name + "</option>";
                   }
-                form += "</datalist>" + "</td></tr>"              
+                form += "</select>" + "</td></tr>"              
                 form += "<tr><td><button onclick='saveEvent()'>ADD</button><button class='deleteEvent' onclick='closeForm()'>X</button></td></tr>";
                 document.getElementById("events").innerHTML += form;
                 document.getElementById("newEvent").focus();
