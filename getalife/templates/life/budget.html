@@ -6,67 +6,55 @@
 <script src="{% static 'life/budget.js' %}"></script>
 
 
+{% for i in eventData.items %}
+    {% for x in i %}    
+        {{x}}
+    {% endfor %}
+{% endfor %}
+
+{% if budgetData  %}
 <div id="budget-wrapper">
     <h1>Select Year</h1>
     <div id="budget-content">
-        <h2 onclick="showContentYear(this.textContent)">2019</h2>
-        <div id="budget-year-2019" class="content-active" > 
+        {% for by in budgetYears %}
+        <h2 onclick="showContentYear(this.textContent)">{{ by.name }}</h2>
+        <div id="budget-year-{{ by.name }}" class="content-inactive">
             <div class="monthly-content">
-                <h3 id="january-2019" onclick="showContentMonth(this)">January</h3>
-                    <div id="january-2019-content" class="content-active">
-                        <table id="january-2019-table" class="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th>Budget Section</th>
-                                    <th>Planned</th>
-                                    <th>Actual</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Food</td>
-                                    <td>$100</td>
-                                    <td>$50</td>
-                                </tr>
-                                <tr>
-                                    <td>Gifts</td>
-                                    <td>$70</td>
-                                    <td>$27</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                <h3>Febuary</h3>
-                <h3>March</h3>
-                <h3>April</h3>
-                <h3>May</h3>
-                <h3>June</h3>
-                <h3>July</h3>
-                <h3>August</h3>
-                <h3>September</h3>
-                <h3>October</h3>
-                <h3>November</h3>
-                <h3>December</h3>
+                {% for key, v in budgetYearData.items %}
+                    {% if key == by.name %}
+                        {% for value in v %}
+                        {{value.id.description}}
+                        <h3 id="{{ value.description }}-{{ by.name }}" onclick="showContentMonth(this)">{{ value.description }}</h3>
+                        <div id="{{ value.description }}-{{ by.name }}-content" class="content-inactive">
+                            <table id="{{ value.description }}-{{ by.name }}-table" class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Budget Name</th>
+                                        <th>Planned</th>
+                                        <th>Actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for mData in budgetMonthData %}
+                                        {% if mData.account.id == value.id %}
+                                            <tr>
+                                                <td>{{mData.name}}</td>
+                                                <td>{{mData.expense}}</td>
+                                                <td>0</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endfor v %}
+                    {% endif  %}   
+                {% endfor budgetYearData %}     
             </div>
         </div>
-        <h2 onclick="showContentYear(this.textContent)">2020</h2>
-        <div id="budget-year-2020" class="content-inactive">
-            <h3>January</h3>
-            <h3>Febuary</h3>
-            <h3>March</h3>
-            <h3>April</h3>
-            <h3>May</h3>
-            <h3>June</h3>
-            <h3>July</h3>
-            <h3>August</h3>
-            <h3>September</h3>
-            <h3>October</h3>
-            <h3>November</h3>
-            <h3>December</h3>
-        </div>
+        {% endfor budgetYear %} 
     </div>
 </div>
-
-<h1 style="display: none;">HELLO</h1>
+{% endif %}
 
 {% endblock content %}

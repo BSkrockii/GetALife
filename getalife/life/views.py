@@ -391,4 +391,25 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 #     fields = ['id', 'name', 'description', 'budget_limit', 'account', 'month']
 
 def budget(request):
-    return render(request,'life/budget.html',)
+    if request.user.is_authenticated is False:
+        return redirect('/')
+    budgetYears = Budget_account.objects.values('name').distinct().filter(users=request.user).order_by('name')  
+    budgetYearData = {}
+    for by in budgetYears:
+        budgetYearData[by['name']] = Budget_account.objects.filter(users=request.user, name=by['name'])  
+
+    temp = Budget_expense.objects.all()  
+    EventData = {}
+    for by in budgetYears:
+        for month in range(1, 13):
+            EventData[by['name']+str(month)] = Events.objects.filter(user_id=request.user, start_date__month=str(month), start_date__year=by['name'])
+
+    
+
+
+    budgetData = Budget_account.objects.filter(users=request.user)
+    return render(request,'life/budget.html', {"budgetData":budgetData, 
+            "budgetYears": budgetYears, 
+            "budgetYearData":budgetYearData, 
+            "budgetMonthData":temp,
+            "eventData": EventData })
