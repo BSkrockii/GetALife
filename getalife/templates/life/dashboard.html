@@ -24,7 +24,7 @@
     <!--Events-->
     <div>
         <!--Need to update with calendarFt post pull-->
-        <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
+        <button  href="{% url 'dashboard' %}" class="upcomingEventsButton" >Upcoming Events</button>
 
     </div>
 
@@ -40,7 +40,7 @@
 
     <!--Budgets-->
     <div>
-        <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
+        <button href={% url 'dashboard' %}" class="budgetReportButton">Budget Report</button>
     </div id="divmid">
 
     <div class="budgetReportBox" id="balancearea">
