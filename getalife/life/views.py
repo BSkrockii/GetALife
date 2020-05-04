@@ -20,6 +20,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
+from django.db.models import *
 
 # Create your views here.
 def index(request):
@@ -401,23 +402,31 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 def budget(request):
     if request.user.is_authenticated is False:
         return redirect('/')
-    budgetYears = Budget_account.objects.values('name').distinct().filter(users=request.user).order_by('name')  
+    budgetYears = Budget_account.objects.values('name').distinct().filter(users=request.user).order_by('name')
+      
     budgetYearData = {}
     for by in budgetYears:
         budgetYearData[by['name']] = Budget_account.objects.filter(users=request.user, name=by['name'])  
 
     temp = Budget_expense.objects.all()  
-    EventData = {}
+
+    Data = {}
+
     for by in budgetYears:
+        tempMonth = {}
         for month in range(1, 13):
-            EventData[by['name']+str(month)] = Events.objects.filter(user_id=request.user, start_date__month=str(month), start_date__year=by['name'])
-
-    
-
+            tempEvent = {}
+            distinctEvents = Events.objects.values('event_type').distinct().filter(user_id=request.user, start_date__month=str(month), start_date__year=by['name'])
+            for event in distinctEvents:
+                tempEvent[event['event_type']] = Events.objects.values('amount').filter(user_id=request.user, event_type=event['event_type'], start_date__month=str(month), start_date__year=by['name']).aggregate(amount=Sum('amount'))
+                
+            tempMonth[month] = tempEvent        
+        Data[by['name']] = tempMonth
 
     budgetData = Budget_account.objects.filter(users=request.user)
     return render(request,'life/budget.html', {"budgetData":budgetData, 
             "budgetYears": budgetYears, 
             "budgetYearData":budgetYearData, 
             "budgetMonthData":temp,
-            "eventData": EventData })
+            "eventData": Data })
+
