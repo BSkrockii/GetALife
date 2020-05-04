@@ -7,49 +7,496 @@
     </head>
 
     {% block content %}
-    <body class="dashboard-bg">
+    <body>
 
      <!--Calendar Header-->
-        <div class="calendarHeader">
-            <span id="currentDate" class="currentDate">date</span>
+    <div class="calendarHeader">
+        <span id="currentDate" class="currentDate">date</span>
 
-            <span id="year" class="year">year</span>
+        <span id="year" class="year">year</span>
 
-        </div>
+    </div>
+	
+	
 
-        <div style="clear: both;"></div>
-
-
-        <script>
-            var today = new Date();
-            var year = today.getFullYear();
-            var month = today.getMonth();
-            var day = today.getDate();
-            var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-            var selectedMonth = monthsInText[month];
-            document.getElementById("year").innerHTML = year;
-            document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
-        </script>
+     <div style="clear: both;"></div>
 
     <!--Events-->
-        <div>
-            <!--Need to update with calendarFt post pull-->
-            <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
+    <div>
+        <!--Need to update with calendarFt post pull-->
+        <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
 
-        </div>
+    </div>
 
-        <div class="upcomingEventsBox">
+
+
+
+     <div class="upcomingEventsBox">
             <p>Implement Calendar Here</p>
-        </div>
+     </div>
 
-        <!--Budgets-->
-        <div>
-            <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
-        </div>
 
-        <div class="budgetReportBox">
-            <p>Implement Budget Here</p>
-        </div>
+
+
+    <!--Budgets-->
+    <div>
+        <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
+    </div id="divmid">
+
+    <div class="budgetReportBox" id="balancearea">
+			<canvas id="myBalance" width="600" height="300" ></canvas>
+			<canvas id="myGraph" width="600" height="300" ></canvas>
+			</div>
+			<button onclick="nextgraph()">Next Graph</button>
+			
+	<div style="overflow-y: scroll; height:200px;" id="scrollarea">
+			
+     </div>
+	 
+	 
+	 
+	    <script>
+		
+		//setup page
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth();
+        var day = today.getDate();
+        var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        var selectedMonth = monthsInText[month];
+        document.getElementById("year").innerHTML = year;
+        document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
+		
+		var accountID = 1;
+		var graphType = 0;
+		
+		var income = getIncome(accountID);
+		var expense = getExpense(accountID);
+		var balances = [];
+		
+		balances = createBalances(balances, income, expense);
+		
+		nextgraph();
+		balancedisplay(income, expense);
+		
+		//balance display
+		function balancedisplay(income, expense) {
+			
+			var gain = 0;
+			var loss = 0;
+			
+			for(i=0; i<expense.length; i++) {
+			loss += parseFloat(expense[i].expense);
+			}
+			
+			for(i=0; i<income.length; i++) {
+			gain += parseFloat(income[i].income);
+			}
+			
+			var c = document.getElementById("myBalance");
+			var context = c.getContext("2d");
+			
+			context.textAlign = "left";
+			context.font = "20px Arial";
+			context.fillText("Current Balance", 5, 20);
+			
+			context.textAlign = "center";
+			var gaintext = "$" + gain;
+			context.fillText(gaintext, 55, 110);
+			
+			var losstext = "$" + loss;
+			context.fillText(losstext, 55, 150);
+			
+			var total = gain - loss;
+			var totaltext = "$" + total;
+			context.font = "25px Arial";
+			context.fillText(totaltext, 55, 60);
+			
+			var max = gain;
+			if (loss > gain) loss = max;
+			
+			context.fillStyle="green";
+			context.fillRect(120,90,(gain/max*300),20);
+			
+			context.fillStyle="red";
+			context.fillRect(120,130,(loss/max*300),20);
+		}
+		
+		//listing display
+		function createlistings(income, expense) {
+			for(i=0; i<income.length; i++) {
+				var text = "Income: " + income[i].name + " , $" + income[i].income
+				addButton(text,income[i].id)
+			}
+			
+			for(i=0; i<expense.length; i++) {
+				var text = "Expense: " + expense[i].name + " , $" + expense[i].expense
+				addButton(text,expense[i].id)
+			}
+		}
+		
+		//create graphs based on data
+		function createBalances(b, income, expense) {
+			
+			for(i=0; i<12; i++) {
+			b[i] = 0;
+			}
+			
+			for(i=0; i<expense.length; i++) {
+			b[expense[i].month - 1] -= expense[i].expense;
+			}
+			
+			for(i=0; i<income.length; i++) {
+			b[income[i].month - 1] += income[i].income;
+			}
+			
+			for(i=0; i<12; i++) {
+			var v1 = b[i+1];
+			var v2 = b[i];
+			if (typeof b[i+1] == "string") v1  = parseFloat(b[i+1]);
+			if (typeof b[i] == "string") v2  = parseFloat(b[i]);
+			b[i] = v2;
+			b[i+1] = v1 + v2;
+			}
+			
+			return b;
+		}
+		
+		//graph creation
+		function nextgraph() {
+			var c = document.getElementById("myGraph");
+			var context = c.getContext("2d");
+			context.clearRect(0, 0, c.width, c.height);
+			context.beginPath();
+			
+			graphType += 1;
+			if (graphType > 4) graphType = 1;
+			
+			if(graphType == 1) drawbalanceline("myGraph", balances);
+			if(graphType == 2) drawincomeline("myGraph", income);
+			if(graphType == 3) drawexpensepie("myGraph", expense);
+			if(graphType == 4) drawexpenseline("myGraph", expense);
+		}
+		
+		function drawbalanceline(canvasID,b) {
+		
+			var c = document.getElementById(canvasID);
+			var context = c.getContext("2d");
+			
+		
+			if (b.length < 1) return;
+			
+			var max = b[0];
+			var min = b[0];
+			var scale = 1;
+			
+			for (i = 0; i < b.length; i++) {
+				if (b[i] > max) max = b[i];
+				if (b[i] < min) min = b[i];
+			}
+			
+			var lines = Math.round((max - min) / 5 / 20) * 20
+			
+			scale = c.height * 0.7 / (max - min)
+			
+			context.textAlign = "right";
+			context.font = "15px Arial";
+			
+			for (i = 0; i < max; i += lines) {
+				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
+				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+			}
+			
+			for (i = 1; i < b.length; i++) {
+				drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (b[i] - min) * scale - c.height/10);
+			}
+			
+			context.textAlign = "left";
+			context.font = "20px Arial";
+			context.fillText("Net Change Monthly", 5, 20);
+		
+		}
+		
+		function drawincomeline(canvasID, income) {
+			
+			var c = document.getElementById(canvasID);
+			var context = c.getContext("2d");
+			
+			var g = [];
+			
+			for(i=0; i<12; i++) {
+				g[i] = 0;
+			}
+			
+			var max = g[0];
+			var min = g[0];
+			var scale = 1;
+			
+			for(i=0; i<income.length; i++) {
+				var inc = parseFloat(income[i].income);
+				g[parseFloat(income[i].month) - 1] += inc;
+				if (inc > max) max = inc;
+				if (inc < min) min = inc;
+			}
+			
+			var lines = Math.round((max - min) / 5 / 20) * 20
+			scale = c.height * 0.7 / (max - min)
+			
+			context.textAlign = "right";
+			context.font = "15px Arial";
+			
+			for (i = 0; i < max; i += lines) {
+				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
+				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+			}
+			
+			for (i = 1; i < g.length; i++) {
+				drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (g[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (g[i] - min) * scale - c.height/10);
+			}
+			
+			context.textAlign = "left";
+			context.font = "20px Arial";
+			context.fillText("Income Monthly", 5, 20);
+		}
+		
+		function drawexpenseline(canvasID, expense) {
+			
+			var c = document.getElementById(canvasID);
+			var context = c.getContext("2d");
+			
+			var g = [];
+			
+			for(i=0; i<12; i++) {
+				g[i] = 0;
+			}
+			
+			var max = g[0];
+			var min = g[0];
+			var scale = 1;
+			
+			for(i=0; i<expense.length; i++) {
+				var inc = parseFloat(expense[i].expense);
+				g[parseFloat(expense[i].month) - 1] += inc;
+				if (inc > max) max = inc;
+				if (inc < min) min = inc;
+			}
+			
+			var lines = Math.round((max - min) / 5 / 20) * 20
+			scale = c.height * 0.7 / (max - min)
+			
+			context.textAlign = "right";
+			context.font = "15px Arial";
+			
+			for (i = 0; i < max; i += lines) {
+				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
+				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+			}
+			
+			for (i = 1; i < g.length; i++) {
+				drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (g[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (g[i] - min) * scale - c.height/10);
+			}
+			
+			context.textAlign = "left";
+			context.font = "20px Arial";
+			context.fillText("Spending Monthly", 5, 20);
+		}
+		
+		function drawexpensepie(canvasID, expense) {
+		
+			var c = document.getElementById(canvasID);
+			var context = c.getContext("2d");
+			context.font = "20px Arial";
+			context.textAlign = "left";
+			context.fillText("Spending Areas", 5, 20);
+		
+			context.arc(c.width - c.width/3, c.height/2, c.height/3, 0, 2 * Math.PI);
+			context.stroke();
+			
+			var totalexpense = 0;
+			var expensetype = [0,0,0,0,0];
+			
+			for(i=0; i<expense.length; i++) {
+			expensetype[expense[i].expenseType] += parseFloat(expense[i].expense);
+			totalexpense += parseFloat(expense[i].expense);
+			}
+			
+			var total = 0;
+			for(i=0; i<expensetype.length; i++) {
+				if (expensetype[i] > 0) {
+					//drawline(canvasID, "#000000", c.width - c.width/3, c.height/2, c.width - c.width/3 + c.height/3 * Math.sin(total), c.height/3 * Math.cos(total) + c.height/2);
+					total += (expensetype[i]/totalexpense) * (2 * Math.PI);
+					drawline(canvasID, "#000000", c.width - c.width/3, c.height/2, c.width - c.width/3 + c.height/3 * Math.sin(total), c.height/3 * Math.cos(total) + c.height/2);
+				}
+			}
+			
+			etypes = getExpenseTypes();
+			
+			for(i=0; i<etypes.length; i++) {
+				if (expensetype[etypes[i].id] > 0) {
+					context.textAlign = "left";
+					var text = etypes[i].name + ": $" + expensetype[etypes[i].id];
+					context.fillText(text, 5, 80 + i * 40);
+				}
+			}
+		
+		}
+ 
+		function drawline(canvasID, style ,x1, y1, x2, y2) {
+			var c = document.getElementById(canvasID);
+			var context = c.getContext("2d");
+			context.strokeStyle = style;
+			context.moveTo(x1,y1);
+			context.lineTo(x2,y2);
+			context.stroke();
+			context.closePath();
+			context.beginPath();
+		}
+		
+		//Button generation
+		
+		function alertme(x) {
+			alert(x);
+		}
+		
+		function addButton(text,val) {
+			var para = document.createElement("button");
+			var node = document.createTextNode(text);
+			
+			var att = document.createAttribute("onclick");
+			att.value = "alertme('"+val+"')";
+			para.setAttributeNode(att);
+			
+			var att2 = document.createAttribute("class");
+			att2.value = "budgetReportButton";
+			para.setAttributeNode(att2);
+			
+			para.appendChild(node);
+
+			var element = document.getElementById("scrollarea");
+			element.appendChild(para);
+			
+			var bar = document.createElement("div");
+			element.appendChild(bar);
+		}
+		
+		//SQL fetching
+		function testjquery() {
+		if (window.jQuery) {
+		alert('jQuery is loaded');
+		} else {
+		alert('jQuery is not loaded');
+        }}
+	
+		function getRecord(id) 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = 'BudgetAccount/';
+		var format = '?format=json';
+
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName
+			},
+
+			type: "GET",
+			data: "json",
+			url: protocol + domainName + port + path + model + id +  format,
+
+		}).done(function(json) { ret = json; });
+
+		return ret;
+
+		}
+		
+		function getExpense(id) 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = 'BudgetExpense/';
+		var format = '?format=json';
+
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName
+			},
+
+			type: "GET",
+			data: "json",
+			url: protocol + domainName + port + path + model + id +  format,
+
+		}).done(function(json) { ret = json; });
+
+		return ret;
+
+		}
+		
+		function getIncome(id) 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = 'BudgetIncome/';
+		var format = '?format=json';
+
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName
+			},
+
+			type: "GET",
+			data: "json",
+			url: protocol + domainName + port + path + model + id +  format,
+
+		}).done(function(json) { ret = json; });
+
+		return ret;
+
+		}
+
+		function getExpenseTypes() 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = 'ExpenseType/';
+		var format = '?format=json';
+
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName
+			},
+
+			type: "GET",
+			data: "json",
+			url: protocol + domainName + port + path + model + format,
+
+		}).done(function(json) { ret = json; });
+
+		return ret;
+
+		}
+	
+	
+     </script>
 
 
     </body>
