@@ -24,6 +24,7 @@ class Budget_account(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=150, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
