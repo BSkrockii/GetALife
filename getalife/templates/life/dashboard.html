@@ -407,7 +407,7 @@
 			},
 
 			type: "GET",
-			data: "json",
+			data: { csrfmiddlewaretoken: '{{ csrf_token }}'},
 			url: protocol + domainName + port + path + model + id +  format,
 
 		}).done(function(json) { ret = json; });
@@ -443,26 +443,27 @@
 
 		}
 		
-		function pushrecord(datains, id) 
+		function pushrecord(datains) 
 		{
 		var protocol = 'http://';
 		var domainName = '127.0.0.1';
 		var port = ':8000';
 		var path = '/api/';
 		var model = 'BudgetIncome/';
-
+		datains.csrfmiddlewaretoken = '{{ csrf_token }}';
 		let ret = undefined;
 
 		$.ajax({
 			async: false,
 			headers: {
-				'Access-Control-Allow-Origin': protocol + domainName
+				'Access-Control-Allow-Origin': protocol + domainName,
+				'Cookie': document.cookies
 			},
 
-			type: "PUT",
+			type: "POST",
 			data: datains,
 			dataType: 'json',
-			url: protocol + domainName + port + path + model + id,
+			url: protocol + domainName + port + path + model,
 
 		}).done(function(status) { ret = status; });
 
