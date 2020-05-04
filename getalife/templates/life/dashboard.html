@@ -46,16 +46,39 @@
     <div class="budgetReportBox" id="balancearea">
 			<canvas id="myBalance" width="600" height="300" ></canvas>
 			<canvas id="myGraph" width="600" height="300" ></canvas>
-			</div>
 			<button onclick="nextgraph()">Next Graph</button>
 			
-	<div style="overflow-y: scroll; height:200px;" id="scrollarea">
+			<div>
+	
+			<div style="overflow-y: scroll; height:200px; width:600px;" id="scrollarea">
 			
-     </div>
+			<div class="cost-quarter">
+			<a onclick="defaultinput(5)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+			<a onclick="defaultinput(6)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+			<a onclick="defaultinput(7)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+			
+			<input type="text" id="source3" placeholder="Name" maxlength="15" >
+			<input type="number" id="source4" placeholder="Amount" maxlength="10" >
+		
+			<a onclick="addpay()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+		</div>
+			
+	</div>
+	
+		<div class="cost-quarter">
+			<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+			<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+			<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+			<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+			
+			<input type="text" id="source" placeholder="Name" maxlength="15" >
+			<input type="number" id="source2" placeholder="Amount" maxlength="10" >
+		
+			<a onclick="addcost()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD COST</button></a>
+		</div>
+				
 	 
-	 
-	 
-	    <script>
+	<script>
 		
 		//setup page
         var today = new Date();
@@ -73,6 +96,8 @@
 		var income = getrecord("BudgetIncome",accountID);
 		var expense = getrecord("BudgetExpense",accountID);
 		var balances = [];
+		
+		addType = 4;
 		
 		balances = createbalances(balances, income, expense);
 		
@@ -204,9 +229,12 @@
 			context.font = "15px Arial";
 			
 			for (i = 0; i < max; i += lines) {
-				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
-				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+				var h = c.height - (i - min) * scale - c.height/10
+			
+				drawline(canvasID, "#E8E8E8", 0, h, c.width, h);
+				if(h < c.height - 15) context.fillText(i, c.width - 2, h - 2);
 			}
+			
 			
 			for (i = 1; i < b.length; i++) {
 				drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (b[i] - min) * scale - c.height/10);
@@ -247,9 +275,12 @@
 			context.font = "15px Arial";
 			
 			for (i = 0; i < max; i += lines) {
-				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
-				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+				var h = c.height - (i - min) * scale - c.height/10
+			
+				drawline(canvasID, "#E8E8E8", 0, h, c.width, h);
+				if(h < c.height - 15) context.fillText(i, c.width - 2, h - 2);
 			}
+			
 			
 			for (i = 1; i < g.length; i++) {
 				drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (g[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (g[i] - min) * scale - c.height/10);
@@ -289,8 +320,10 @@
 			context.font = "15px Arial";
 			
 			for (i = 0; i < max; i += lines) {
-				drawline(canvasID, "#E8E8E8", 0, c.height - (i - min) * scale - c.height/10, c.width, c.height - (i - min) * scale - c.height/10);
-				context.fillText(i, c.width - 2, c.height - (i - min) * scale - c.height/10 - 2);
+				var h = c.height - (i - min) * scale - c.height/10
+			
+				drawline(canvasID, "#E8E8E8", 0, h, c.width, h);
+				if(h < c.height - 15) context.fillText(i, c.width - 2, h - 2);
 			}
 			
 			for (i = 1; i < g.length; i++) {
@@ -376,8 +409,8 @@
 			var element = document.getElementById("scrollarea");
 			element.appendChild(para);
 			
-			var bar = document.createElement("div");
-			element.appendChild(bar);
+			//var bar = document.createElement("div");
+			//element.appendChild(bar);
 		}
 		
 		//SQL fetching
@@ -443,13 +476,13 @@
 
 		}
 		
-		function pushrecord(datains) 
+		function pushrecord(loc,datains) 
 		{
 		var protocol = 'http://';
 		var domainName = '127.0.0.1';
 		var port = ':8000';
 		var path = '/api/';
-		var model = 'BudgetIncome/';
+		var model = loc+'/';
 		datains.csrfmiddlewaretoken = '{{ csrf_token }}';
 		let ret = undefined;
 
@@ -469,6 +502,59 @@
 
 		return ret;
 
+		}
+		
+		//preset defaults
+		function defaultinput(id) {
+			if (id == 1) {
+				document.getElementById("source").value = "Food";
+				document.getElementById("source2").value = 10;
+				addType = 1;
+			}
+			if (id == 2) {
+				document.getElementById("source").value = "Travel";
+				document.getElementById("source2").value = 40;
+				addType = 2;
+			}
+			if (id == 3) {
+				document.getElementById("source").value = "Entertainment";
+				document.getElementById("source2").value = 50;
+				addType = 3;
+			}
+			if (id == 4) {
+				document.getElementById("source").value = "Other";
+				document.getElementById("source2").value = 20;
+				addType = 4;
+			}
+			if (id == 5) {
+				document.getElementById("source3").value = "Pay";
+				document.getElementById("source4").value = 100;
+				addType = 4;
+			}
+			if (id == 6) {
+				document.getElementById("source3").value = "Pay";
+				document.getElementById("source4").value = 500;
+				addType = 4;
+			}
+			if (id == 7) {
+				document.getElementById("source3").value = "Pay";
+				document.getElementById("source4").value = 1250;
+				addType = 4;
+			}
+		}
+		
+		function addcost() {
+			var data = {"id":1, "name": document.getElementById("source").value, "description": "none", "account": 1, "expenseType": addType, "month": month, "expense": document.getElementById("source2").value};
+			if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
+			document.getElementById("source").value = "";
+			document.getElementById("source2").value = "";
+		}
+		
+		function addpay() {
+			var data = {"id":1, "name": document.getElementById("source3").value, "description": "none", "account": 1, "incomeType": 1, "month": month, "income": document.getElementById("source4").value};
+			if(document.getElementById("source4").value > 0) pushrecord("BudgetIncome", data);
+			//document.getElementById("source3").value = "";
+			document.getElementById("source4").value = 0;
 		}
 	
      </script>

@@ -25,8 +25,20 @@ DASHBOARD CSS
 
 .year{
     float: right;
+}
 
+.cost-source {
+    position: absolute;
+    display: block;
+    margin-top: 20%;
+    margin-left: 60%;
+}
 
+.cost-money {
+    position: absolute;
+    display: block;
+    margin-top: 20%;
+    margin-left: 60%;
 }
 
 .upcomingEventsButton{
