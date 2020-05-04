@@ -70,14 +70,15 @@
 		var accountID = 1;
 		var graphType = 0;
 		
-		var income = getIncome(accountID);
-		var expense = getExpense(accountID);
+		var income = getrecord("BudgetIncome",accountID);
+		var expense = getrecord("BudgetExpense",accountID);
 		var balances = [];
 		
-		balances = createBalances(balances, income, expense);
+		balances = createbalances(balances, income, expense);
 		
 		nextgraph();
 		balancedisplay(income, expense);
+		createlistings(income, expense);
 		
 		//balance display
 		function balancedisplay(income, expense) {
@@ -136,18 +137,18 @@
 		}
 		
 		//create graphs based on data
-		function createBalances(b, income, expense) {
+		function createbalances(b, income, expense) {
 			
 			for(i=0; i<12; i++) {
 			b[i] = 0;
 			}
 			
 			for(i=0; i<expense.length; i++) {
-			b[expense[i].month - 1] -= expense[i].expense;
+			b[expense[i].month - 1] -= parseFloat(expense[i].expense);
 			}
 			
 			for(i=0; i<income.length; i++) {
-			b[income[i].month - 1] += income[i].income;
+			b[income[i].month - 1] += parseFloat(income[i].income);
 			}
 			
 			for(i=0; i<12; i++) {
@@ -184,7 +185,7 @@
 			var context = c.getContext("2d");
 			
 		
-			if (b.length < 1) return;
+			//if (b.length < 1) return 0;
 			
 			var max = b[0];
 			var min = b[0];
@@ -329,7 +330,7 @@
 				}
 			}
 			
-			etypes = getExpenseTypes();
+			etypes = getexpensetypes();
 			
 			for(i=0; i<etypes.length; i++) {
 				if (expensetype[etypes[i].id] > 0) {
@@ -387,67 +388,14 @@
 		alert('jQuery is not loaded');
         }}
 	
-		function getRecord(id) 
+	
+		function getrecord(loc,id) 
 		{
 		var protocol = 'http://';
 		var domainName = '127.0.0.1';
 		var port = ':8000';
 		var path = '/api/';
-		var model = 'BudgetAccount/';
-		var format = '?format=json';
-
-		let ret = undefined;
-
-		$.ajax({
-			async: false,
-			headers: {
-				'Access-Control-Allow-Origin': protocol + domainName
-			},
-
-			type: "GET",
-			data: "json",
-			url: protocol + domainName + port + path + model + id +  format,
-
-		}).done(function(json) { ret = json; });
-
-		return ret;
-
-		}
-		
-		function getExpense(id) 
-		{
-		var protocol = 'http://';
-		var domainName = '127.0.0.1';
-		var port = ':8000';
-		var path = '/api/';
-		var model = 'BudgetExpense/';
-		var format = '?format=json';
-
-		let ret = undefined;
-
-		$.ajax({
-			async: false,
-			headers: {
-				'Access-Control-Allow-Origin': protocol + domainName
-			},
-
-			type: "GET",
-			data: "json",
-			url: protocol + domainName + port + path + model + id +  format,
-
-		}).done(function(json) { ret = json; });
-
-		return ret;
-
-		}
-		
-		function getIncome(id) 
-		{
-		var protocol = 'http://';
-		var domainName = '127.0.0.1';
-		var port = ':8000';
-		var path = '/api/';
-		var model = 'BudgetIncome/';
+		var model = loc + '/';
 		var format = '?format=json';
 
 		let ret = undefined;
@@ -468,7 +416,7 @@
 
 		}
 
-		function getExpenseTypes() 
+		function getexpensetypes() 
 		{
 		var protocol = 'http://';
 		var domainName = '127.0.0.1';
@@ -494,7 +442,33 @@
 		return ret;
 
 		}
-	
+		
+		function pushrecord(datains, id) 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = 'BudgetIncome/';
+
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName
+			},
+
+			type: "PUT",
+			data: datains,
+			dataType: 'json',
+			url: protocol + domainName + port + path + model + id,
+
+		}).done(function(status) { ret = status; });
+
+		return ret;
+
+		}
 	
      </script>
 
