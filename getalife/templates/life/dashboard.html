@@ -4,10 +4,11 @@
     <!--INSERT HTML FOR DASHBOARD HERE-->
     <head>
         <meta charset="utf-8">
+        <link rel="import" href="import/calendarFt.html">
     </head>
 
     {% block content %}
-    <body>
+    <body class="dashboard-bg">
 
      <!--Calendar Header-->
     <div class="calendarHeader">
@@ -17,8 +18,6 @@
 
     </div>
 	
-	
-
      <div style="clear: both;"></div>
 
     <!--Events-->
@@ -28,15 +27,13 @@
 
     </div>
 
-
-
-
      <div class="upcomingEventsBox">
-            <p>Implement Calendar Here</p>
+            <script>
+                var doc = document.querySelector('link[rel="import"]').import;
+                var div = wrapper.querySelector('.wrapper');
+                document.body.appendChild(text.cloneNode(true));
+            </script>
      </div>
-
-
-
 
     <!--Budgets-->
     <div>
@@ -48,36 +45,41 @@
 			<canvas id="myGraph" width="600" height="300" ></canvas>
 			<button onclick="nextgraph()">Next Graph</button>
 			
-			<div>
-	
-			<div style="overflow-y: scroll; height:200px; width:600px;" id="scrollarea">
-			
-			<div class="cost-quarter">
-			<a onclick="defaultinput(5)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
-			<a onclick="defaultinput(6)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
-			<a onclick="defaultinput(7)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
-			
-			<input type="text" id="source3" placeholder="Name" maxlength="15" >
-			<input type="number" id="source4" placeholder="Amount" maxlength="10" >
-		
-			<a onclick="addpay()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
-		</div>
-			
 	</div>
-	
-		<div class="cost-quarter">
-			<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
-			<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
-			<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
-			<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
-			
-			<input type="text" id="source" placeholder="Name" maxlength="15" >
-			<input type="number" id="source2" placeholder="Amount" maxlength="10" >
+    
+    <div class="pay-quarter">
+        <a onclick="defaultinput(5)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+        <a onclick="defaultinput(6)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+        <a onclick="defaultinput(7)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+        
+        <div class="pay-placeholder">
+            <input type="text" id="source3" placeholder="Name" maxlength="15" >
+            <input type="number" id="source4" placeholder="Amount" maxlength="10" >
+        </div>
+    
+        <div class="pay-addbutton">
+            <a onclick="addpay()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+        </div>
+
+    </div>
+
+	<div class="cost-quarter">
+		<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+		<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+		<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+		<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+        
+        <div class="cost-placeholder">
+            <input type="text" id="source" placeholder="Name" maxlength="15" >
+            <input type="number" id="source2" placeholder="Amount" maxlength="10" >
+        </div>
+        
+        <div class="cost-addbutton">
+            <a onclick="addcost()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD COST</button></a>
+        </div>
 		
-			<a onclick="addcost()" style="text-decoration:none"><button type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD COST</button></a>
-		</div>
+	</div>
 				
-	 
 	<script>
 		
 		//setup page
