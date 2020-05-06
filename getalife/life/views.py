@@ -126,10 +126,10 @@ def register(request):
         conf = Budget_config.objects.create(name = acct.name, description = 'config', budget_limit = 10000, month = date.month, account_id = acct.id)
 
         # add expense
-        expense = Budget_expense.objects.create(name = date.strftime('%B'), description = 'expense', month = date.month, account_id = acct.id, expense = 0, expenseType_id = 1)
+        expense = Budget_expense.objects.create(name = 'expense ' + date.strftime('%B'), description = date.year, month = date.month, account_id = acct.id, expense = 10000, expenseType_id = 1)
 
         # add income
-        income = Budget_income.objects.create(name = date.strftime('%B'), description = 'income', month = date.month, account_id = acct.id, income = 0, incomeType_id = 1)
+        income = Budget_income.objects.create(name = 'income ' + date.strftime('%B'), description = date.year, month = date.month, account_id = acct.id, income = 10000, incomeType_id = 1)
 
         acct.save()
         conf.save()
