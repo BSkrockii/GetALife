@@ -10,6 +10,9 @@ DASHBOARD CSS
     background-position-y: -200px;
     background-color: #D2D6DD;
     color: #fff;
+    margin-top: 150px;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .calendarHeader{
