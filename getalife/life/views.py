@@ -110,9 +110,32 @@ def register(request):
             messages.error(request, 'Passwords do not match')
             return render(request,'life/register.html', context)
 
+
         user = User.objects.create_user(username=username, password=password,email=email)
         user.save()
         request.user = user
+
+        # budgetAccount
+        date = datetime.now()
+        acct = Budget_account.objects.create(name = date.year, description = date.strftime('%B'), month = date.month)
+
+        # add to user
+        acct.users.add(user)
+
+        # Add Config
+        conf = Budget_config.objects.create(name = acct.name, description = 'config', budget_limit = 10000, month = date.month, account_id = acct.id)
+
+        # add expense
+        expense = Budget_expense.objects.create(name = date.strftime('%B'), description = 'expense', month = date.month, account_id = acct.id, expense = 0, expenseType_id = 1)
+
+        # add income
+        income = Budget_income.objects.create(name = date.strftime('%B'), description = 'income', month = date.month, account_id = acct.id, income = 0, incomeType_id = 1)
+
+        acct.save()
+        conf.save()
+        expense.save()
+        income.save()
+
         return redirect('/dashboard')
     return render(request, 'life/register.html')
 
@@ -420,8 +443,9 @@ def budget(request):
             for event in distinctEvents:
                 tempEvent[event['event_type']] = Events.objects.values('amount').filter(user_id=request.user, event_type=event['event_type'], start_date__month=str(month), start_date__year=by['name']).aggregate(amount=Sum('amount'))
                 
-            tempMonth[month] = tempEvent        
+            tempMonth[month] = tempEvent
         Data[by['name']] = tempMonth
+
 
     budgetData = Budget_account.objects.filter(users=request.user)
     return render(request,'life/budget.html', {"budgetData":budgetData, 
