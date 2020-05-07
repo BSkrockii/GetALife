@@ -81,5 +81,5 @@ class Events(models.Model):
     event_name = models.CharField(max_length=255,null=True,blank=True)
     start_date = models.DateField(null=True,blank=True)
     end_date = models.DateField(null=True,blank=True)
-    event_type = models.CharField(max_length=10,null=True,blank=True)
+    event_type = models.CharField(max_length=255,null=True,blank=True)
     amount = models.FloatField(blank=True, default=0)
