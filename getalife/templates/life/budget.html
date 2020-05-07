@@ -3,7 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'life/budget.css' %}" />
-<script src="{% static 'life/budget.js' %}"></script>
+<script src="{% static 'life/budget.js' %}" defer></script>
 
 {% if budgetData  %}
 <div id="budget-wrapper">
@@ -17,50 +17,57 @@
                     {% if key == by.name %}
                         {% for value in v %}
                         {{value.id.description}}
-                        <h3 id="{{ value.description }}-{{ by.name }}" onclick="showContentMonth(this)">{{ value.description }}</h3>
-                        <div id="{{ value.description }}-{{ by.name }}-content" class="content-inactive">
-                            <table id="{{ value.description }}-{{ by.name }}-table" class="table table-dark">
-                                <thead>
-                                    <tr>
-                                        <th>Budget Name</th>
-                                        <th>Planned</th>
-                                        <th>Actual</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for mData in budgetMonthData %}
-                                        {% if mData.month == value.month and mData.description == key %}
+                        <div id="{{ value.description }}-{{ by.name }}-edit">
+                            <h3 id="{{ value.description }}-{{ by.name }}" onclick="showContentMonth(this)">{{ value.description }}</h3>
+                            <div id="{{ value.description }}-{{ by.name }}-content" class="content-inactive">
+                                <table id="{{ value.description }}-{{ by.name }}-table" class="table table-dark">
+                                    <thead>
                                         <tr>
-                                            <td>{{mData.name}}</td>
-                                            <td>{{mData.expense}}</td>
-                                            {% for year, events in eventData.items %}
-                                                {% if year == key %}
-                                                    {% for month, event in events.items %}
-                                                        {% if month == mData.month %}
-                                                            {% for e, value in event.items %}
-                                                                {% if e == mData.name %}
-
-                                                                        <td>{{value.amount}}</td>
-                                                                    
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                            {% endfor %}
+                                            <th>Budget Name</th>
+                                            <th>Planned</th>
+                                            <th>Actual</th>
                                         </tr>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {% for mData in budgetMonthData %}
+                                            {% if mData.month == value.month and mData.description == key %}
+                                            <tr id="{{by.name}}-{{ value.description }}-{{mData.name}}">
+                                                <td>{{mData.name}}</td>
+                                                <td>{{mData.expense}}</td>
+                                                {% for year, events in eventData.items %}
+                                                    {% if year == key %}
+                                                        {% for month, event in events.items %}
+                                                            {% if month == mData.month %}
+                                                                {% for e, value in event.items %}
+                                                                    {% if e == mData.name %}
+
+                                                                            <td>{{value.amount}}</td>
+                                                                        
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <button type="button" id="but-{{value.description}}-{{key}}" onclick="newExpense('{{value.description}}', '{{key}}', this)" class="btn btn-dark">Add Expense Type</button>  
+                                <button type="button" id="{{value.description}}-{{key}}-edit-but"  class="ml-1 btn btn-secondary" disabled>Edit</button>  
+                            </div>
                         </div>
                         {% endfor v %}
                     {% endif  %}   
-                {% endfor budgetYearData %}     
+                {% endfor budgetYearData %}  
+                
             </div>
+            
         </div>
         {% endfor budgetYear %} 
     </div>
+    
 </div>
 {% endif %}
 
