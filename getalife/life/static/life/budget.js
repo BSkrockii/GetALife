@@ -117,14 +117,13 @@ $("[id*=-table] tr").click(function(){
 
 $("[id*=-edit-but] ").click(function(){   
     if(!inEditMode){
-        let el = $("#" + selectedRow.attr('id'));
-        budgetName = el.children()[0].textContent;
-        planned = el.children()[1].textContent;
-        actual = el.children()[2].textContent;
+        budgetName = selectedRow.children()[0].textContent;
+        planned = selectedRow.children()[1].textContent;
+        actual = selectedRow.children()[2].textContent;
 
-        el.removeClass('table-dark');
+        selectedRow.removeClass('table-dark');
 
-        el.html("<td><input type='text' id='updatedBudgeName' value='" + budgetName + "'></td>" +
+        selectedRow.html("<td><input type='text' id='updatedBudgeName' value='" + budgetName + "'></td>" +
                 "<td><input type='text' id='updatedPlanned' value='" + planned + "'></td>" +
                 "<td>" + actual + "</td>");
         inEditMode = 1
@@ -161,7 +160,7 @@ function saveChanges(){
             success: function (json, response){
                 $('#saveChanges').remove();
                 $('#undoChanges').remove();
-                let el = $("#" + selectedRow.attr('id'));
+                let el = selectedRow;
                 el.html("<td>" + updatedBudgeName + "</td>" +
                         "<td>" + updatedPlanned + "</td>" +
                         "<td>" + actual + "</td>");
@@ -181,7 +180,7 @@ function saveChanges(){
 function undoChanges(){
    $('#saveChanges').remove();
    $('#undoChanges').remove();
-   let el = $("#" + selectedRow.attr('id'));
+   let el = selectedRow;
    el.html("<td>" + budgetName + "</td>" +
            "<td>" + planned + "</td>" +
            "<td>" + actual + "</td>");

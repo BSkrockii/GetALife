@@ -34,6 +34,7 @@
                                             <tr id="{{by.name}}-{{ value.description }}-{{mData.name}}">
                                                 <td>{{mData.name}}</td>
                                                 <td>{{mData.expense}}</td>
+                                                <td>
                                                 {% for year, events in eventData.items %}
                                                     {% if year == key %}
                                                         {% for month, event in events.items %}
@@ -41,14 +42,15 @@
                                                                 {% for e, value in event.items %}
                                                                     {% if e == mData.name %}
 
-                                                                            <td>{{value.amount}}</td>
-                                                                        
+                                                                            {{value.amount}}
                                                                     {% endif %}
                                                                 {% endfor %}
+                                                                
                                                             {% endif %}
                                                         {% endfor %}
                                                     {% endif %}
                                                 {% endfor %}
+                                                </td>
                                             </tr>
                                             {% endif %}
                                         {% endfor %}

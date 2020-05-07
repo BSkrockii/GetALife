@@ -507,7 +507,7 @@ def addExpense(request):
 def updateExpense(request):
     updatedExpense = request.POST['budgetName']
     updatedPlanned = request.POST['planned']
-    month = request.POST['month']
+    month = request.POST['month'].lower()
     year = request.POST['year']
     temp = request.POST['oldValue']
     monthNum = 0
