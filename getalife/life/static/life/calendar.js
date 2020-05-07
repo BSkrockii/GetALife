@@ -117,7 +117,7 @@ function openForm(){
                 form += "<tr><td>" + "<input type='text' placeholder='Amount' id='newAmount' required>" + "</td></tr>";
                 form += "<tr><td>" + "<select name='expenseType' id='newExpense'>";
                 for (i = 0; i < parsed.length; i++) {
-                    form += "<option value=" + parsed[i].name +">" + parsed[i].name + "</option>";
+                    form += "<option value='" + parsed[i].name +"'>" + parsed[i].name + "</option>";
                   }
                 form += "</select>" + "</td></tr>"              
                 form += "<tr><td><button onclick='saveEvent()'>ADD</button><button class='deleteEvent' onclick='closeForm()'>X</button></td></tr>";
@@ -145,6 +145,7 @@ function saveEvent() {
     var date = globalCalendar.state.currentDate.toLocaleDateString();
     var amount = document.getElementById("newAmount");
     var expenseType = document.getElementById("newExpense");
+
 
     $.ajax({
         crossOrigin: true,

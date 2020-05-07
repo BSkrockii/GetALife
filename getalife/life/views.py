@@ -459,9 +459,8 @@ def budget(request):
 def addExpense(request):
     newExpense = request.POST['newExpense']
     newPlanned = request.POST['newPlanned']
-    month = request.POST['month']
+    month = request.POST['month'].lower()
     year = request.POST['year']
-    
     
     monthNum = 0
     
@@ -490,7 +489,7 @@ def addExpense(request):
     else:
         monthNum = 12
 
-    account_id = Budget_account.objects.filter(description=month, name=year)
+    account_id = Budget_account.objects.filter(description=month, name=year, users__id=request.user.id)
     expenseType = Expense_type.objects.filter(id=1)
 
     expense = Budget_expense(
