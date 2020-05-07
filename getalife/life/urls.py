@@ -47,7 +47,9 @@ urlpatterns = [
     path('deleteEvent/', views.deleteEvent, name='deleteEvent'),
     path('getExpenseTypes/', views.getExpenseTypes, name='getExpenseTypes'),
 
-    path('budget/', views.budget, name='budget')
+    path('budget/', views.budget, name='budget'),
+    path('addExpense/', views.addExpense, name='addExpense'),
+    path('updateExpense/', views.updateExpense, name='updateExpense')
 ]
 
 #urlpatterns += staticfiles_urlpatterns()
