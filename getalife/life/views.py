@@ -430,3 +430,93 @@ def budget(request):
             "budgetMonthData":temp,
             "eventData": Data })
 
+@csrf_exempt
+def addExpense(request):
+    newExpense = request.POST['newExpense']
+    newPlanned = request.POST['newPlanned']
+    month = request.POST['month']
+    year = request.POST['year']
+    
+    
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    account_id = Budget_account.objects.filter(description=month, name=year)
+    expenseType = Expense_type.objects.filter(id=1)
+
+    expense = Budget_expense(
+           name = newExpense,
+           description = year,
+           month = monthNum,
+           expense = newPlanned, 
+           account = account_id[0],
+           expenseType = expenseType[0])
+    expense.save()
+    
+    return JsonResponse({}, status=200)
+
+@csrf_exempt
+def updateExpense(request):
+    updatedExpense = request.POST['budgetName']
+    updatedPlanned = request.POST['planned']
+    month = request.POST['month']
+    year = request.POST['year']
+    temp = request.POST['oldValue']
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    temp2 = Budget_expense.objects.filter(month=monthNum, description=year, name=temp, account__users=request.user).update(name=updatedExpense, expense=updatedPlanned)
+
+    other = Events.objects.filter(start_date__month=monthNum, start_date__year=str(year), user_id=request.user, event_type=temp).update(event_type=updatedExpense)
+
+    #temp.save()
+    return JsonResponse({}, status=200)
+
