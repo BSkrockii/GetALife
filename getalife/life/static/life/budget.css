@@ -16,4 +16,10 @@
 .monthly-content{
     margin-left: 2em;
     text-transform: uppercase;
+    
+}
+.newButton {
+    border: none;
+    margin-bottom: 1em;
+    background-color: #4CAF50;
 }
