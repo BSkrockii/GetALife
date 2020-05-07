@@ -431,7 +431,8 @@ def budget(request):
     for by in budgetYears:
         budgetYearData[by['name']] = Budget_account.objects.filter(users=request.user, name=by['name'])  
 
-    temp = Budget_expense.objects.all()  
+
+    temp = Budget_expense.objects.filter(account__users__id=request.user.id)
 
     Data = {}
 
