@@ -417,10 +417,6 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 
             return Response(serializer.data)
 
-# # budget_config
-# class Budget_configSerializer(serializers.HyperlinkedModelSerializer):
-#     model = Budget_config
-#     fields = ['id', 'name', 'description', 'budget_limit', 'account', 'month']
 
 def budget(request):
     if request.user.is_authenticated is False:
