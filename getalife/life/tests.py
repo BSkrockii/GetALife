@@ -1,5 +1,9 @@
 from django.test import TestCase, Client
-
+from django.contrib import messages, auth
+from django.contrib.auth.models import User, auth
+from .models import *
+from django.contrib.auth.models import User, Group
+from django.http import HttpResponse, JsonResponse
 
 # Create your tests here.
 
@@ -22,71 +26,79 @@ class JenkinsTest(TestCase):
 class UnAuthenticatedCallTests(TestCase):
     # setup client
     # Create User 
-    def setup():
-    
+    def setup(self):
+        self.client = Client()
     # Check index/
-    def indexTest():
-
+    def test_indexTest(self):
+        response = self.client.get('life/index')
+        self.assertEquals(response.status_code, 200)
     # Check finance/
-    def financeTest():
-
+    # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
+    def test_financeTest(self):
+        response = self.client.get('life/finance')
+        self.assertEquals(response.status_code, '302')
     # Check cost/
-    def cost():
+    # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
+    def cost(self):
+        response = self.client.get('life/cost')
+        self.assertEquals(response.status_code, '302')
 
     # Check pay/
-    def pay():
+    #def pay():
 
     # Check dashboard/
-    def dashboard():
+   #def dashboard():
     
     # Check login
     # get, then post and check if logged in.  
     # Then, remove all cookies
-    def login():
+    #def login():
 
     # Check Failed login
     # get, then post with wrong credentials
     # If logged in, fail test and remove cookies
-    def failedLogin():
+    #def failedLogin():
 
     # check faq
-    def faq():
+    #def faq():
 
     #check about
-    def about():
+    #def about():
 
     # Check singout
-    def signOut():
+    #def signOut():
 
     # Check if an error.
     # Must create bad request
-    def error400():
+    #def error400():
 
     # Try to access some authE only url
     # # Home, dashboard
-    def error403():
+    #def error403():
     
     # Try a url that doesnt exist
-    def error404():
+    #def error404():
 
     # Iternal error...
     # just access error 500 url
-    def error500():
+    #def error500():
 
     # Must go to login.
-    def calenderFt():
+    #def calenderFt():
 
     #needs to check authentication.
-    def event():
+    #def event():
     
 
-class AuthenticatedCallTest(TestCase):
+""" class AuthenticatedCallTest(TestCase):
     # Create user
     # Create 2 events
-    def setup():
-    
+    def setup(self):
+        self.username="test"
+        self.password="password1234"
+        self.user = auth.authenticate(username=username, password=password)
     # Should get redirected to dashboard
-    def index():
+    def index(self):
 
     # Check if it is using dashboard.html
     def dashboard():
@@ -114,9 +126,9 @@ class AuthenticatedCallTest(TestCase):
 
     # Check if events gets deleted
     def deleteEvent():
-
+ """
     
-class restfulApi():
+""" class restfulApi():
     # Create 2 user
     # Create 2 budget Account
     # Link 1 user to BudgetAccount 1 & 2
@@ -148,7 +160,7 @@ class restfulApi():
     # Check if it can get BI
     def getBudgetIncome():
 
-
+ """
 # every def, put variable Client() (ex: c = Client())
 
 # for csrf, c = Client(enforce_csrf_checks=True)
