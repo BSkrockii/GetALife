@@ -28,15 +28,18 @@ class UnAuthenticatedCallTests(TestCase):
     # Create User 
     def setup(self):
         self.client = Client()
+    
     # Check index/
     def test_indexTest(self):
         response = self.client.get('index/')
         self.assertEquals(response.status_code, 200)
+    
     # Check finance/
     # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
     def test_financeTest(self):
         response = self.client.get('finance/', follow=True)
         self.assertRedirects(response, '/login/', 301, 200)
+    
     # Check cost/
     # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
     def test_cost(self):
@@ -47,6 +50,7 @@ class UnAuthenticatedCallTests(TestCase):
     def test_pay(self):
         response = self.client.get('pay/', follow=True)
         self.assertRedirects(response, '/login/', 301, 200)
+    
     # Check dashboard/
     def test_dashboard(self):
         response = self.client.get('/dashboard', follow=True)
