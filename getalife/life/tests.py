@@ -31,24 +31,24 @@ class UnAuthenticatedCallTests(TestCase):
     
     # Check index/
     def test_indexTest(self):
-        response = self.client.get('index/')
+        response = self.client.get('/index/')
         self.assertEquals(response.status_code, 200)
     
     # Check finance/
     # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
     def test_financeTest(self):
-        response = self.client.get('finance/', follow=True)
+        response = self.client.get('/finance/', follow=True)
         self.assertRedirects(response, '/login/', 301, 200)
     
     # Check cost/
     # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
     def test_cost(self):
-        response = self.client.get('cost/', follow=True)
+        response = self.client.get('/cost/', follow=True)
         self.assertRedirects(response, '/login/', 301, 200)
 
     # Check pay/
     def test_pay(self):
-        response = self.client.get('pay/', follow=True)
+        response = self.client.get('/pay/', follow=True)
         self.assertRedirects(response, '/login/', 301, 200)
     
     # Check dashboard/
@@ -84,7 +84,9 @@ class UnAuthenticatedCallTests(TestCase):
     #def error403():
     
     # Try a url that doesnt exist
-    #def error404():
+    def test_error404(self):
+        response = self.client.get('/badURL/', follow=True)
+        self.assertEquals(response.status_code, 404)
 
     # Iternal error...
     # just access error 500 url
