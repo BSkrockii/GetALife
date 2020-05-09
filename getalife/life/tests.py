@@ -90,7 +90,9 @@ class UnAuthenticatedCallTests(TestCase):
 
     # Iternal error...
     # just access error 500 url
-    #def error500():
+    def test_error500(self):
+        response = self.client.get('/error_500')
+        self.assertEquals(response.status_code, 500)
 
     # Must go to login.
     #def calenderFt():
