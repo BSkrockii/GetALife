@@ -110,13 +110,20 @@
 		balancedisplay();
 		createlistings();
 		
-		//balance display
+		//setup
+		function refresh() {
+			getdata();
+			makegraph();
+			createlistings();
+		}
+		
 		function getdata() {
 			income = getrecord("BudgetIncome",accountID);
 			expense = getrecord("BudgetExpense",accountID);
 			balances = createbalances(balances);
 		}
 		
+		//balance display
 		function balancedisplay() {
 			
 			var gain = 0;
@@ -161,16 +168,18 @@
 		
 		//listing display
 		function createlistings() {
+			$( ".listingButton" ).remove();
+		
 			$( ".budgetReportButton" ).remove();
 		
 			for(i=0; i<income.length; i++) {
 				var text = "Income: " + income[i].name + " , $" + income[i].income
-				addButton(text,income[i].id)
+				addButton(text,income[i].id,2)
 			}
 			
 			for(i=0; i<expense.length; i++) {
 				var text = "Expense: " + expense[i].name + " , $" + expense[i].expense
-				addButton(text,expense[i].id)
+				addButton(text,expense[i].id,1)
 			}
 		}
 		
@@ -404,21 +413,17 @@
 		}
 		
 		//Button generation
-		
-		function alertme(x) {
-			alert(x);
-		}
-		
-		function addButton(text,val) {
+		function addButton(text,val,type) {
 			var para = document.createElement("button");
 			var node = document.createTextNode(text);
 			
 			var att = document.createAttribute("onclick");
-			att.value = "alertme('"+val+"')";
+			if (type==1) att.value = "deletecost('"+val+"')";
+			if (type==2) att.value = "deletepay('"+val+"')";
 			para.setAttributeNode(att);
 			
 			var att2 = document.createAttribute("class");
-			att2.value = "budgetReportButton";
+			att2.value = "listingButton";
 			para.setAttributeNode(att2);
 			
 			para.appendChild(node);
@@ -607,9 +612,7 @@
 			document.getElementById("source").value = "";
 			document.getElementById("source2").value = "";
 			
-			getdata();
-			makegraph();
-			createlistings();
+			refresh();
 		}
 		
 		function addpay() {
@@ -618,9 +621,19 @@
 			//document.getElementById("source3").value = "";
 			document.getElementById("source4").value = 0;
 			
-			getdata();
-			makegraph();
-			createlistings();
+			refresh();
+		}
+		
+		function deletecost(id) {
+			deleterecord("BudgetExpense", id);
+			
+			refresh();
+		}
+		
+		function deletepay(id) {
+			deleterecord("BudgetIncome", id);
+			
+			refresh();
 		}
 	
      </script>
