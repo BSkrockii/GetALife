@@ -95,7 +95,9 @@ class UnAuthenticatedCallTests(TestCase):
         self.assertEquals(response.status_code, 500)
 
     # Must go to login.
-    #def calenderFt():
+    def test_calenderFt(self):
+        response = self.client.get('/calendarFt/', follow=True)
+        self.assertRedirects(response, '/login/', 302, 200)
 
     #needs to check authentication.
     #def event():
