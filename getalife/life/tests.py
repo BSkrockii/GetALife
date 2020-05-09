@@ -59,21 +59,40 @@ class UnAuthenticatedCallTests(TestCase):
     # Check login
     # get, then post and check if logged in.  
     # Then, remove all cookies
-    #def login():
+    def test_login(self):
+        username='testuser'
+        password='thisisapassword123'
+        email='na@na.com'
+
+        user = User.objects.create(username=username, email=email, is_active=True)
+        user.set_password(password)
+        user.save()
+
+        isLoggedIn = self.client.login(username=username, password=password)
+
+        self.assertTrue(isLoggedIn)
 
     # Check Failed login
     # get, then post with wrong credentials
     # If logged in, fail test and remove cookies
-    #def failedLogin():
+    def test_failedLogin(self):
+        username = 'unknownuser'
+        password = 'password12345'
+        user = self.client.login(username=username, password=password)
+        self.assertFalse(user)
 
     # check faq
-    #def faq():
-
+    def test_faq(self):
+        response = self.client.get('/faq/')
+        self.assertEquals(response.status_code, 200)
+    
     #check about
-    #def about():
+    def test_about(self):
+        response = self.client.get('/about/')
+        self.assertEquals(response.status_code, 200)
 
     # Check singout
-    #def signOut():
+    #def test_signOut(self):
 
     # Check if an error.
     # Must create bad request
