@@ -49,9 +49,9 @@ class Budget_expense(models.Model):
     modified_utc = models.DateField(auto_now=True, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
     expenseType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
-    day = models.DecimalField(max_digits=2, decimal_places=0, null=False)
+    day = models.DecimalField(max_digits=2, decimal_places=0, null=False, default= 1)
     month = models.IntegerField(choices=Month.choices, null=False)
-    year = models.DecimalField(max_digits=4, decimal_places=0, null=False)
+    year = models.DecimalField(max_digits=4, decimal_places=0, null=False, default= 2020)
     expense = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
 # budget_income
@@ -62,9 +62,9 @@ class Budget_income(models.Model):
     modified_utc = models.DateField(auto_now=True, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
     incomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
-    day = models.DecimalField(max_digits=2, decimal_places=0, null=False)
+    day = models.DecimalField(max_digits=2, decimal_places=0, null=False, default= 1)
     month = models.IntegerField(choices=Month.choices, null=False)
-    year = models.DecimalField(max_digits=4, decimal_places=0, null=False)
+    year = models.DecimalField(max_digits=4, decimal_places=0, null=False, default= 2020)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
 # budget_config
