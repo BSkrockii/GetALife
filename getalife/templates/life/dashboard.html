@@ -4,7 +4,7 @@
     <!--INSERT HTML FOR DASHBOARD HERE-->
     <head>
         <meta charset="utf-8">
-        <link rel="import" href="import/calendarFt.html">
+        <!-- <link rel="import" href="import/calendarFt.html"> -->
     </head>
 
     {% block content %}
@@ -55,6 +55,7 @@
         <div class="pay-placeholder">
             <input type="text" id="source3" placeholder="Name" maxlength="15" >
             <input type="number" id="source4" placeholder="Amount" maxlength="10" >
+            <input type="number" id="paycost" placeholder="Month" maxlength="2" >
         </div>
     
         <div class="pay-addbutton">
@@ -71,8 +72,9 @@
         <a onclick="defaultinput(5)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">O</button></a>
 		
         <div class="cost-placeholder">
-            <input type="text" id="source" placeholder="Name" maxlength="15" >
+            <input type="text" id="source" placeholder="Name" maxlength="15" height="10">
             <input type="number" id="source2" placeholder="Amount" maxlength="10" >
+            <input type="number" id="monthcost" placeholder="Month" maxlength="2" >
         </div>
         
         <div class="cost-addbutton">
@@ -159,7 +161,7 @@
 			context.fillText(totaltext, 55, 60);
 			
 			var max = gain;
-			if (loss > gain) loss = max;
+			if (loss > gain) max = loss;
 			
 			context.fillStyle="green";
 			context.fillRect(120,90,(gain/max*300),20);
@@ -298,7 +300,7 @@
 			
 			var lines = Math.round((max - min) / 5 / 20) * 20
 			
-			if (lines < 10) lines = 10;
+			if (lines < 2) lines = 2;
 			
 			scale = c.height * 0.7 / (max - min)
 			
@@ -346,7 +348,7 @@
 			
 			var lines = Math.round((max - min) / 5 / 20) * 20
 			
-			if (lines < 10) lines = 10;
+			if (lines < 2) lines = 2;
 			
 			scale = c.height * 0.7 / (max - min)
 			
