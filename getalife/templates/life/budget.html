@@ -60,17 +60,42 @@
                                 <button type="button" id="{{value.description}}-{{key}}-edit-but"  class="ml-1 btn btn-secondary" disabled>Edit</button>  
                             </div>
                         </div>
+                        
                         {% endfor v %}
-                    {% endif  %}   
-                {% endfor budgetYearData %}  
-                
-            </div>
+                    {% endif  %}  
+                {% endfor budgetYearData %}      
+            </div> 
             
         </div>
         {% endfor budgetYear %} 
     </div>
-    
+    <button type="button" id="newBudget"  class="mt-3 btn btn-dark">New Budget</button>
 </div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <div class="new-budget-content">
+            <h1>Create New Budget</h1><br>
+            <select id="newBudgetYear">
+                <option disabled selected value> -- select a year -- </option>
+                {% for x in budgetYears %}
+                <option value="{{x.name}}">{{x.name}}</option>
+                {% if forloop.last %}
+                <option value="{{x.name|add:1}}">{{x.name|add:1}}</option>
+                {% endif %}
+                {% endfor %}
+            </select><br>
+
+            <select id="newBudgetMonth" class="mt-2"> 
+                <option disabled selected value> -- select a month -- </option>
+            </select><br>
+
+            <button type="button" id="submitNewBudget"  class="mt-2 btn btn-secondary">Add</button>
+            <button type="button" id="cancelNewBudget"  class="mt-2 btn btn-danger">Cancel</button>
+        </div>
+    </div>
+</div>
+
 {% endif %}
 
 {% endblock content %}
