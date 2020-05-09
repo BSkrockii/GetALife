@@ -161,6 +161,8 @@
 		
 		//listing display
 		function createlistings() {
+			$( ".budgetReportButton" ).remove();
+		
 			for(i=0; i<income.length; i++) {
 				var text = "Income: " + income[i].name + " , $" + income[i].income
 				addButton(text,income[i].id)
@@ -607,6 +609,7 @@
 			
 			getdata();
 			makegraph();
+			createlistings();
 		}
 		
 		function addpay() {
@@ -617,6 +620,7 @@
 			
 			getdata();
 			makegraph();
+			createlistings();
 		}
 	
      </script>
