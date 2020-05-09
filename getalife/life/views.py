@@ -540,3 +540,45 @@ def updateExpense(request):
     #temp.save()
     return JsonResponse({}, status=200)
 
+@csrf_exempt
+def getAvailableMonths(request):
+    year = request.GET['year']
+    months = list(Budget_account.objects.values('month').filter(name=year, users__id=request.user.id))
+    return JsonResponse(json.dumps(months), safe=False, status=200)
+
+@csrf_exempt
+def addBudget(request):
+    year = request.POST['year']
+    month = request.POST['month'].lower()
+
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    budget = Budget_account.objects.create(name = year, description = month, month = monthNum)
+    budget.save()
+    budget.users.add(request.user)
+    return JsonResponse({}, status=200)
