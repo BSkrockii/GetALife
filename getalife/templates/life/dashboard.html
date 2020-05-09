@@ -64,10 +64,10 @@
     </div>
 
 	<div class="cost-quarter">
-		<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
-		<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
-		<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
-		<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q4</button></a>
+		<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">F</button></a>
+		<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">H</button></a>
+		<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">E</button></a>
+		<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">O</button></a>
         
         <div class="cost-placeholder">
             <input type="text" id="source" placeholder="Name" maxlength="15" >
@@ -80,8 +80,8 @@
 		
 	</div>
 	
-	<div style="overflow-y: scroll; height:200px; width:600px;" id="scrollarea">
-	</div>
+	<!-- <div style="overflow-y: scroll; height:200px; width:600px;" id="scrollarea">
+	</div> -->
 				
 	<script>
 		
@@ -498,14 +498,14 @@
 		var port = ':8000';
 		var path = '/api/';
 		var model = loc+'/';
-		datains.csrfmiddlewaretoken = '{{ csrf_token }}';
 		let ret = undefined;
 
 		$.ajax({
 			async: false,
 			headers: {
 				'Access-Control-Allow-Origin': protocol + domainName,
-				'Cookie': document.cookies
+				'Cookie': document.cookies,
+				'X-CSRFToken' : getCookie("csrftoken")
 			},
 
 			type: "POST",
@@ -517,6 +517,47 @@
 
 		return ret;
 
+		}
+		
+		function deleterecord(loc,id) 
+		{
+		var protocol = 'http://';
+		var domainName = '127.0.0.1';
+		var port = ':8000';
+		var path = '/api/';
+		var model = loc+'/';
+		let ret = undefined;
+
+		$.ajax({
+			async: false,
+			headers: {
+				'Access-Control-Allow-Origin': protocol + domainName,
+				'Cookie': document.cookies,
+				'X-CSRFToken' : getCookie("csrftoken")
+			},
+
+			type: "DELETE",
+			url: protocol + domainName + port + path + model + id,
+
+		}).done(function(status) { ret = status; });
+
+		return ret;
+
+		}
+		
+		function getCookie(cname) {
+		  var name = cname + "=";
+		  var ca = document.cookie.split(';');
+		  for(var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+			  c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+			  return c.substring(name.length, c.length);
+			}
+		  }
+		  return "";
 		}
 		
 		//preset defaults
