@@ -49,7 +49,9 @@ urlpatterns = [
 
     path('budget/', views.budget, name='budget'),
     path('addExpense/', views.addExpense, name='addExpense'),
-    path('updateExpense/', views.updateExpense, name='updateExpense')
+    path('updateExpense/', views.updateExpense, name='updateExpense'),
+    path('getAvailableMonths/', views.getAvailableMonths, name='getAvailableMonths'),
+    path('addBudget/', views.addBudget, name='addBudget'),
 ]
 
 #urlpatterns += staticfiles_urlpatterns()
