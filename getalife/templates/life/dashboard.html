@@ -79,6 +79,9 @@
         </div>
 		
 	</div>
+	
+	<div style="overflow-y: scroll; height:200px; width:600px;" id="scrollarea">
+	</div>
 				
 	<script>
 		
@@ -95,20 +98,26 @@
 		var accountID = 1;
 		var graphType = 0;
 		
-		var income = getrecord("BudgetIncome",accountID);
-		var expense = getrecord("BudgetExpense",accountID);
-		var balances = [];
+		income = [];
+		expense = [];
+		balances = [];
+		
+		getdata();
 		
 		addType = 4;
 		
-		balances = createbalances(balances, income, expense);
-		
 		nextgraph();
-		balancedisplay(income, expense);
-		createlistings(income, expense);
+		balancedisplay();
+		createlistings();
 		
 		//balance display
-		function balancedisplay(income, expense) {
+		function getdata() {
+			income = getrecord("BudgetIncome",accountID);
+			expense = getrecord("BudgetExpense",accountID);
+			balances = createbalances(balances);
+		}
+		
+		function balancedisplay() {
 			
 			var gain = 0;
 			var loss = 0;
@@ -151,7 +160,7 @@
 		}
 		
 		//listing display
-		function createlistings(income, expense) {
+		function createlistings() {
 			for(i=0; i<income.length; i++) {
 				var text = "Income: " + income[i].name + " , $" + income[i].income
 				addButton(text,income[i].id)
@@ -164,7 +173,7 @@
 		}
 		
 		//create graphs based on data
-		function createbalances(b, income, expense) {
+		function createbalances(b) {
 			
 			for(i=0; i<12; i++) {
 			b[i] = 0;
@@ -192,13 +201,17 @@
 		
 		//graph creation
 		function nextgraph() {
+			graphType += 1;
+			if (graphType > 4) graphType = 1;
+		
+			makegraph();
+		}
+		
+		function makegraph() {
 			var c = document.getElementById("myGraph");
 			var context = c.getContext("2d");
 			context.clearRect(0, 0, c.width, c.height);
 			context.beginPath();
-			
-			graphType += 1;
-			if (graphType > 4) graphType = 1;
 			
 			if(graphType == 1) drawbalanceline("myGraph", balances);
 			if(graphType == 2) drawincomeline("myGraph", income);
@@ -550,6 +563,9 @@
 			if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
 			document.getElementById("source").value = "";
 			document.getElementById("source2").value = "";
+			
+			getdata();
+			makegraph();
 		}
 		
 		function addpay() {
@@ -557,6 +573,9 @@
 			if(document.getElementById("source4").value > 0) pushrecord("BudgetIncome", data);
 			//document.getElementById("source3").value = "";
 			document.getElementById("source4").value = 0;
+			
+			getdata();
+			makegraph();
 		}
 	
      </script>
