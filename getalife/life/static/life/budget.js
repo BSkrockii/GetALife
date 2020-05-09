@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     let temp2 = $( "#budget-year-" + todayYear);
 
-
     if(temp.attr('class') == "content-inactive"){
         temp.addClass('content-active').removeClass('content-inactive');
     }else{
@@ -30,6 +29,20 @@ let inEditMode = 0;
 let budgetName = null;
 let planned = null;
 let actual = null;
+var monthDict = {
+    1:"January",
+    2:"Febuary",
+    3:"March",
+    4:"April",
+    5:"May",
+    6:"June",
+    7:"July",
+    8:"August",
+    9:"September",
+    10:"October",
+    11:"November",
+    12:"December"
+};
 
 function showContentYear(callerYear) {
 
@@ -192,4 +205,76 @@ function undoChanges(){
     inEditMode = 0;
 }
 
-    
+$("#newBudget").click(function(){
+    $("#popup").css('display', 'flex');
+    $("#submitNewBudget").attr("disabled",true);
+});
+ 
+$("#newBudgetYear").change(function(){
+
+    if($("#submitNewBudget").hasClass("btn-success")){
+        $("#submitNewBudget").attr("disabled", true).removeClass("btn-success").addClass("btn-secondary");
+    }
+
+    $("#newBudgetMonth").empty().append("<option disabled selected value> -- select a month -- </option>");
+    let year = $(this).val();
+    var goodMonth ={...monthDict};
+
+    $.ajax({
+        crossOrigin: false,
+        type: "GET",
+        url: "http://127.0.0.1:8000/getAvailableMonths/",
+        dataType: "json",
+        async: true,
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                year: year},
+        success: function (json, response){
+            parsed = JSON.parse(json);
+            parsed.forEach(function (item, index){
+                if(goodMonth.hasOwnProperty(item.month)){
+                    delete goodMonth[item.month];
+                };
+            })
+
+            for(var key in goodMonth){
+                $("#newBudgetMonth").append("<option value='" + goodMonth[key] +"'>"+ goodMonth[key] +"</option>")
+            }
+            
+        },
+        error: function (request, status, error){
+            console.log("An Error Has Occured");
+        }
+    })
+});
+
+$("#newBudgetMonth").change(function(){
+    $("#submitNewBudget").attr("disabled", false).removeClass("btn-secondary").addClass("btn-success");
+});
+
+
+$("#submitNewBudget").click(function(){
+
+    let month = $("#newBudgetMonth").val();
+    let year = $("#newBudgetYear").val();
+
+    $.ajax({
+        crossOrigin: false,
+        type: "POST",
+        url: "http://127.0.0.1:8000/addBudget/",
+        dataType: "json",
+        async: true,
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                year: year,
+                month: month},
+        success: function (json, response){
+            location.reload(); 
+        },
+        error: function (request, status, error){
+            console.log("An Error Has Occured");
+        }
+    })
+});
+
+$("#cancelNewBudget").click(function(){
+    $("#popup").css('display', 'none');
+});
