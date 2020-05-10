@@ -98,7 +98,7 @@ function createlistings() {
 	}
 	
 	for(i=0; i<expense.length; i++) {
-		var text = "Expense: " + expense[i].event_name + " , $" + expense[i].amount
+		var text = "Expense: " + expense[i].event_name + " , $" + expense[i].amount + " " + expense[i].start_date
 		addButton(text,expense[i].id,1)
 	}
 }
@@ -131,7 +131,7 @@ function createbalances() {
 	}
 	
 	for(i=0; i<income.length; i++) {
-	b[maxdays - daysBetween(today,"2020-"+ income[i].month + "-1")] += parseFloat(income[i].income);
+	b[maxdays - daysBetween(today,"2020-"+ income[i].month + "-" + income[i].description.split("-")[0])] += parseFloat(income[i].income);
 	}
 	
 	for(i=0; i<b.length - 1; i++) {
@@ -585,7 +585,7 @@ function addpay() {
 	var sdate = document.getElementById("monthpay").value
 	var sder = sdate.split("/")[1] + "-" + sdate.split("/")[2]
 	console.log(sder)
-	var data = {"id":1, "name": document.getElementById("source3").value, "description": "2020", "account": 1, "incomeType": 1, "month": sdate.split("/")[0], "income": document.getElementById("source4").value};
+	var data = {"id":1, "name": document.getElementById("source3").value, "description": sder, "account": 1, "incomeType": 1, "month": sdate.split("/")[0], "income": document.getElementById("source4").value};
 	if(document.getElementById("source4").value > 0) pushrecord("BudgetIncome", data);
 	//document.getElementById("source3").value = "";
 	document.getElementById("source4").value = 0;

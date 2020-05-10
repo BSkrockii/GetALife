@@ -35,7 +35,7 @@ class Budget_expenseSerializer(serializers.ModelSerializer):
 class Budget_incomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget_income
-        fields = ['id', 'name', 'account', 'incomeType', 'month', 'income']
+        fields = ['id', 'name', 'description', 'account', 'incomeType', 'month', 'income']
 
 # budget_config
 class Budget_configSerializer(serializers.ModelSerializer):
