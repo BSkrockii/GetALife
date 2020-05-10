@@ -137,9 +137,10 @@ span.event-ghost {
     position: absolute;
     display: block;
     font-size: 30px;
-    margin-top: 2%;
+    margin-top: 3%;
+    margin-bottom: 3%;
     width: 250px;
-    text-align: center;
+    text-align: left;
     text-shadow: 0px 1px 3px rgb(100, 100, 100);
 }
 
@@ -189,7 +190,9 @@ span.event-ghost {
     position: absolute;
     display: block;
     font-size: 30px;
-    margin-top: 2%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 25%;
     width: 250px;
     text-align: center;
     text-shadow: 0px 1px 3px rgb(100, 100, 100);
