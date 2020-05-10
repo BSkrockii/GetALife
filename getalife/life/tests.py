@@ -1,24 +1,106 @@
 from django.test import TestCase, Client
-
-
+from django.contrib.auth.models import User
 # Create your tests here.
 
 class TestCalls(TestCase):
-    def test_call_view_deny_anonymous(self):
+    def setUp(self):
+        user = User.objects.create(username='temporary', email='temporary@gmail.com', is_active=True)
+        user.set_password('temporary')
+        user.save()
+
+    def test_home_redirect_login(self):
         response = self.client.get('/home/', follow=True)
         self.assertRedirects(response, '/login/')
 
-# Create your tests here.
-class JenkinsTest(TestCase):
+    def test_home_grant_authenticated(self):
+        c = Client()
+        c.login(username='temporary', password='temporary')
+        response = c.get('/home/', follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'life/dashboard.html')  
 
-    def test_JenkinsRunOne(self):
-        self.assertEqual(1, 1)
-        print("Test")
+    def test_index_goes_to_index(self):
+        c = Client()
+        response = c.get('/index/', follow=True)
+        self.assertTemplateUsed(response, 'life/index.html')    
 
-    def test_JenkinsRuntwo(self):
-        self.assertEqual(1, 1)
-        print("Test")
+    def test_index_redirect_to_dashboard(self):
+        c = Client()
+        c.login(username='temporary', password='temporary')
+        response = c.get('/index/', follow=True)
+        self.assertRedirects(response, '/dashboard/')  
 
+    def test_finance_render_template(self):
+        response = self.client.get('/finance/', follow=True)
+        self.assertTemplateUsed(response, 'life/finance.html') 
+
+    def test_cost_render_template(self):
+        response = self.client.get('/cost/', follow=True)
+        self.assertTemplateUsed(response, 'life/cost.html') 
+
+    def test_pay_render_template(self):
+        response = self.client.get('/pay/', follow=True)
+        self.assertTemplateUsed(response, 'life/pay.html') 
+    
+    def test_dashboard_render_template_authenticated(self):
+        c = Client()
+        c.login(username='temporary', password='temporary')
+        response = c.get('/dashboard/', follow=True)
+        self.assertTemplateUsed(response, 'life/dashboard.html') 
+    
+    def test_dashboard_redirect_unauthenticated_user(self):
+        response = self.client.get('/dashboard/', follow=True)
+        self.assertRedirects(response, '/login/')
+
+    def test_login_redirect_authenticated_user(self):
+        c = Client()
+        c.login(username='temporary', password='temporary')
+        response = c.get('/login/', follow=True)
+        self.assertRedirects(response, '/dashboard/')
+
+    def test_login_template_unauthenticated_user(self):
+        response = self.client.get('/login/', follow=True)
+        self.assertTemplateUsed(response, 'life/login.html')
+
+    def test_faq_template(self):
+        response = self.client.get('/faq/', follow=True)
+        self.assertTemplateUsed(response, 'life/faq.html')
+
+    def test_about_template(self):
+        response = self.client.get('/about/', follow=True)
+        self.assertTemplateUsed(response, 'life/about.html')
+
+    def test_signOut_template(self):
+        response = self.client.get('/signOut/', follow=True)
+        self.assertRedirects(response, '/login/')
+
+    def test_error_400_template(self):
+        response = self.client.get('/error_400/', follow=True)
+        self.assertTemplateUsed(response, 'life/error_404.html')
+
+    def test_error_403_template(self):
+        response = self.client.get('/error_403/', follow=True)
+        self.assertTemplateUsed(response, 'life/error_404.html')
+
+    def test_error_404_template(self):
+        response = self.client.get('/error_404/', follow=True)
+        self.assertTemplateUsed(response, 'life/error_404.html')
+
+    def test_error_500_template(self):
+        response = self.client.get('/error_500/', follow=True)
+        self.assertTemplateUsed(response, 'life/error_404.html')
+
+    def test_calendarFt_authenticated_template(self):
+        c = Client()
+        c.login(username='temporary', password='temporary')
+        response = c.get('/calendarFt/', follow=True)
+        self.assertTemplateUsed(response, 'life/calendarFt.html')
+
+    def test_calendarFt_authenticated_redirect(self):
+        response = self.client.get('/calendarFt/', follow=True)
+        self.assertRedirects(response, '/login/')
+
+'''
 class UnAuthenticatedCallTests(TestCase):
     # setup client
     # Create User 
@@ -238,3 +320,4 @@ class restfulApi():
 #     'status': 'active'
 # }, headers={'X-CSRFToken': csrftoken})
 # assert response.status_code == 200
+'''
