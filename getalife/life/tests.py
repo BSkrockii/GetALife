@@ -91,17 +91,25 @@ class UnAuthenticatedCallTests(TestCase):
         response = self.client.get('/about/')
         self.assertEquals(response.status_code, 200)
 
-    # Check singout
-    #def test_signOut(self):
+    # Check signout
+    def test_signOut(self):
+        response = self.client.get('/signOut/', follow=True)
+        self.assertRedirects(response, '/login/', 302, 200)
 
-    # Check if an error.
-    # Must create bad request
-    #def error400():
+        username='testuser'
+        password='thisisapassword123'
+        email='na@na.com'
 
-    # Try to access some authE only url
-    # # Home, dashboard
-    #def error403():
-    
+        user = User.objects.create(username=username, email=email, is_active=True)
+        user.set_password(password)
+        user.save()
+
+        self.client.login(username=username, password=password)
+
+        response2 = self.client.get('/signOut/', follow=True)
+
+        self.assertRedirects(response2, '/login/', 302, 200)
+
     # Try a url that doesnt exist
     def test_error404(self):
         response = self.client.get('/badURL/', follow=True)
@@ -119,9 +127,18 @@ class UnAuthenticatedCallTests(TestCase):
         self.assertRedirects(response, '/login/', 302, 200)
 
     #needs to check authentication.
-    #def event():
-    
+    def test_event(self):
+        response = self.client.get('/event', follow=True)
+        self.assertEquals(response.status_code, 403)
 
+    def test_saveEvent(self):
+        response = self.client.get('/saveEvent', follow=True)
+        self.assertEquals(response.status_code, 403)
+
+    def test_deleteEvent(self):
+        response = self.client.get('/deleteEvent', follow=True)
+        self.assertEquals(response.status_code, 403)
+    
 """ class AuthenticatedCallTest(TestCase):
     # Create user
     # Create 2 events
