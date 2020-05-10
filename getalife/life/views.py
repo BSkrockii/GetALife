@@ -24,7 +24,7 @@ from .serializers import *
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        redirect('/dashboard')
+        return redirect('/dashboard')
     return render(request, 'life/index.html')
 
 def finance(request):
