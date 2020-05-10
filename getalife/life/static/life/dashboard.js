@@ -215,7 +215,7 @@ function drawbalanceline(canvasID,b) {
 	
 	
 	for (i = 1; i < b.length; i++) {
-		drawline(canvasID, "#000000", (i-1) * (c.width/(b.length+1)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(b.length+1)), c.height - (b[i] - min) * scale - c.height/10);
+		drawline(canvasID, "#000000", (i-1) * (c.width*0.9/(b.length)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width*0.9/(b.length)), c.height - (b[i] - min) * scale - c.height/10);
 	}
 	
 	context.textAlign = "left";
