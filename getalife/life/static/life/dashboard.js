@@ -21,10 +21,25 @@ today = year + "-" + month + "-" + day
 
 refresh();
 
+addTypes();
+
 document.getElementById("monthpay").value = month + "/" + day + "/" + year
 document.getElementById("monthcost").value = month + "/" + day + "/" + year
 
 //setup
+function addTypes() {
+	
+	var expenseT = getrecord("BudgetExpense",accountID);
+	
+	var options = ""
+	
+	for(i=0; i<expenseT.length; i++) {
+		options = options + "<option value=" + expenseT[i].name + "> " + expenseT[i].name + " </option>";
+	}
+	
+	document.getElementById("newExpense").innerHTML = options;
+}
+
 function refresh() {
 	getdata();
 	makegraph();
@@ -570,7 +585,7 @@ function defaultinput(id) {
 
 function addcost() {
 	var sname = document.getElementById("source").value
-	var sexpenseType = "test_type"
+	var sexpenseType = document.getElementById("newExpense").value
 	var sdate = document.getElementById("monthcost").value
 	var sexpense = document.getElementById("source2").value
 	//if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
