@@ -565,3 +565,25 @@
 			
 			refresh();
 		}
+		
+		function getEvents(){
+			var ret = []
+			
+			$.ajax({
+				crossOrigin: false,
+				type: "GET",
+				url: "http://127.0.0.1:8000/event",
+				dataType: "json",
+				async: true,
+				data: { csrfmiddlewaretoken: '{{ csrf_token }}'},
+				success: function (json){
+					parsed = JSON.parse(json);
+					for (let i = 0; i < parsed.length; i++) {
+						ret[i] = parsed[i].fields.amount
+					}
+				}
+			})
+			
+			return ret;
+		}
+		
