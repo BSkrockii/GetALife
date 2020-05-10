@@ -104,21 +104,37 @@ function createlistings() {
 }
 
 //create graphs based on data
-function createbalances(b) {
+function createbalances() {
 	
-	for(i=0; i<12; i++) {
+	b = []
+	
+	var maxdays = 1;
+	
+	for(i=0; i<expense.length; i++) {
+		var daystest = daysBetween(today,expense[i].start_date)
+		if (daystest > maxdays) maxdays = daystest
+	}
+	
+	for(i=0; i<income.length; i++) {
+		var daystest = daysBetween(today,"2020-"+ income[i].month + "-1")
+		if (daystest > maxdays) maxdays = daystest
+	}
+	
+	console.log(maxdays)
+	
+	for(i=0; i<maxdays+1; i++) {
 	b[i] = 0;
 	}
 	
 	for(i=0; i<expense.length; i++) {
-	b[expense[i].start_date.split("-")[1] - 1] -= parseFloat(expense[i].amount);
+	b[maxdays - daysBetween(today,expense[i].start_date)] -= parseFloat(expense[i].amount);
 	}
 	
 	for(i=0; i<income.length; i++) {
-	b[income[i].month - 1] += parseFloat(income[i].income);
+	b[maxdays - daysBetween(today,"2020-"+ income[i].month + "-1")] += parseFloat(income[i].income);
 	}
 	
-	for(i=0; i<12; i++) {
+	for(i=0; i<b.length - 1; i++) {
 	var v1 = b[i+1];
 	var v2 = b[i];
 	if (typeof b[i+1] == "string") v1  = parseFloat(b[i+1]);
@@ -155,7 +171,7 @@ function drawbalanceline(canvasID,b) {
 	var c = document.getElementById(canvasID);
 	var context = c.getContext("2d");
 	
-
+	
 	//if (b.length < 1) return 0;
 	
 	var max = b[0];
@@ -184,7 +200,7 @@ function drawbalanceline(canvasID,b) {
 	
 	
 	for (i = 1; i < b.length; i++) {
-		drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (b[i] - min) * scale - c.height/10);
+		drawline(canvasID, "#000000", (i-1) * (c.width/(b.length+1)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(b.length+1)), c.height - (b[i] - min) * scale - c.height/10);
 	}
 	
 	context.textAlign = "left";
