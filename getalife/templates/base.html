@@ -12,7 +12,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="{% static 'JavaScript/jquery-3.2.1.min.js' %}"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
-    <link rel="stylesheet" type="text/css" href="{'% static 'css/calendarFt.css' %}">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/calendarFt.css' %}">-->
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/pre-login.css' %}">
     <link rel="stylesheet" href="{% static 'css/post-login.css' %}">
@@ -33,7 +33,7 @@
                     <a class="nav-link" href="{% url 'calendarFt' %}">Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'finance' %}">Budget</a>
+                    <a class="nav-link" href="{% url 'budget' %}">Budget</a>
                 </li>
             </ul>
             <ul class="navbar-nav">

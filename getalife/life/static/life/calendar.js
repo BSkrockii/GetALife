@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tableString += '<td>' + temp[i].title +'</td>';
             tableString += '<td>' + temp[i].start.toLocaleDateString() +'</td>';
             tableString += '<td>' + temp[i].extendedProps.amount +'</td>';
+            tableString += '<td>' + temp[i].extendedProps.event_type +'</td>';
             tableString += '<td><button class="deleteEvent" onclick="deleteEvent(this)">X</button></td>';
             tableString += '</tr>';
         }
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                    title: parsed[i].fields.event_name,
                                    start: parsed[i].fields.start_date,
                                    extendedProps:{ amount: parsed[i].fields.amount,
+                                                   event_type: parsed[i].fields.event_type,
                                     }});
               }
         }
@@ -100,12 +102,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function openForm(){
-    var form = "<tr><td><input type='text' placeholder='Event' id='newEvent' required></td></tr>";
-    form += "<tr><td>" + globalCalendar.state.currentDate.toLocaleDateString() + "</td></tr>";
-    form += "<tr><td>" + "<input type='text' placeholder='Amount' id='newAmount' required>" + "</td></tr>";
-    form += "<tr><td><button onclick='saveEvent()'>ADD</button><button class='deleteEvent' onclick='closeForm()'>X</button></td></tr>";
-    document.getElementById("events").innerHTML += form;
-    document.getElementById("newEvent").focus();
+    $.ajax({
+        crossOrigin: false,
+        type: "GET",
+        url: "http://127.0.0.1:8000/getExpenseTypes",
+        dataType: "json",
+        async: true,
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                date: globalCalendar.state.currentDate.toLocaleDateString()},
+        success: function (json){
+            parsed = JSON.parse(json);
+                var form = "<tr><td><input type='text' placeholder='Event' id='newEvent' required></td></tr>";
+                form += "<tr><td>" + globalCalendar.state.currentDate.toLocaleDateString() + "</td></tr>";
+                form += "<tr><td>" + "<input type='text' placeholder='Amount' id='newAmount' required>" + "</td></tr>";
+                form += "<tr><td>" + "<select name='expenseType' id='newExpense'>";
+                for (i = 0; i < parsed.length; i++) {
+                    form += "<option value='" + parsed[i].name +"'>" + parsed[i].name + "</option>";
+                  }
+                form += "</select>" + "</td></tr>"              
+                form += "<tr><td><button onclick='saveEvent()'>ADD</button><button class='deleteEvent' onclick='closeForm()'>X</button></td></tr>";
+                document.getElementById("events").innerHTML += form;
+                document.getElementById("newEvent").focus();
+        }
+    })
+
 }
 
 //Not very pretty, but it works
@@ -116,13 +136,17 @@ function closeForm(){
     table.deleteRow(rowCount -2);
     table.deleteRow(rowCount -3);
     table.deleteRow(rowCount -4);
+    table.deleteRow(rowCount -5);
+
 }
 
 function saveEvent() {
     var event = document.getElementById("newEvent");
     var date = globalCalendar.state.currentDate.toLocaleDateString();
     var amount = document.getElementById("newAmount");
-    
+    var expenseType = document.getElementById("newExpense");
+
+
     $.ajax({
         crossOrigin: true,
         type: "POST",
@@ -133,14 +157,14 @@ function saveEvent() {
         data: { csrfmiddlewaretoken: '{{ csrf_token }}',
                 "event": event.value,
                 "date": date,
-                "amount": amount.value},
+                "amount": amount.value,
+                "expenseType": expenseType.value},
         success: function (json){
             closeForm();
-            console.log(json.id);
             globalCalendar.addEvent({id: json.id,
                                     title: event.value, 
                                     start: globalCalendar.state.currentDate,
-                                    extendedProps:{ amount: amount.value
+                                    extendedProps:{ amount: amount.value, event_type: expenseType.value,
                                     }
             });
             updateScreen();
@@ -178,6 +202,7 @@ function updateScreen(){
             tableString += '<td>' + temp[i].title +'</td>';
             tableString += '<td>' + temp[i].start.toLocaleDateString() +'</td>';
             tableString += '<td>' + temp[i].extendedProps.amount +'</td>';
+            tableString += '<td>' + temp[i].extendedProps.event_type +'</td>';
             tableString += '<td><button class="deleteEvent" onclick="deleteEvent(this)">X</button></td>';
             tableString += '</tr>';
         }

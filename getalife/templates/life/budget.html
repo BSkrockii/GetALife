@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'life/budget.css' %}" />
+<script src="{% static 'life/budget.js' %}" defer></script>
+
+{% if budgetData  %}
+<div id="budget-wrapper">
+    <h1>Select Year</h1>
+    <div id="budget-content">
+        {% for by in budgetYears %}
+        <h2 onclick="showContentYear(this.textContent)">{{ by.name }}</h2>
+        <div id="budget-year-{{ by.name }}" class="content-inactive">
+            <div class="monthly-content">
+                {% for key, v in budgetYearData.items %}
+                    {% if key == by.name %}
+                        {% for value in v %}
+                        {{value.id.description}}
+                        <div id="{{ value.description }}-{{ by.name }}-edit">
+                            <h3 id="{{ value.description }}-{{ by.name }}" onclick="showContentMonth(this)">{{ value.description }}</h3>
+                            <div id="{{ value.description }}-{{ by.name }}-content" class="content-inactive">
+                                <table id="{{ value.description }}-{{ by.name }}-table" class="table table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget Name</th>
+                                            <th>Planned</th>
+                                            <th>Actual</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for mData in budgetMonthData %}
+                                            {% if mData.month == value.month and mData.description == key %}
+                                            <tr id="{{by.name}}-{{ value.description }}-{{mData.name}}">
+                                                <td>{{mData.name}}</td>
+                                                <td>{{mData.expense}}</td>
+                                                <td>
+                                                {% for year, events in eventData.items %}
+                                                    {% if year == key %}
+                                                        {% for month, event in events.items %}
+                                                            {% if month == mData.month %}
+                                                                {% for e, value in event.items %}
+                                                                    {% if e == mData.name %}
+
+                                                                            {{value.amount}}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <button type="button" id="but-{{value.description}}-{{key}}" onclick="newExpense('{{value.description}}', '{{key}}', this)" class="btn btn-dark">Add Expense Type</button>  
+                                <button type="button" id="{{value.description}}-{{key}}-edit-but"  class="ml-1 btn btn-secondary" disabled>Edit</button>  
+                            </div>
+                        </div>
+                        
+                        {% endfor v %}
+                    {% endif  %}  
+                {% endfor budgetYearData %}      
+            </div> 
+            
+        </div>
+        {% endfor budgetYear %} 
+    </div>
+    <button type="button" id="newBudget"  class="mt-3 btn btn-dark">New Budget</button>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <div class="new-budget-content">
+            <h1>Create New Budget</h1><br>
+            <select id="newBudgetYear">
+                <option disabled selected value> -- select a year -- </option>
+                {% for x in budgetYears %}
+                <option value="{{x.name}}">{{x.name}}</option>
+                {% if forloop.last %}
+                <option value="{{x.name|add:1}}">{{x.name|add:1}}</option>
+                {% endif %}
+                {% endfor %}
+            </select><br>
+
+            <select id="newBudgetMonth" class="mt-2"> 
+                <option disabled selected value> -- select a month -- </option>
+            </select><br>
+
+            <button type="button" id="submitNewBudget"  class="mt-2 btn btn-secondary">Add</button>
+            <button type="button" id="cancelNewBudget"  class="mt-2 btn btn-danger">Cancel</button>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock content %}

@@ -24,6 +24,7 @@ class Budget_account(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=150, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
@@ -80,5 +81,5 @@ class Events(models.Model):
     event_name = models.CharField(max_length=255,null=True,blank=True)
     start_date = models.DateField(null=True,blank=True)
     end_date = models.DateField(null=True,blank=True)
-    event_type = models.CharField(max_length=10,null=True,blank=True)
+    event_type = models.CharField(max_length=255,null=True,blank=True)
     amount = models.FloatField(blank=True, default=0)

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, auth
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.generic import TemplateView, View
-from django.core import serializers
+from django.core import serializers as ser
 from django.http import HttpResponse, JsonResponse
 from django.forms.models import modelform_factory, model_to_dict
 from datetime import datetime, timedelta, date
@@ -20,11 +20,12 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
+from django.db.models import *
 
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        redirect('/dashboard')
+        return redirect('/dashboard')
     return render(request, 'life/index.html')
 
 def finance(request):
@@ -109,9 +110,32 @@ def register(request):
             messages.error(request, 'Passwords do not match')
             return render(request,'life/register.html', context)
 
+
         user = User.objects.create_user(username=username, password=password,email=email)
         user.save()
         request.user = user
+
+        # budgetAccount
+        date = datetime.now()
+        acct = Budget_account.objects.create(name = date.year, description = date.strftime('%B'), month = date.month)
+
+        # add to user
+        acct.users.add(user)
+
+        # Add Config
+        conf = Budget_config.objects.create(name = acct.name, description = 'config', budget_limit = 10000, month = date.month, account_id = acct.id)
+
+        # add expense
+        expense = Budget_expense.objects.create(name = 'expense ' + date.strftime('%B'), description = date.year, month = date.month, account_id = acct.id, expense = 10000, expenseType_id = 1)
+
+        # add income
+        income = Budget_income.objects.create(name = 'income ' + date.strftime('%B'), description = date.year, month = date.month, account_id = acct.id, income = 10000, incomeType_id = 1)
+
+        acct.save()
+        conf.save()
+        expense.save()
+        income.save()
+
         return redirect('/dashboard')
     return render(request, 'life/register.html')
 
@@ -157,7 +181,7 @@ def calendarFt(request):
 
 def event(request):
     if request.user.is_authenticated:
-        all_events = serializers.serialize('json', Events.objects.filter(user_id=request.user))
+        all_events = ser.serialize('json', Events.objects.filter(user_id=request.user))
         return JsonResponse(all_events, safe=False)
     else:
         return JsonResponse({}, status=403)
@@ -169,7 +193,7 @@ def saveEvent(request):
         event = Events(event_name=request.POST['event'],
                 start_date=formatedDate, 
                 end_date=formatedDate, 
-                event_type='expense',
+                event_type=request.POST['expenseType'],
                 amount=request.POST['amount'],
                 user_id=request.user)
         event.save()
@@ -182,6 +206,14 @@ def deleteEvent(request):
     event = Events.objects.filter(user_id=request.user, event_id=request.POST['id'])
     event.delete()
     return JsonResponse({}, status=200)
+
+@csrf_exempt
+def getExpenseTypes(request):
+    date = datetime.strptime(request.GET['date'], '%m/%d/%Y')
+    print(date.month)
+    expenseType = list(Budget_expense.objects.values('name').distinct().filter(account__users=request.user, month=date.month))
+    print(expenseType)
+    return JsonResponse(json.dumps(expenseType), safe=False, status=200)
 
 # Api
 class UserViewSet(viewsets.ModelViewSet):
@@ -385,7 +417,168 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 
             return Response(serializer.data)
 
-# # budget_config
-# class Budget_configSerializer(serializers.HyperlinkedModelSerializer):
-#     model = Budget_config
-#     fields = ['id', 'name', 'description', 'budget_limit', 'account', 'month']
+
+def budget(request):
+    if request.user.is_authenticated is False:
+        return redirect('/')
+    budgetYears = Budget_account.objects.values('name').distinct().filter(users=request.user).order_by('name')
+      
+    budgetYearData = {}
+    for by in budgetYears:
+        budgetYearData[by['name']] = Budget_account.objects.filter(users=request.user, name=by['name'])  
+
+
+    temp = Budget_expense.objects.filter(account__users__id=request.user.id)
+
+    Data = {}
+
+    for by in budgetYears:
+        tempMonth = {}
+        for month in range(1, 13):
+            tempEvent = {}
+            distinctEvents = Events.objects.values('event_type').distinct().filter(user_id=request.user, start_date__month=str(month), start_date__year=by['name'])
+            for event in distinctEvents:
+                tempEvent[event['event_type']] = Events.objects.values('amount').filter(user_id=request.user, event_type=event['event_type'], start_date__month=str(month), start_date__year=by['name']).aggregate(amount=Sum('amount'))
+                
+            tempMonth[month] = tempEvent
+        Data[by['name']] = tempMonth
+
+
+    budgetData = Budget_account.objects.filter(users=request.user)
+    return render(request,'life/budget.html', {"budgetData":budgetData, 
+            "budgetYears": budgetYears, 
+            "budgetYearData":budgetYearData, 
+            "budgetMonthData":temp,
+            "eventData": Data })
+
+@csrf_exempt
+def addExpense(request):
+    newExpense = request.POST['newExpense']
+    newPlanned = request.POST['newPlanned']
+    month = request.POST['month'].lower()
+    year = request.POST['year']
+    
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    account_id = Budget_account.objects.filter(description=month, name=year, users__id=request.user.id)
+    expenseType = Expense_type.objects.filter(id=1)
+
+    expense = Budget_expense(
+           name = newExpense,
+           description = year,
+           month = monthNum,
+           expense = newPlanned, 
+           account = account_id[0],
+           expenseType = expenseType[0])
+    expense.save()
+    
+    return JsonResponse({}, status=200)
+
+@csrf_exempt
+def updateExpense(request):
+    updatedExpense = request.POST['budgetName']
+    updatedPlanned = request.POST['planned']
+    month = request.POST['month'].lower()
+    year = request.POST['year']
+    temp = request.POST['oldValue']
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    temp2 = Budget_expense.objects.filter(month=monthNum, description=year, name=temp, account__users=request.user).update(name=updatedExpense, expense=updatedPlanned)
+
+    other = Events.objects.filter(start_date__month=monthNum, start_date__year=str(year), user_id=request.user, event_type=temp).update(event_type=updatedExpense)
+
+    #temp.save()
+    return JsonResponse({}, status=200)
+
+@csrf_exempt
+def getAvailableMonths(request):
+    year = request.GET['year']
+    months = list(Budget_account.objects.values('month').filter(name=year, users__id=request.user.id))
+    return JsonResponse(json.dumps(months), safe=False, status=200)
+
+@csrf_exempt
+def addBudget(request):
+    year = request.POST['year']
+    month = request.POST['month'].lower()
+
+    monthNum = 0
+    
+    if month == 'january':
+        monthNum = 1
+    elif month == 'febuary':
+        monthNum = 2
+    elif month == 'march':
+        monthNum = 3
+    elif month == 'april':
+        monthNum = 4   
+    elif month == 'may':
+        monthNum = 5    
+    elif month == 'june':
+        monthNum = 6    
+    elif month == 'july':
+        monthNum = 7
+    elif month == 'august':
+        monthNum = 8
+    elif month == 'september':
+        monthNum = 9
+    elif month == 'october':
+        monthNum = 10
+    elif month == 'november':
+        monthNum = 11
+    else:
+        monthNum = 12
+
+    budget = Budget_account.objects.create(name = year, description = month, month = monthNum)
+    budget.save()
+    budget.users.add(request.user)
+    return JsonResponse({}, status=200)
