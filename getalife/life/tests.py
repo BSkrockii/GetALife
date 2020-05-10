@@ -139,77 +139,89 @@ class UnAuthenticatedCallTests(TestCase):
         response = self.client.get('/deleteEvent', follow=True)
         self.assertEquals(response.status_code, 403)
     
-""" class AuthenticatedCallTest(TestCase):
+class AuthenticatedCallTest(TestCase):
     # Create user
     # Create 2 events
     def setup(self):
-        self.username="test"
-        self.password="password1234"
-        self.user = auth.authenticate(username=username, password=password)
+        self.client = Client()
+
     # Should get redirected to dashboard
-    def index(self):
+    def test_index(self):
+        user = User.objects.create(username='testUserName', email='na@na.com', is_active=True)
+        user.set_password('ThisIsATestPassword')
+        user.save()
+
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
+
+        response = self.client.get('/index/', follow=True)
+        self.assertRedirects(response, '/dashboard/', 302, 200)
 
     # Check if it is using dashboard.html
-    def dashboard():
+    def test_dashboard(self):
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
 
-    # Check when is unAuthE, and check body to be login.html
-    def unauthELogin():
-
-    # Check Login and check if its going to dashboard
-    def login():
+        response = self.client.get('/dashboard', follow=True)
+        self.assertEquals(response.status_code, 200)
 
     # Login and login again to see if its redirected
-    def loginRedirection():
+    def test_loginRedirection(self):
+        user = User.objects.create(username='testUserName', email='na@na.com', is_active=True)
+        user.set_password('ThisIsATestPassword')
+        user.save()
+
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
+
+        response = self.client.get('/login', follow=True)
+        self.assertRedirects(response, '/dashboard/', 301, 200)
 
     # Check GET and see if we get body
-    def registerGET():
+    #def registerGET():
 
     # Check POST to see if we get a session token (logged in)
-    def registerPOST():
+    #def registerPOST():
 
     # Login and check if we grab events
-    def event():
+    #def event():
 
     # Check it events get saved
-    def saveEvent():
+    #def saveEvent():
 
     # Check if events gets deleted
-    def deleteEvent():
- """
-    
-""" class restfulApi():
+    #def deleteEvent():
+        
+  #class restfulApi():
     # Create 2 user
     # Create 2 budget Account
     # Link 1 user to BudgetAccount 1 & 2
     # link 1 user to BudgetAccount 2 only
     # create Budget Income and link to BA 1
-    def setup():
+    #def setup():
 
     # Check if can change a property in BudgetAccount
     # User must be authenticated in order to do so.
-    def setBudgetAccount():
+    #def setBudgetAccount():
 
     # login to 1 user with link BA 2
     # Check if get gets 2 BA
-    def getOneBudgetAccount():
+   #def getOneBudgetAccount():
 
     # login to 1 user with link BA 1
     # Check if can get 1 BA
-    def getTwoBudgetAccount():
+    # def getTwoBudgetAccount():
 
     # create budgetAccount 3
     # Add User to BA 3
     # Login to user
     # Check if can access BA 3
-    def addUserToBudget():
+    #def addUserToBudget():
 
     # Check if it can change property
-    def setBudgetIncome():
+    #def setBudgetIncome():
 
     # Check if it can get BI
-    def getBudgetIncome():
+    #def getBudgetIncome():
 
- """
+
 # every def, put variable Client() (ex: c = Client())
 
 # for csrf, c = Client(enforce_csrf_checks=True)
