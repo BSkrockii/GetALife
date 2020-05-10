@@ -17,14 +17,34 @@ income = [];
 expense = [];
 balances = [];
 
+today = year + "-" + month + "-" + day
+
 refresh();
 
+addTypes();
+
+document.getElementById("monthpay").value = month + "/" + day + "/" + year
+document.getElementById("monthcost").value = month + "/" + day + "/" + year
+
 //setup
+function addTypes() {
+	
+	var expenseT = getrecord("BudgetExpense",accountID);
+	
+	var options = ""
+	
+	for(i=0; i<expenseT.length; i++) {
+		options = options + "<option value=" + expenseT[i].name + "> " + expenseT[i].name + " </option>";
+	}
+	
+	document.getElementById("newExpense").innerHTML = options;
+}
+
 function refresh() {
 	getdata();
 	makegraph();
-	createlistings();
 	balancedisplay();
+	createlistings();
 }
 
 function getdata() {
@@ -93,27 +113,43 @@ function createlistings() {
 	}
 	
 	for(i=0; i<expense.length; i++) {
-		var text = "Expense: " + expense[i].event_name + " , $" + expense[i].amount
-		addButton(text,expense[i].event_id,1)
+		var text = "Expense: " + expense[i].event_name + " , $" + expense[i].amount + " " + expense[i].start_date
+		addButton(text,expense[i].id,1)
 	}
 }
 
 //create graphs based on data
-function createbalances(b) {
+function createbalances() {
 	
-	for(i=0; i<12; i++) {
+	b = []
+	
+	var maxdays = 1;
+	
+	for(i=0; i<expense.length; i++) {
+		var daystest = daysBetween(today,expense[i].start_date)
+		if (daystest > maxdays) maxdays = daystest
+	}
+	
+	for(i=0; i<income.length; i++) {
+		var daystest = daysBetween(today,"2020-"+ income[i].month + "-1")
+		if (daystest > maxdays) maxdays = daystest
+	}
+	
+	console.log(maxdays)
+	
+	for(i=0; i<maxdays+1; i++) {
 	b[i] = 0;
 	}
 	
 	for(i=0; i<expense.length; i++) {
-	b[expense[i].start_date.split("-")[1] - 1] -= parseFloat(expense[i].amount);
+	b[maxdays - daysBetween(today,expense[i].start_date)] -= parseFloat(expense[i].amount);
 	}
 	
 	for(i=0; i<income.length; i++) {
-	b[income[i].month - 1] += parseFloat(income[i].income);
+	b[maxdays - daysBetween(today,"2020-"+ income[i].month + "-" + income[i].description.split("-")[0])] += parseFloat(income[i].income);
 	}
 	
-	for(i=0; i<12; i++) {
+	for(i=0; i<b.length - 1; i++) {
 	var v1 = b[i+1];
 	var v2 = b[i];
 	if (typeof b[i+1] == "string") v1  = parseFloat(b[i+1]);
@@ -150,7 +186,7 @@ function drawbalanceline(canvasID,b) {
 	var c = document.getElementById(canvasID);
 	var context = c.getContext("2d");
 	
-
+	
 	//if (b.length < 1) return 0;
 	
 	var max = b[0];
@@ -162,14 +198,15 @@ function drawbalanceline(canvasID,b) {
 		if (b[i] < min) min = b[i];
 	}
 	
-	var lines = Math.round((max - min) / 5 / 20) * 20
+	var lines = Math.abs(Math.round((max - min) / 5 / 20) * 20)
+	if (lines < 2) lines = 2;
 	
 	scale = c.height * 0.7 / (max - min)
 	
 	context.textAlign = "right";
 	context.font = "15px Arial";
 	
-	for (i = 0; i < max; i += lines) {
+	for (i = min - lines; i < max; i += lines) {
 		var h = c.height - (i - min) * scale - c.height/10
 	
 		drawline(canvasID, "#E8E8E8", 0, h, c.width, h);
@@ -178,7 +215,7 @@ function drawbalanceline(canvasID,b) {
 	
 	
 	for (i = 1; i < b.length; i++) {
-		drawline(canvasID, "#000000", (i-1) * (c.width/(12)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width/(12)), c.height - (b[i] - min) * scale - c.height/10);
+		drawline(canvasID, "#000000", (i-1) * (c.width*0.9/(b.length)), c.height - (b[i-1] - min) * scale - c.height/10, i * (c.width*0.9/(b.length)), c.height - (b[i] - min) * scale - c.height/10);
 	}
 	
 	context.textAlign = "left";
@@ -209,7 +246,7 @@ function drawincomeline(canvasID, income) {
 		if (g[parseFloat(income[i].month) - 1] < min) min = g[parseFloat(income[i].month) - 1];
 	}
 	
-	var lines = Math.round((max - min) / 5 / 20) * 20
+	var lines = Math.abs(Math.round((max - min) / 5 / 20) * 20)
 	
 	if (lines < 2) lines = 2;
 	
@@ -257,7 +294,7 @@ function drawexpenseline(canvasID, expense) {
 		if (g[parseFloat(expense[i].start_date.split("-")[1]) - 1] < min) min = g[parseFloat(expense[i].start_date.split("-")[1]) - 1];
 	}
 	
-	var lines = Math.round((max - min) / 5 / 20) * 20
+	var lines = Math.abs(Math.round((max - min) / 5 / 20) * 20)
 	
 	if (lines < 2) lines = 2;
 	
@@ -284,7 +321,6 @@ function drawexpenseline(canvasID, expense) {
 }
 
 function drawexpensepie(canvasID, expense) {
-
 	var c = document.getElementById(canvasID);
 	var context = c.getContext("2d");
 	context.font = "20px Arial";
@@ -295,32 +331,40 @@ function drawexpensepie(canvasID, expense) {
 	context.stroke();
 	
 	var totalexpense = 0;
-	var expensetype = [0,0,0,0,0,0,0,0,0,0,0,0];
+	var expensetype = [];
+	var expensetotal = [];
 	
 	for(i=0; i<expense.length; i++) {
-	expensetype[expense[i].amountType] += parseFloat(expense[i].amount);
-	totalexpense += parseFloat(expense[i].amount);
+		var a = expensetype.length
+		for (x=0; x< expensetype.length; x++) {
+			if (expensetype[x] == expense[i].event_type) {
+				a = x;
+				x = 9999999;
+			}
+		}
+		
+		if (a == expensetype.length) expensetotal[a] = 0
+		expensetype[a] = expense[i].event_type
+		expensetotal[a] += parseFloat(expense[i].amount);
+		totalexpense += parseFloat(expense[i].amount);
 	}
 	
 	var total = 0;
 	for(i=0; i<expensetype.length; i++) {
-		if (expensetype[i] > 0) {
+		if (expensetotal[i] > 0) {
 			//drawline(canvasID, "#000000", c.width - c.width/3, c.height/2, c.width - c.width/3 + c.height/3 * Math.sin(total), c.height/3 * Math.cos(total) + c.height/2);
-			total += (expensetype[i]/totalexpense) * (2 * Math.PI);
+			total += (expensetotal[i]/totalexpense) * (2 * Math.PI);
 			drawline(canvasID, "#000000", c.width - c.width/3, c.height/2, c.width - c.width/3 + c.height/3 * Math.sin(total), c.height/3 * Math.cos(total) + c.height/2);
 		}
 	}
 	
-	etypes = getexpensetypes();
+	//etypes = getexpensetypes();
 	
 	var a = 0;
-	for(i=0; i<etypes.length; i++) {
-		if (expensetype[etypes[i].id] > 0) {
-			context.textAlign = "left";
-			var text = etypes[i].name + ": $" + expensetype[etypes[i].id];
-			context.fillText(text, 5, 80 + a * 40);
-			a += 1;
-		}
+	for(i=0; i<expensetype.length; i++) {
+		context.textAlign = "left";
+		var text = expensetype[i] + ": $" + expensetotal[i];
+		context.fillText(text, 5, 80 + i * 40);
 	}
 
 }
@@ -342,8 +386,10 @@ function addButton(text,val,type) {
 	var node = document.createTextNode(text);
 	
 	var att = document.createAttribute("onclick");
-	if (type==1) att.value = "deletecost('"+val+"')";
-	if (type==2) att.value = "deletepay('"+val+"')";
+	var clickadd = ""
+	if (type==1) clickadd = "deleteEvent('"+val+"')";
+	if (type==2) clickadd = "deletepay('"+val+"')";
+	att.value = clickadd
 	para.setAttributeNode(att);
 	
 	var att2 = document.createAttribute("class");
@@ -538,8 +584,12 @@ function defaultinput(id) {
 }
 
 function addcost() {
-	var data = {"id":1, "name": document.getElementById("source").value, "description": "none", "account": 1, "expenseType": addType, "month": month, "expense": document.getElementById("source2").value};
-	if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
+	var sname = document.getElementById("source").value
+	var sexpenseType = document.getElementById("newExpense").value
+	var sdate = document.getElementById("monthcost").value
+	var sexpense = document.getElementById("source2").value
+	//if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
+	if(sexpense > 0) saveEvent(sname, sdate, sexpense, sexpenseType);
 	document.getElementById("source").value = "";
 	document.getElementById("source2").value = "";
 	
@@ -547,7 +597,10 @@ function addcost() {
 }
 
 function addpay() {
-	var data = {"id":1, "name": document.getElementById("source3").value, "description": "none", "account": 1, "incomeType": 1, "month": month, "income": document.getElementById("source4").value};
+	var sdate = document.getElementById("monthpay").value
+	var sder = sdate.split("/")[1] + "-" + sdate.split("/")[2]
+	console.log(sder)
+	var data = {"id":1, "name": document.getElementById("source3").value, "description": sder, "account": 1, "incomeType": 1, "month": sdate.split("/")[0], "income": document.getElementById("source4").value};
 	if(document.getElementById("source4").value > 0) pushrecord("BudgetIncome", data);
 	//document.getElementById("source3").value = "";
 	document.getElementById("source4").value = 0;
@@ -575,12 +628,13 @@ function getEvents(){
 		type: "GET",
 		url: "http://127.0.0.1:8000/event",
 		dataType: "json",
-		async: true,
+		async: false,
 		data: { csrfmiddlewaretoken: '{{ csrf_token }}'},
 		success: function (json){
 			parsed = JSON.parse(json);
 			for (let i = 0; i < parsed.length; i++) {
 				ret[i] = parsed[i].fields
+				ret[i].id = parsed[i].pk
 			}
 		}
 	})
@@ -588,34 +642,44 @@ function getEvents(){
 	return ret;
 }
 
-function saveEvent() {
-	var event = document.getElementById("newEvent");
-	var date = globalCalendar.state.currentDate.toLocaleDateString();
-	var amount = document.getElementById("newAmount");
-	var expenseType = document.getElementById("newExpense");
-
-
+function saveEvent(name, date, amount, type) {
 	$.ajax({
 		crossOrigin: true,
 		type: "POST",
 		url: "http://127.0.0.1:8000/saveEvent/",
 		dataType: "json",
-		async: true,
+		async: false,
 		headers: { "X-CSRFToken": '{{ csrf_token }}'},
 		data: { csrfmiddlewaretoken: '{{ csrf_token }}',
-				"event": event.value,
+				"event": name,
 				"date": date,
-				"amount": amount.value,
-				"expenseType": expenseType.value},
-		success: function (json){
-			closeForm();
-			globalCalendar.addEvent({id: json.id,
-									title: event.value, 
-									start: globalCalendar.state.currentDate,
-									extendedProps:{ amount: amount.value, event_type: expenseType.value,
-									}
-			});
-			updateScreen();
-		}
+				"amount": amount,
+				"expenseType": type},
+		success: function (json){}
 	})
+}
+
+function deleteEvent(id) {
+	$.ajax({
+		crossOrigin: true,
+		type: "POST",
+		url: "http://127.0.0.1:8000/deleteEvent/",
+		dataType: "json",
+		async: false,
+		headers: { "X-CSRFToken": '{{ csrf_token }}'},
+		data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+				"id": id},
+		success: function (json){}
+	})
+	
+	refresh();
+}
+
+//date handling
+function daysBetween(date1, date2) {
+	const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+	const firstDate = new Date(date1.split("-")[0], date1.split("-")[1], date1.split("-")[2]);
+	const secondDate = new Date(date2.split("-")[0], date2.split("-")[1], date2.split("-")[2]);
+
+	return Math.round((firstDate - secondDate) / oneDay);
 }
