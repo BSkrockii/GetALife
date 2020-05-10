@@ -25,7 +25,7 @@ from django.db.models import *
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        redirect('/dashboard')
+        return redirect('/dashboard')
     return render(request, 'life/index.html')
 
 def finance(request):
@@ -211,7 +211,7 @@ def deleteEvent(request):
 def getExpenseTypes(request):
     date = datetime.strptime(request.GET['date'], '%m/%d/%Y')
     print(date.month)
-    expenseType = list(Budget_expense.objects.values('name').distinct().filter(account__users=request.user, created_utc__month=str(date.month),created_utc__year=str(date.year)))
+    expenseType = list(Budget_expense.objects.values('name').distinct().filter(account__users=request.user, month=date.month))
     print(expenseType)
     return JsonResponse(json.dumps(expenseType), safe=False, status=200)
 
