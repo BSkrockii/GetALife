@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'life',
     'rest_framework',
     'corsheaders',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'getalife.wsgi.application'
 
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=life',
+    '--with-xunit',
+    '--xunit-file=nosetests.xml',
+]
 
 # CORS Whitelist
 CORS_ORIGIN_ALLOW_ALL = False

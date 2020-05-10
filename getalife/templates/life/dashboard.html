@@ -4,66 +4,92 @@
     <!--INSERT HTML FOR DASHBOARD HERE-->
     <head>
         <meta charset="utf-8">
+        <!-- <link rel="import" href="import/calendarFt.html"> -->
     </head>
 
     {% block content %}
-    <body>
+    <body class="dashboard-bg">
 
      <!--Calendar Header-->
-    <div class="calendarHeader">
-        <span id="currentDate" class="currentDate">date</span>
+        <div class="calendarHeader">
+            <span id="currentDate" class="currentDate">date</span>
 
-        <span id="year" class="year">year</span>
+            <span id="year" class="year">year</span>
+        </div>
 
-    </div>
-
+	
      <div style="clear: both;"></div>
-
-
-     <script>
-          var today = new Date();
-          var year = today.getFullYear();
-          var month = today.getMonth();
-          var day = today.getDate();
-          var monthsInText = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-          var selectedMonth = monthsInText[month];
-          document.getElementById("year").innerHTML = year;
-          document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
-     </script>
 
     <!--Events-->
     <div>
         <!--Need to update with calendarFt post pull-->
-        <button  href="http://127.0.0.1:8000/home/" class="upcomingEventsButton" >Upcoming Events</button>
-
-    </div>
+        <button  href="{% url 'dashboard' %}" class="upcomingEventsButton" >Upcoming Events</button>
 
 
-
-
+        </div>
      <div class="upcomingEventsBox">
-            <p>Implement Calendar Here</p>
+            <script>
+                var doc = document.querySelector('link[rel="import"]').import;
+                var div = wrapper.querySelector('.wrapper');
+                document.body.appendChild(text.cloneNode(true));
+            </script>
      </div>
-
-
-
 
     <!--Budgets-->
-    <div>
-        <button href="http://127.0.0.1:8000/finance/" class="budgetReportButton">Budget Report</button>
+    <div class="listingButton">
+        <button href="{% url 'dashboard' %}">Budget Report</button>
     </div>
 
-    <div class="budgetReportBox">
-            <p>Implement Budget Here</p>
-     </div>
+    <div class="budgetReportBox" id="balancearea">
+			<canvas id="myBalance" width="600" height="300" ></canvas>
+			<canvas id="myGraph" width="600" height="300" ></canvas>
+			<button onclick="nextgraph()">Next Graph</button>
+			
+	</div>
+    
+    <div class="pay-quarter">
+        <a onclick="defaultinput(11)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q1</button></a>
+        <a onclick="defaultinput(12)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q2</button></a>
+        <a onclick="defaultinput(13)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">Q3</button></a>
+        
+        <div class="pay-placeholder">
+            <input type="text" id="source3" placeholder="Name" maxlength="15" >
+            <input type="number" id="source4" placeholder="Amount" maxlength="10" >
+            <input type="number" id="paycost" placeholder="Month" maxlength="2" >
+        </div>
+    
+        <div class="pay-addbutton">
+            <a onclick="addpay()" style="text-decoration:none"><button id=paybutton type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD PAY</button></a>
+        </div>
 
+    </div>
+
+	<div class="cost-quarter">
+		<a onclick="defaultinput(1)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">F</button></a>
+		<a onclick="defaultinput(2)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">H</button></a>
+		<a onclick="defaultinput(3)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">E</button></a>
+		<a onclick="defaultinput(4)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">T</button></a>
+        <a onclick="defaultinput(5)" style="text-decoration:none"><button type="button" class="btn-payq btn-success text-white">O</button></a>
+		
+        <div class="cost-placeholder">
+            <input type="text" id="source" placeholder="Name" maxlength="15" height="10">
+            <input type="number" id="source2" placeholder="Amount" maxlength="10" >
+            <input type="number" id="monthcost" placeholder="Month" maxlength="2" >
+        </div>
+        
+        <div class="cost-addbutton">
+            <a onclick="addcost()" style="text-decoration:none"><button id=costbutton type="button" class="btn-paystats btn-info btn-lg btn-block text-white">ADD COST</button></a>
+        </div>
+		
+	</div>
+	
+	<div style="overflow-y: scroll; height:200px; width:400px; margin-top: 3%; margin-bottom: 3%; margin-left: 56%;" id="scrollarea">
+	</div>
+	
+	<script src="{% static 'life/dashboard.js' %}"></script>
 
     </body>
 
-
-
-
     {% endblock content %}
-
 
 </html>
