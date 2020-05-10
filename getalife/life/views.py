@@ -155,22 +155,22 @@ def signOut(request):
 def error_400(request, exception):
     context = None
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request, 'life/error_400.html', context)
+    return render(request, 'life/error_400.html', context, status=400)
 
 def error_403(request, exception):
     context = None
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request, 'life/error_403.html', context)
+    return render(request, 'life/error_403.html', context, status=403)
 
 def error_404(request, exception):
     context = None
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'life/error_404.html', context)
+    return render(request,'life/error_404.html', context, status=404)
 
 def error_500(request):
     context = None
     context = {"project_name":settings.PROJECT_NAME}
-    return render(request,'life/error_500.html', context)
+    return render(request,'life/error_500.html', context, status=500)
 
 def calendarFt(request):
     if request.user.is_authenticated:
@@ -287,9 +287,8 @@ class Budget_accountViewSet(viewsets.ModelViewSet):
             if request.method == 'POST':
                 check = request.data
                 budget = Budget_account.objects.get(users = request.user, id = pk)
-
+                
                 user = User.objects.filter(id = userId)
-
                 if len(user) == 0:
                     return Response(['user not found'], status=404)
                 

@@ -1,5 +1,10 @@
 from django.test import TestCase, Client
-from django.contrib.auth.models import User
+from django.contrib import messages, auth
+from django.contrib.auth.models import User, auth
+from .models import *
+from django.contrib.auth.models import User, Group
+from django.http import HttpResponse, JsonResponse
+
 # Create your tests here.
 
 class TestCalls(TestCase):
@@ -104,131 +109,200 @@ class TestCalls(TestCase):
 class UnAuthenticatedCallTests(TestCase):
     # setup client
     # Create User 
-    def setup():
+    def setup(self):
+        self.client = Client()
     
     # Check index/
-    def indexTest():
-
+    def test_indexTest(self):
+        response = self.client.get('/index/')
+        self.assertEquals(response.status_code, 200)
+    
     # Check finance/
-    def financeTest():
-
+    # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
+    def test_financeTest(self):
+        response = self.client.get('/finance/', follow=True)
+        self.assertRedirects(response, '/login/', 301, 200)
+    
     # Check cost/
-    def cost():
+    # ** FAILING TEST ** Needs to return 302 (redirect) but is returning 200
+    def test_cost(self):
+        response = self.client.get('/cost/', follow=True)
+        self.assertRedirects(response, '/login/', 301, 200)
 
     # Check pay/
-    def pay():
-
+    def test_pay(self):
+        response = self.client.get('/pay/', follow=True)
+        self.assertRedirects(response, '/login/', 301, 200)
+    
     # Check dashboard/
-    def dashboard():
+    def test_dashboard(self):
+        response = self.client.get('/dashboard', follow=True)
+        self.assertRedirects(response, '/login/', 301, 200)
     
     # Check login
     # get, then post and check if logged in.  
     # Then, remove all cookies
-    def login():
+    def test_login(self):
+        username='testuser'
+        password='thisisapassword123'
+        email='na@na.com'
+
+        user = User.objects.create(username=username, email=email, is_active=True)
+        user.set_password(password)
+        user.save()
+
+        isLoggedIn = self.client.login(username=username, password=password)
+
+        self.assertTrue(isLoggedIn)
 
     # Check Failed login
     # get, then post with wrong credentials
     # If logged in, fail test and remove cookies
-    def failedLogin():
+    def test_failedLogin(self):
+        username = 'unknownuser'
+        password = 'password12345'
+        user = self.client.login(username=username, password=password)
+        self.assertFalse(user)
 
     # check faq
-    def faq():
-
-    #check about
-    def about():
-
-    # Check singout
-    def signOut():
-
-    # Check if an error.
-    # Must create bad request
-    def error400():
-
-    # Try to access some authE only url
-    # # Home, dashboard
-    def error403():
+    def test_faq(self):
+        response = self.client.get('/faq/')
+        self.assertEquals(response.status_code, 200)
     
+    #check about
+    def test_about(self):
+        response = self.client.get('/about/')
+        self.assertEquals(response.status_code, 200)
+
+    # Check signout
+    def test_signOut(self):
+        response = self.client.get('/signOut/', follow=True)
+        self.assertRedirects(response, '/login/', 302, 200)
+
+        username='testuser'
+        password='thisisapassword123'
+        email='na@na.com'
+
+        user = User.objects.create(username=username, email=email, is_active=True)
+        user.set_password(password)
+        user.save()
+
+        self.client.login(username=username, password=password)
+
+        response2 = self.client.get('/signOut/', follow=True)
+
+        self.assertRedirects(response2, '/login/', 302, 200)
+
     # Try a url that doesnt exist
-    def error404():
+    def test_error404(self):
+        response = self.client.get('/badURL/', follow=True)
+        self.assertEquals(response.status_code, 404)
 
     # Iternal error...
     # just access error 500 url
-    def error500():
+    def test_error500(self):
+        response = self.client.get('/error_500')
+        self.assertEquals(response.status_code, 500)
 
     # Must go to login.
-    def calenderFt():
+    def test_calenderFt(self):
+        response = self.client.get('/calendarFt/', follow=True)
+        self.assertRedirects(response, '/login/', 302, 200)
 
     #needs to check authentication.
-    def event():
-    
+    def test_event(self):
+        response = self.client.get('/event', follow=True)
+        self.assertEquals(response.status_code, 403)
 
+    def test_saveEvent(self):
+        response = self.client.get('/saveEvent', follow=True)
+        self.assertEquals(response.status_code, 403)
+
+    def test_deleteEvent(self):
+        response = self.client.get('/deleteEvent', follow=True)
+        self.assertEquals(response.status_code, 403)
+    
 class AuthenticatedCallTest(TestCase):
     # Create user
     # Create 2 events
-    def setup():
-    
+    def setup(self):
+        self.client = Client()
+
     # Should get redirected to dashboard
-    def index():
+    def test_index(self):
+        user = User.objects.create(username='testUserName', email='na@na.com', is_active=True)
+        user.set_password('ThisIsATestPassword')
+        user.save()
+
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
+
+        response = self.client.get('/index/', follow=True)
+        self.assertRedirects(response, '/dashboard/', 302, 200)
 
     # Check if it is using dashboard.html
-    def dashboard():
+    def test_dashboard(self):
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
 
-    # Check when is unAuthE, and check body to be login.html
-    def unauthELogin():
-
-    # Check Login and check if its going to dashboard
-    def login():
+        response = self.client.get('/dashboard', follow=True)
+        self.assertEquals(response.status_code, 200)
 
     # Login and login again to see if its redirected
-    def loginRedirection():
+    def test_loginRedirection(self):
+        user = User.objects.create(username='testUserName', email='na@na.com', is_active=True)
+        user.set_password('ThisIsATestPassword')
+        user.save()
+
+        self.client.login(username='testUserName', password='ThisIsATestPassword')
+
+        response = self.client.get('/login', follow=True)
+        self.assertRedirects(response, '/dashboard/', 301, 200)
 
     # Check GET and see if we get body
-    def registerGET():
+    #def registerGET():
 
     # Check POST to see if we get a session token (logged in)
-    def registerPOST():
+    #def registerPOST():
 
     # Login and check if we grab events
-    def event():
+    #def event():
 
     # Check it events get saved
-    def saveEvent():
+    #def saveEvent():
 
     # Check if events gets deleted
-    def deleteEvent():
-
-    
-class restfulApi():
+    #def deleteEvent():
+        
+  #class restfulApi():
     # Create 2 user
     # Create 2 budget Account
     # Link 1 user to BudgetAccount 1 & 2
     # link 1 user to BudgetAccount 2 only
     # create Budget Income and link to BA 1
-    def setup():
+    #def setup():
 
     # Check if can change a property in BudgetAccount
     # User must be authenticated in order to do so.
-    def setBudgetAccount():
+    #def setBudgetAccount():
 
     # login to 1 user with link BA 2
     # Check if get gets 2 BA
-    def getOneBudgetAccount():
+   #def getOneBudgetAccount():
 
     # login to 1 user with link BA 1
     # Check if can get 1 BA
-    def getTwoBudgetAccount():
+    # def getTwoBudgetAccount():
 
     # create budgetAccount 3
     # Add User to BA 3
     # Login to user
     # Check if can access BA 3
-    def addUserToBudget():
+    #def addUserToBudget():
 
     # Check if it can change property
-    def setBudgetIncome():
+    #def setBudgetIncome():
 
     # Check if it can get BI
-    def getBudgetIncome():
+    #def getBudgetIncome():
 
 
 # every def, put variable Client() (ex: c = Client())
