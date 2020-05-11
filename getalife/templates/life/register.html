@@ -9,7 +9,9 @@
 </head>
 {% block content %}
 
-<body>
+<body class="register-bg">
+    <script type="text/javascript" src="{% static 'life/register.js' %}"></script>
+
     <!-- top navigation bar, link pages -->
     <nav class="nav justify-content-end">
         <a class="nav-link text-light" href="{% url 'index' %}">BACK</a>
@@ -28,20 +30,30 @@
             <form method="POST">
                 {% csrf_token %}
 
+                <!-- username block for user to fill in -->
+                <div class="topuser text-nowrap">
+                    <div class="user-register" style="text-align: left">
+                        <label for="user"><b>Username*</b></label>
+                    </div>
+                    <a onfocusout="checkUsername()" class="email"><input id="username" type="text" name="username" {% if username %} value={{ username }} {% else %} placeholder="username" {% endif %}>
+                        <b id="checkUser" style="color: black;"></b><br></a>
+                </div>       
+
                 <!-- email block for user to fill in -->
                 <div class="topuser text-nowrap">
                     <div class="user-register" style="text-align: left">
-                        <label for="user"><b>Email</b></label>
+                        <label for="user"><b>Email*</b></label>
                     </div>
-                    <a class="email"><input type="text" name="email" placeholder="email"><br></a>
+                    <a class="email"><input type="text" name="email" {% if email %} value={{ email }} {% else %} placeholder="email" {% endif %}><br></a>
                 </div>
-
+                
                 <!-- password block for user to fill in -->
                 <div class="toppassword">
                     <div class="password-register" style="text-align: left">
                         <label for="password"><b>Password</b></label>
                     </div>
-                    <input type="password" name="password" placeholder="password"><br>
+                    <input id="password" type="password" name="password" placeholder="password">
+                    <img style="width: 24px; height: 24px; cursor: pointer;" src="{% static 'life/view.png' %}" onmousedown="mouseoverDown();" onmouseup="mouseoutUp();"/><br>
                 </div>
 
                 <!-- repeating password input for auth -->
@@ -49,8 +61,18 @@
                     <div class="repeat-register" style="text-align: left">
                         <label for="passrepeat"><b>Re-Enter Password</b></label>
                     </div>
-                    <input type="password" name="password" placeholder="password"><br>
+                    <input id="passrepeat" type="password" name="passrepeat" placeholder="password">
+                    <img style="width: 24px; height: 24px; cursor: pointer;" src="{% static 'life/view.png' %}" onmousedown="mouseoverDownPassRepear();" onmouseup="mouseoutUpPassRepeat();" /><br>
                 </div>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger" role='alert'>
+                    {{message}}
+                </div>
+                {% endfor %}
+                {% endif %}
+
 
                 <!-- auth button for form, send credential -->
                 <div class="btn-submit2 text-center">

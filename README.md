@@ -1,6 +1,6 @@
 # GetALife
 
-GetALife app is a web appapplication designed to help anyone plan smarter and spend
+GetALife app is a web application designed to help anyone plan smarter and spend
 money smarter. 
 
   - Auto-generated calendar

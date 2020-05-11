@@ -1,0 +1,71 @@
+.error-body-1 {
+    background: linear-gradient(to bottom, #ffffff 0%, #223252 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.error-body-2 {
+    background: linear-gradient(to bottom, #ffffff 0%, #225228 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.error-body-3 {
+    background: linear-gradient(to bottom, #ffffff 0%, #924d2d 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.error-body-4 {
+    background: linear-gradient(to bottom, #ffffff 0%, #b92222 110%);
+    width: 960px;
+    margin: 0 auto;
+    height: 960px;
+}
+
+.gif {
+    padding: 40px 0px 20px 130px;
+    top: 60px;
+}
+
+.gif-1 {
+    padding: 40px 0px 20px 160px;
+    top: 60px;
+}
+
+.gif-2 {
+    padding: 40px 0px 20px 120px;
+    top: 60px;
+}
+
+.error {
+    position: relative;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.error-1 {
+    position: relative;
+    text-align: center;
+    font-size: 1.75rem;
+}
+
+.error-2 {
+    position: relative;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.btn {
+    padding: 10px 20px;
+    width: 20%;
+    margin-top: 50px;
+    margin-right: 10px;
+    align-items: center;
+    background: linear-gradient(to bottom right, #a8a4a4 0%, #0c1a36 100%);
+    border: black;
+}

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-from datetime import date
+from datetime import date, datetime
+from django.urls import reverse
 
 # models:
 class Month(models.IntegerChoices):
@@ -23,6 +24,7 @@ class Budget_account(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=50, null=False)
     description = models.CharField(max_length=150, null=False)
+    month = models.IntegerField(choices=Month.choices, null=False)
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
 
@@ -58,7 +60,7 @@ class Budget_income(models.Model):
     created_utc = models.DateField(auto_now_add=True, null=False)
     modified_utc = models.DateField(auto_now=True, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
-    IncomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
+    incomeType = models.ForeignKey(Expense_type, on_delete=models.DO_NOTHING, default='')
     month = models.IntegerField(choices=Month.choices, null=False)
     income = models.DecimalField(max_digits=12, decimal_places=2, null=False)
 
@@ -71,3 +73,13 @@ class Budget_config(models.Model):
     budget_limit = models.DecimalField(max_digits=12, decimal_places=2, null=False)
     account = models.ForeignKey(Budget_account, on_delete=models.DO_NOTHING, default='')
     month = models.IntegerField(choices=Month.choices, null=False)
+
+# calendar_event
+class Events(models.Model):
+    event_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event_name = models.CharField(max_length=255,null=True,blank=True)
+    start_date = models.DateField(null=True,blank=True)
+    end_date = models.DateField(null=True,blank=True)
+    event_type = models.CharField(max_length=255,null=True,blank=True)
+    amount = models.FloatField(blank=True, default=0)

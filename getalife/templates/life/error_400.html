@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>400 ERROR</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/error.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    </head>
+    <body class="error-body-3">
+        <div class="gif-1">
+            <img src="https://media.giphy.com/media/3jN3GziOKUEmI/giphy.gif" class="gif-1" alt="400_confused">
+        </div>
+        <div class="error">
+            <p>400 Error</p>
+        </div>
+        <div class="error-1">
+            <p>Your client issued a bad request.</p>
+        </div>
+       <div class=" text-center button">
+        <a class="btn btn-primary pull-right" href="{% url 'index' %}" role="button">Home</a>
+        <a class="btn btn-primary pull-right" href="{% url 'faq' %}" role="button">FAQ</a>
+        <a class="btn btn-primary pull-right" href="https://github.com/BSkrockii/GetALife/issues" role="button">Contact</a>
+       </div>
+    </body>
+</html>

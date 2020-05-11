@@ -1,0 +1,57 @@
+.content-inactive{
+    display: none;
+}
+.content-active{
+    display: block;
+}
+#budget-content{
+    margin-left: 2em;
+}
+#budget-wrapper{
+    margin: 2em;
+    background-color: rgba(207, 204, 204, 0.3);
+    border: .1em solid rgba(207, 204, 204, 0.3);
+    border-radius: 5px;
+}
+.monthly-content{
+    margin-left: 2em;
+    text-transform: uppercase;
+    
+}
+.newButton {
+    border: none;
+    margin-bottom: 1em;
+    background-color: #4CAF50;
+}
+
+.popup{
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: top;
+}
+
+.popup-content{
+    height: 250px;
+    width: 500px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    
+}
+
+.new-budget-content{
+    margin: 20px auto;
+    display: block;
+}
+
+select{
+    width: 50%;
+}
