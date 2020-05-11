@@ -21,6 +21,9 @@ expense = [];
 balances = [];
 
 today = year + "-" + month + "-" + day
+editmonth = accounts[0].month
+edityear = accounts[0].name
+editID = accounts[0].id
 
 makeaccounts();
 
@@ -28,13 +31,17 @@ refresh();
 
 addTypes();
 
-document.getElementById("monthpay").value = month + "/" + day + "/" + year
-document.getElementById("monthcost").value = month + "/" + day + "/" + year
+//document.getElementById("monthpay").value = month + "/" + day + "/" + year
+//document.getElementById("monthcost").value = month + "/" + day + "/" + year
+
+document.getElementById("monthpay").value = day
+document.getElementById("monthcost").value = day
 
 //setup
 function makeaccounts() {
 	for(i=0; i<accounts.length; i++) {
-		addButton("Budget: " + accounts[i].description,accounts[i].id,3)
+		var val = accounts[i].id + "','" + accounts[i].month + "','" + accounts[i].name + "','" + accounts[i].id
+		addButton("Budget: " + accounts[i].description, val,3)
 	}
 }
 
@@ -45,7 +52,7 @@ function addTypes() {
 	var options = ""
 	
 	for(i=0; i<expenseT.length; i++) {
-		if(accountID == expenseT[i].account) options = options + "<option value=" + expenseT[i].name + "> " + expenseT[i].name + " </option>";
+		if(accountID == expenseT[i].account) options = options + "<option value='" + expenseT[i].name + "'> " + expenseT[i].name + " </option>";
 	}
 	
 	document.getElementById("newExpense").innerHTML = options;
@@ -59,15 +66,47 @@ function refresh() {
 }
 
 function getdata() {
-	income = getrecord("BudgetIncome",accountID);
+	income = getrecord("BudgetIncome",-1);
 	expense = getEvents()
-	//expense = getrecord("BudgetExpense",accountID);
+	
+	income = validincome()
+	expense = validexpense()
+
 	balances = createbalances(balances);
 }
 
+function validincome() {
+	var ret = []
+	var a =0
+	for(i=0; i<income.length; i++) {
+		if(income[i].account == editID) {
+			ret[a] = income[i]
+			a += 1
+		}
+	}
+	 
+	return ret
+}
+
+function validexpense() {
+	var ret = []
+	var a =0
+	for(i=0; i<expense.length; i++) {
+		if(parseInt(expense[i].start_date.split("-")[1]) == parseInt(editmonth) && parseInt(expense[i].start_date.split("-")[0]) == parseInt(edityear)) {
+			ret[a] = expense[i]
+			a += 1
+		}
+	}
+	 
+	return ret
+}
+
 //switch accounts
-function switchaccounts(id) {
+function switchaccounts(id, newmonth, newyear, newID) {
 	accountID = id;
+	editmonth = newmonth
+	edityear = newyear
+	editID = newID
 	
 	addTypes();
 	refresh();
@@ -142,30 +181,21 @@ function createbalances() {
 	
 	b = []
 	
-	var maxdays = 1;
-	
-	for(i=0; i<expense.length; i++) {
-		var daystest = daysBetween(today,expense[i].start_date)
-		if (daystest > maxdays) maxdays = daystest
-	}
-	
-	for(i=0; i<income.length; i++) {
-		var daystest = daysBetween(today,"2020-"+ income[i].month + "-1")
-		if (daystest > maxdays) maxdays = daystest
-	}
-	
-	console.log(maxdays)
+	var nextmonth= editmonth + 1
+	var maxdays = daysBetween("2020-"+ nextmonth + "-1","2020-"+ editmonth + "-1");
 	
 	for(i=0; i<maxdays+1; i++) {
-	b[i] = 0;
+		b[i] = 0;
 	}
 	
 	for(i=0; i<expense.length; i++) {
-	b[maxdays - daysBetween(today,expense[i].start_date)] -= parseFloat(expense[i].amount);
+		var sday = expense[i].start_date.split("-")[2]
+		if (sday <= maxdays && sday > 0) b[sday] -= parseFloat(expense[i].amount);
 	}
 	
 	for(i=0; i<income.length; i++) {
-	b[maxdays - daysBetween(today,"2020-"+ income[i].month + "-" + income[i].description.split("-")[0])] += parseFloat(income[i].income);
+		var sday = income[i].description.split("-")[0]
+		if (sday <= maxdays && sday > 0) b[sday] += parseFloat(income[i].income);
 	}
 	
 	for(i=0; i<b.length - 1; i++) {
@@ -248,21 +278,27 @@ function drawincomeline(canvasID, income) {
 	var c = document.getElementById(canvasID);
 	var context = c.getContext("2d");
 	
-	var g = [];
+	g = []
 	
-	for(i=0; i<12; i++) {
+	var nextmonth= editmonth + 1
+	var maxdays = daysBetween("2020-"+ nextmonth + "-1","2020-"+ editmonth + "-1");
+	
+	for(i=0; i<maxdays+1; i++) {
 		g[i] = 0;
+	}
+	
+	for(i=0; i<income.length; i++) {
+		var sday = income[i].description.split("-")[0]
+		if (sday <= maxdays && sday > 0) g[sday] += parseFloat(income[i].income);
 	}
 	
 	var max = g[0];
 	var min = g[0];
 	var scale = 1;
 	
-	for(i=0; i<income.length; i++) {
-		var inc = parseFloat(income[i].income);
-		g[parseFloat(income[i].month) - 1] += inc;
-		if (g[parseFloat(income[i].month) - 1] > max) max = g[parseFloat(income[i].month) - 1];
-		if (g[parseFloat(income[i].month) - 1] < min) min = g[parseFloat(income[i].month) - 1];
+	for(i=0; i<maxdays; i++) {
+		if (g[i] > max) max = g[i];
+		if (g[i] < min) min = g[i];
 	}
 	
 	var lines = Math.abs(Math.round((max - min) / 5 / 20) * 20)
@@ -296,21 +332,27 @@ function drawexpenseline(canvasID, expense) {
 	var c = document.getElementById(canvasID);
 	var context = c.getContext("2d");
 	
-	var g = [];
+	g = []
 	
-	for(i=0; i<12; i++) {
+	var nextmonth= editmonth + 1
+	var maxdays = daysBetween("2020-"+ nextmonth + "-1","2020-"+ editmonth + "-1");
+	
+	for(i=0; i<maxdays+1; i++) {
 		g[i] = 0;
+	}
+	
+	for(i=0; i<expense.length; i++) {
+		var sday = expense[i].start_date.split("-")[2]
+		if (sday <= maxdays && sday > 0) g[sday] += parseFloat(expense[i].amount);
 	}
 	
 	var max = g[0];
 	var min = g[0];
 	var scale = 1;
 	
-	for(i=0; i<expense.length; i++) {
-		var inc = parseFloat(expense[i].amount);
-		g[parseFloat(expense[i].start_date.split("-")[1]) - 1] += inc;
-		if (g[parseFloat(expense[i].start_date.split("-")[1]) - 1] > max) max = g[parseFloat(expense[i].start_date.split("-")[1]) - 1];
-		if (g[parseFloat(expense[i].start_date.split("-")[1]) - 1] < min) min = g[parseFloat(expense[i].start_date.split("-")[1]) - 1];
+	for(i=0; i<maxdays; i++) {
+		if (g[i] > max) max = g[i];
+		if (g[i] < min) min = g[i];
 	}
 	
 	var lines = Math.abs(Math.round((max - min) / 5 / 20) * 20)
@@ -582,10 +624,11 @@ function defaultinput(id) {
 function addcost() {
 	var sname = document.getElementById("source").value
 	var sexpenseType = document.getElementById("newExpense").value
-	var sdate = document.getElementById("monthcost").value
+	var sdate = editmonth + "/" + document.getElementById("monthcost").value + "/" + edityear
 	var sexpense = document.getElementById("source2").value
+	console.log(sname + ", " + sdate + ", " + sexpense + ", " + sexpenseType)
 	//if(document.getElementById("source2").value > 0) pushrecord("BudgetExpense", data);
-	if(sexpense > 0) saveEvent(sname, sdate, sexpense, sexpenseType);
+	if(sexpense > 0) saveEvent(sname.toString(), sdate.toString(), sexpense, sexpenseType.toString());
 	document.getElementById("source").value = "";
 	document.getElementById("source2").value = "";
 	
@@ -593,10 +636,9 @@ function addcost() {
 }
 
 function addpay() {
-	var sdate = document.getElementById("monthpay").value
-	var sder = sdate.split("/")[1] + "-" + sdate.split("/")[2]
-	console.log(sder)
-	var data = {"id":1, "name": document.getElementById("source3").value, "description": sder, "account": 1, "incomeType": 1, "month": sdate.split("/")[0], "income": document.getElementById("source4").value};
+	var sday = document.getElementById("monthpay").value
+	var sder = sday + "-" + edityear
+	var data = {"id":1, "name": document.getElementById("source3").value, "description": sder, "account": editID, "incomeType": 1, "month": editmonth, "income": document.getElementById("source4").value};
 	if(document.getElementById("source4").value > 0) pushrecord("BudgetIncome", data);
 	//document.getElementById("source3").value = "";
 	document.getElementById("source4").value = 0;

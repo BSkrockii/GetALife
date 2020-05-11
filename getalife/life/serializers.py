@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class Budget_AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget_account
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'month']
         
 # budget_expense_type
 class Expense_typeSerializer(serializers.ModelSerializer):
