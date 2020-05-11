@@ -416,7 +416,7 @@ def budget(request):
     if request.user.is_authenticated is False:
         return redirect('/')
     budgetYears = Budget_account.objects.values('name').distinct().filter(users=request.user).order_by('name')
-      
+
     budgetYearData = {}
     for by in budgetYears:
         budgetYearData[by['name']] = Budget_account.objects.filter(users=request.user, name=by['name'])  
