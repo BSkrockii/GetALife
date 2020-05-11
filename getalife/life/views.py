@@ -344,17 +344,16 @@ class BudgetExpenseViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_expense.objects.select_related('account')
+            querySet = Budget_expense.objects.filter(account__users__id=request.user.id)
 
             serializer = Budget_expenseSerializer(querySet, many=True, allow_null=True)
             return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_expense.objects.select_related('account')
-            querySet.filter(id = pk)
+            querySet = Budget_expense.objects.filter(account__users__id=request.user.id)
+            querySet = querySet.filter(id = pk)
+
 
             serializer = Budget_expenseSerializer(querySet, many=True, allow_null=True)
 
@@ -372,17 +371,15 @@ class BudgetIncomeViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_income.objects.select_related('account')
+            querySet = Budget_income.objects.filter(account__users__id=request.user.id)
 
             serializer = Budget_incomeSerializer(querySet, many=True, allow_null=True)
             return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_income.objects.select_related('account')
-            querySet.filter(id = pk)
+            querySet = Budget_income.objects.filter(account__users__id=request.user.id)
+            querySet = querySet.filter(id = pk)
 
             serializer = Budget_incomeSerializer(querySet, many=True, allow_null=True)
 
@@ -400,17 +397,15 @@ class BudgetConfigViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_config.objects.select_related('account')
+            querySet = Budget_config.objects.filter(account__users__id=request.user.id)
 
             serializer = Budget_configSerializer(querySet, many=True, allow_null=True)
             return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         if request.user.is_authenticated:
-            accts = Budget_account.objects.filter(users = request.user)
-            querySet = Budget_config.objects.select_related('account')
-            querySet.filter(id = pk)
+            querySet = Budget_config.objects.filter(account__users__id=request.user.id)
+            querySet = querySet.filter(id = pk)
 
             serializer = Budget_configSerializer(querySet, many=True, allow_null=True)
 
