@@ -105,7 +105,6 @@ class TestCalls(TestCase):
         response = self.client.get('/calendarFt/', follow=True)
         self.assertRedirects(response, '/login/')
 
-'''
 class UnAuthenticatedCallTests(TestCase):
     # setup client
     # Create User 
@@ -394,4 +393,3 @@ class AuthenticatedCallTest(TestCase):
 #     'status': 'active'
 # }, headers={'X-CSRFToken': csrftoken})
 # assert response.status_code == 200
-'''

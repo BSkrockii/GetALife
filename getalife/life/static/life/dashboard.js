@@ -9,6 +9,9 @@ document.getElementById("year").innerHTML = year;
 document.getElementById("currentDate").innerHTML = selectedMonth + " " + day;
 
 var accountID = 1;
+accounts = getrecord("BudgetAccount",-1)
+if (accounts.length > 0) accountID = accounts[0].id
+
 var graphType = 1;
 
 addType = 4;
@@ -19,6 +22,8 @@ balances = [];
 
 today = year + "-" + month + "-" + day
 
+makeaccounts();
+
 refresh();
 
 addTypes();
@@ -27,14 +32,20 @@ document.getElementById("monthpay").value = month + "/" + day + "/" + year
 document.getElementById("monthcost").value = month + "/" + day + "/" + year
 
 //setup
+function makeaccounts() {
+	for(i=0; i<accounts.length; i++) {
+		addButton("Budget: " + accounts[i].description,accounts[i].id,3)
+	}
+}
+
 function addTypes() {
 	
-	var expenseT = getrecord("BudgetExpense",accountID);
+	var expenseT = getrecord("BudgetExpense", -1);
 	
 	var options = ""
 	
 	for(i=0; i<expenseT.length; i++) {
-		options = options + "<option value=" + expenseT[i].name + "> " + expenseT[i].name + " </option>";
+		if(accountID == expenseT[i].account) options = options + "<option value=" + expenseT[i].name + "> " + expenseT[i].name + " </option>";
 	}
 	
 	document.getElementById("newExpense").innerHTML = options;
@@ -52,6 +63,14 @@ function getdata() {
 	expense = getEvents()
 	//expense = getrecord("BudgetExpense",accountID);
 	balances = createbalances(balances);
+}
+
+//switch accounts
+function switchaccounts(id) {
+	accountID = id;
+	
+	addTypes();
+	refresh();
 }
 
 //balance display
@@ -358,8 +377,6 @@ function drawexpensepie(canvasID, expense) {
 		}
 	}
 	
-	//etypes = getexpensetypes();
-	
 	var a = 0;
 	for(i=0; i<expensetype.length; i++) {
 		context.textAlign = "left";
@@ -389,16 +406,19 @@ function addButton(text,val,type) {
 	var clickadd = ""
 	if (type==1) clickadd = "deleteEvent('"+val+"')";
 	if (type==2) clickadd = "deletepay('"+val+"')";
+	if (type==3) clickadd = "switchaccounts('"+val+"')";
 	att.value = clickadd
 	para.setAttributeNode(att);
 	
 	var att2 = document.createAttribute("class");
 	att2.value = "listingButton";
+	if (type==3) att2.value = "listingButton2";
 	para.setAttributeNode(att2);
 	
 	para.appendChild(node);
 
 	var element = document.getElementById("scrollarea");
+	if (type==3) element = document.getElementById("accountsarea")
 	element.appendChild(para);
 	
 	//var bar = document.createElement("div");
@@ -425,6 +445,9 @@ var format = '?format=json';
 
 let ret = undefined;
 
+var surl = protocol + domainName + port + path + model + id + format
+if (id == -1) surl = protocol + domainName + port + path + model + format
+
 $.ajax({
 	async: false,
 	headers: {
@@ -433,34 +456,7 @@ $.ajax({
 
 	type: "GET",
 	data: { csrfmiddlewaretoken: '{{ csrf_token }}'},
-	url: protocol + domainName + port + path + model + id +  format,
-
-}).done(function(json) { ret = json; });
-
-return ret;
-
-}
-
-function getexpensetypes() 
-{
-var protocol = 'http://';
-var domainName = '127.0.0.1';
-var port = ':8000';
-var path = '/api/';
-var model = 'ExpenseType/';
-var format = '?format=json';
-
-let ret = undefined;
-
-$.ajax({
-	async: false,
-	headers: {
-		'Access-Control-Allow-Origin': protocol + domainName
-	},
-
-	type: "GET",
-	data: "json",
-	url: protocol + domainName + port + path + model + format,
+	url: surl,
 
 }).done(function(json) { ret = json; });
 
